@@ -1,0 +1,121 @@
+/* 웹폰트 */
+@font-face {
+    font-family: 'RoundedFixedsys';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+.size {
+    font-size: 32px;
+}
+
+.font {
+    font-family: 'RoundedFixedsys', arial, sans-serif;
+}
+
+.style {
+    font-size: 32px;
+    font-style: italic;
+}
+
+
+.fw-100 {
+    font-weight: 100;
+}
+
+.fw-300 {
+    font-weight: 300;
+}
+
+.fw-500 {
+    font-weight: 500;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fw-1000 {
+    font-weight: 1000;
+}
+
+.fw-2000 {
+    font-weight: 2000;
+}
+
+.fw-bold {
+    font-weight: bold;
+}
+
+.lh {
+    line-height: 300%;
+}
+
+.middle {
+    border: 1px solid red;
+    height: 100px;
+    line-height: 100px;
+
+    width: 100px;
+    text-align: center;
+
+}
+
+.spacing {
+    /* letter-spacing: 1em; */
+    /* word-spacing: 20px; */
+    letter-spacing: -0.1em;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.right {
+    text-align: right;
+}
+
+.none {
+    text-decoration: none;
+}
+
+.line-through {
+    text-decoration: none;
+}
+
+.none:visited {
+    color: black;
+}
+
+.lt {
+    text-decoration: line-through;
+}
+
+.nowrap {
+    border: 1px solid red;
+    width: 200px;
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.text {
+    border: 1px solid red;
+    width: 200px;
+}
+
+.word-wrap {
+    word-wrap: break-word;
+}
+
+.word-break {
+    word-break: break-all;
+}
+
+.fake-h1 {
+    font-size: 2em;
+    font-weight: bold;
+}

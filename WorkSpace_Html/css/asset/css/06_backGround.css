@@ -36,3 +36,9 @@
 
     border-radius: 50%;
 }
+
+#back3 {
+    height: 500px;
+    background: #f0f100 url("https://i.namu.wiki/i/-X_inU6XSOtQxue2QFNEcjfxcOwVumMaINdh4plU02LnEsyduqJu9VhtyPzDRGZxSHudgf-vzXVu3R5O03ZQ9A.webp") no-repeat center;
+    background-size: contain;
+}
