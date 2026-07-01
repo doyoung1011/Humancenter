@@ -1,0 +1,63 @@
+
+/* 구분선 설정 */
+
+* {
+    border: 1px solid red;          
+}
+/* 로고 디자인 요소 */
+    .logo {
+        font-weight: bold;
+        color: black;
+        font-size: 100px;
+        text-shadow: 3px 3px 5px gray;
+        /* box-sizing: border-box;
+        border-radius: 50%; */
+    }
+/* 덮어쓰는 요소인 래퍼에 text-align:center설정 */
+    .wraper{
+        text-align: center;
+    }
+
+    .index{
+        margin-top: 110px;
+        width: 100%;
+    }
+
+    
+    .index2{
+        margin-top: 20px;
+        text-align: center;
+        
+    }
+
+
+
+    .searchbox input{
+        margin-top: 25px;
+        width: 800px;
+        height: 100px;
+        font-size: 20px;
+        padding-left: 20px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+    
+
+    /* .goglesearch{
+        width: 100%;
+    } */
+
+    /* .random{
+        vertical-align: top;
+        margin-left: 50px;
+
+    } */
+    
+   .goglesearch, .random{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    cursor: pointer;
+   }
+

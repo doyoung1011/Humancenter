@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        /* 이건 그냥 구분선임 의미 없음 */
+
+        /* * {
+            border: 1px solid red;
+        } */
+        body{
+            text-align: center;
+            /* background-color: blueviolet; */
+        }
+        .produceMent{
+            text-align: center;
+            font-weight:bold;
+            /* font-size: 40px; */
+           
+        }
+
+        /* 너비는 부여함
+        그러면 가로 배치를 구현하면 됨.
+        */
+        .hotelPartent {
+            /* width: 300px;  */
+            margin: 0;
+            text-align: center;
+        }
+
+        /* 글씨만 가운데로 보내기 성공
+        자식 요소에 vertical-align:top을 사용하기
+    
+        */
+        .room {
+            display: inline-block;
+            text-align: center;
+            width: 300px;
+            vertical-align: top;
+
+            
+            margin: 0 10px ;  /* 사진이 너무 붙어있으면 안예뻐서 여백 부여*/
+            
+        }
+
+        .roomPhoto {
+            width: 300px;
+        }
+
+        .view:hover{
+            color: #666666;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="produceMent"><h1>Extraordinary rooms with elegant, 
+        yet a rustic atmosphere</h1></div>
+
+
+        <!-- 최상의 부모를 설정함
+        hotelPartent
+        room
+        prive
+        view 이렇게 계층 구조로 설정 
+        -->
+    <div class="hotelPartent">
+        <div class="room">
+            <img class="roomPhoto" src="https://assets.nicepagecdn.com/d2cc3eaa/88834/images/34.jpg">
+            <div class="roomtype">Apartment with Amazing Park View</div>
+            <div class="price">$45</div>
+            <div class="view">view</div>
+
+        </div>
+
+        <div class="room">
+            <img class="roomPhoto" src="https://assets.nicepagecdn.com/d2cc3eaa/88834/images/34.jpg">
+            <div class="roomtype">Double Deluxe Room - Double Bed</div>
+            <div class="price">$35</div>
+            <div class="view">view</div>
+        </div>
+
+        <div class="room">
+            <img class="roomPhoto" src="https://assets.nicepagecdn.com/d2cc3eaa/88834/images/34.jpg">
+            <div class="roomtype">Luxury Apartment - Ground Floor</div>
+            <div class="price">$40.5</div>
+            <div class="view">view</div>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

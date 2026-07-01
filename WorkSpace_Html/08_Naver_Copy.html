@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAVER Login</title>
+</head>
+
+<body>
+
+    <form>
+        <table border="1">
+
+            <!-- 로고 영역 -->
+            <tr>
+                <td colspan="3">NAVER</td>
+            </tr>
+
+            <!-- 로그인 방식 선택 -->
+            <tr>
+                <td>ID/전화번호</td>
+                <td>일회용 번호</td>
+                <td>QR코드</td>
+            </tr>
+
+            <!-- 아이디 입력 -->
+            <tr>
+                <td colspan="3">
+                    <input type="text" placeholder="아이디 입력">
+                </td>
+            </tr>
+
+            <!-- 비밀번호 입력 -->
+            <tr>
+                <td colspan="3">
+                    <input type="password" placeholder="비밀번호 입력">
+                </td>
+            </tr>
+
+            <!-- 로그인 상태 유지 -->
+            <tr>
+                <td colspan="3">
+                    <input type="checkbox" name="keepLogin">
+                    로그인 상태 유지
+
+                    &nbsp;&nbsp;&nbsp;
+
+                    IP보안
+                    <input type="checkbox" name="ipSecurity">
+                </td>
+            </tr>
+
+            <!-- 로그인 버튼 -->
+            <tr>
+                <td colspan="3">
+                    <input type="submit" value="로그인">
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
+    <br>
+
+    <!-- 하단 링크 -->
+    <a href="#">비밀번호 찾기</a> |
+    <a href="#">아이디 찾기</a> |
+    <a href="#">회원가입</a>
+
+</body>
+
+</html>

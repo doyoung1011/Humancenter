@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<style>
+    #pixel .box1 {
+
+        /* 폰트 사이즈는 상속가능! */
+        font-size: 16px;
+
+        background-color: rgb(255,0,0);
+
+        color: #00ff00;
+    }
+
+    #pixel .box1 .box2 {
+        font-size: 32px;
+         background-color: rgba(0,0,255,0.1);
+    }
+
+    #pixel .box1 .box2 .box3 {
+        font-size: 16px;
+          background-color: #00ff00a0;
+
+    }
+
+
+    #percent .box1 {
+        font-size: 150%;
+    }
+
+    /* 상대적인 크기는 상속 가능 */
+
+    #em.box1 .box2 {
+        font-size: 1.5em;
+    }
+
+    #percent .box1 .box2 {
+        font-size: 150%;
+    }
+
+    #percent .box1 .box2 .box3 {
+        font-size: 150%;
+    }
+
+    #v1 {
+        border: 1px solid green;
+
+    }
+
+    /* 한번에 여러 태그 적용하기 */
+
+
+
+    /* vh: viewport의 화면의 height를 1/100로 쪼갠 크기를 의미함 */
+    #v1,
+    #v2,
+    #v3,
+    #v4 {
+        height: 100vh;
+        margin: 10px;
+    }
+
+    #v2 {
+        height: 20px;
+        width: 50vw;
+    }
+
+    #v3 {
+        height: 90vmin;
+    }
+
+    #v4 {
+        height: 90vmax;
+    }
+</style>
+
+<body>
+    기본글씨 abc ABC 123 wi<br>
+    <div id="pixel">
+        <div class="box1">
+            box1
+
+            <div class="box2">
+                box2
+
+                <div class="box3">
+                    box3
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 구분선 -->
+    <hr>
+
+    <div id="percent">
+        <div class="box1">
+            box1
+
+            <div class="box2">
+                box2
+
+                <div class="box3">
+                    box3
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="v1"></div>
+    <div id="v2"></div>
+    <div id="v3"></div>
+    <div id="v4"></div>
+
+</body>
+
+</html>

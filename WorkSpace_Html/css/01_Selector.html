@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 선택자 실습</title>
+
+    <style>
+        /* 전체 글자 빨간색 */
+        * {
+            color: red;
+        }
+
+        /* h1, h2 동시에 적용 */
+        h1,
+        h2 {
+            font-size: 300%;
+        }
+
+        /* id 선택자 */
+        #li1 {
+            color: black;
+        }
+
+        /* class 선택자 */
+        .c1 {
+            background-color: pink;
+        }
+
+        .BigText {
+            font-size: 30px;
+        }
+
+        /* 속성 선택자 */
+
+        /* readonly 속성이 있으면 */
+        [readonly] {
+            background-color: yellow;
+        }
+
+        /* type이 password이면 */
+        [type=password] {
+            background-color: aqua;
+        }
+
+        /* id가 li3이면 */
+        [id=li3] {
+            border: 3px solid red;
+        }
+
+        /* href가 https로 시작하면 */
+        [href^=https] {
+            color: purple;
+        }
+
+        /* href가 com으로 끝나면 */
+        [href$=com] {
+            font-size: 30px;
+        }
+
+        /* class 목록에 BigText가 포함되면 */
+        [class~=BigText] {
+            color: blue;
+        }
+
+        /* href가 net으로 끝나면 */
+        [href$=net] {
+            font-size: 30px;
+        }
+
+        /* h2 태그이면서 c1 클래스 */
+        h2.c1 {
+            color: rgb(200, 100, 0);
+        }
+
+        /* li 태그이면서 c1, c2 둘 다 가진 경우 */
+        li.c1.c2 {
+            background-color: yellow;
+        }
+
+        /* 자손 선택자 */
+        div strong {
+            color: blue;
+        }
+
+        /* 자식 선택자 */
+        div>strong {
+            font-size: 40px;
+        }
+
+        /* 마우스 올렸을 때 */
+        #div1:hover {
+            background-color: yellow;
+        }
+
+        /* 클릭 중일 때 */
+        #div1:active {
+            background-color: green;
+        }
+
+        /* 포커스 */
+        .text1:focus {
+            background-color: yellow;
+        }
+
+        /* 체크박스 체크 */
+        input[type=checkbox]:checked {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* 체크 시 옆 span에 취소선 */
+        input[type=checkbox]:checked+span {
+            text-decoration: line-through;
+        }
+
+        /* ul1의 3번째 li */
+        #ul1>li:nth-child(3) {
+            color: black;
+        }
+
+        /* ul1의 홀수 번째 li */
+        #ul1>li:nth-child(2n+1) {
+            background-color: gray;
+        }
+
+        /* not안의 선택자를 제외하고 라는 뜻임*/
+        #ul1 li:not(.c3) {
+            font-size: 32px;
+        }
+
+        /* 선택자 앞 또는 뒤에 content 추가 및 css 적용가능*/
+        h3::before {
+            content: "BEFORE";
+            color: black;
+
+        }
+
+        h3::after {
+            content: "After";
+            color: blue;
+            font-size: 10px;
+        }
+
+        ::selection {
+            background-color: aqua;
+        }
+
+        /*
+        우선순위 순서: !important> style>  #id > .class=속성>태그> *전체 선택자>브라우저 기본값
+        우선 순위는 구체적일수록 높다.
+        
+        동등한 우선 순위일 떄 나중에 나온 것이 덮어쓴다.
+        
+        */
+        div {
+            border: 1px solid red;
+        }
+
+
+        [human] {
+            border: 1px solid pink;
+        }
+
+        .c4 {
+            border: 1px solid blue;
+        }
+
+        #div {
+            border: 1px soild red;
+        }
+    
+    .no{
+       background-color: yellow;
+    }
+
+
+    /*
+    title_로 시작하는 애들의 색을 바꾼다는 의미.
+    
+    */
+    #table [id^=title_]{
+        border: 1px solid red;
+    }
+
+    
+    </style>
+</head>
+
+<body>
+
+    <h1>Hello World</h1>
+    <h2 class="c1">부제목</h2>
+
+    <ul>
+        <li id="li1" class="c1">li 1</li>
+        <li class="c1 BigText c2">li 2</li>
+        <li id="li3">li 3</li>
+    </ul>
+
+    <input type="text" readonly><br>
+    <input type="password"><br>
+
+    <a href="https://naver.com">네이버</a><br>
+    <a href="https://daum.net">다음</a><br>
+
+    <strong>밖에 있는 Strong</strong>
+
+    <div>
+        <a href="#">
+            <div>
+                <strong>안에 있는 Strong</strong>
+            </div>
+        </a>
+
+        <strong>안에 있는 Strong</strong>
+    </div>
+
+    <hr>
+
+    <div id="div1">
+        hover 연습
+    </div>
+
+    <br>
+
+    focus 연습:
+    <input type="text" class="text1">
+
+    <br><br>
+
+    <input type="checkbox">
+    checked 연습
+
+    <br><br>
+
+    <input type="checkbox">
+    <span>점심 뇸뇸</span>
+
+    <hr>
+
+
+    <ul id="ul1">
+        <li>1</li>
+        <li>2</li>
+        <li class="c3">3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+
+    <h3>Before After 연습</h3>
+
+    <div class="c4" id="div2" human="천안" style=" border: 1px soild black;">
+        우선 순위 연습
+    </div>
+
+   
+    <table id="table" border="1">
+        <tr>
+            <td class="no">No</td>
+            <td id="title_0">제목</td>
+            <td>글쓴이</td>
+        </tr>
+        <tr>
+            <td class="no">1</td>
+            <td id="title_1">제목1</td>
+            <td>글쓴이1</td>
+        </tr>
+        <tr>
+            <td class="no">2</td>
+            <td id="title_2">제목2</td>
+            <td>글쓴이2</td>
+        </tr>
+    </table>
+</body>
+
+</html>

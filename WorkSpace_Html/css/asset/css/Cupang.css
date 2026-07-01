@@ -1,0 +1,56 @@
+/* 꾸미는 구간
+text-align을 써서 멘트를 중간으로 옮김ㄴ
+*/
+
+.titleMent {
+    border: 1px solid red;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+        margin-bottom: 30px;
+
+}
+
+/* 이미지 리스트를 중간에 옮겨놓기. */
+.imageList {
+
+    /* 개발을 할떄만 사용할 구분선임 이따 지워질 예정 */
+    border: 1px solid red;
+    text-align: center;
+    
+    margin: 0;
+}
+
+.imageList>div {
+    /* width:  */
+    /* 여기도 구분선이고 지워질 부분임 */
+   
+    
+    text-align: center ;
+    display: inline-block;
+
+    vertical-align: bottom;
+
+    /* width: 100px;
+    height: 50px; */
+
+    height: auto;
+    display: inline-block;
+}
+
+.imageList img {
+    width: 100px;
+
+    height: 100px;
+  margin: 0;
+}
+
+button{
+   /* 보더는 이따 지울예정임 */
+    /* border: 1px solid red; */
+    background: none;
+    border: 0;
+    padding: 0;
+
+}

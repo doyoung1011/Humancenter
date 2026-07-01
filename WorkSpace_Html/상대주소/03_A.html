@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>a 태그 연습</title>
+
+```
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 5px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+    }
+
+    .down {
+        background-color: green;
+    }
+
+    .up {
+        background-color: royalblue;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- 페이지 최상단 -->
+<h1 id="top">a 태그 실습</h1>
+
+<hr>
+
+<h3>1. 외부 사이트 이동</h3>
+
+<a href="https://www.naver.com">
+    네이버
+</a>
+
+<br><br>
+
+<a href="https://www.google.com" target="_blank">
+    구글 (새 탭)
+</a>
+
+<hr>
+
+<h3>2. 전화 링크</h3>
+
+<a href="tel:01082907071">
+    전화 걸기
+</a>
+
+<hr>
+
+<h3>3. 이미지 링크</h3>
+
+<a href="https://comic.naver.com/webtoon/list?titleId=849352">
+    <img
+        src="https://image-comic.pstatic.net/webtoon/849352/thumbnail/thumbnail_IMAG21_0049830d-3474-462a-96b8-7cd0b8be1b52.jpg"
+        alt="웹툰 썸네일"
+    >
+</a>
+
+<hr>
+
+<h3>4. 상대 경로</h3>
+
+<a href="01_Hello.html">
+    Hello 페이지 이동
+</a>
+
+<br><br>
+
+<a href="asset/Detail.html" target="_blank">
+    Detail 페이지 이동
+</a>
+
+<hr>
+
+<h3>5. 페이지 내부 이동</h3>
+
+<a href="#bottom" class="btn down">
+    ⬇ 맨 아래로 이동
+</a>
+
+<!-- 스크롤 생성 -->
+<div style="height:1000px;"></div>
+
+<!-- 페이지 하단 -->
+<h2 id="bottom">맨 아래</h2>
+
+<p>여기는 페이지의 가장 아래 부분입니다.</p>
+
+<a href="#top" class="btn up">
+    ⬆ 맨 위로 이동
+</a>
+```
+
+</body>
+</html>

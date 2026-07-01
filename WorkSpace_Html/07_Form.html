@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        text: <input type="text">
+        <br>
+        text(value): <input value="기본값">
+        <br>
+        text(placeholder): <input placeholder="입력해주세요">
+        <br>
+        text(readonly): <input type="text" value="읽기전용" readonly>
+        <br>
+        text(disabled): <input type="text" value="비활성화" disabled>
+        text(password): <input type="password"><br>
+        input(button): <input type="button" value="로그인"><br>
+        button: <button>로그인</button><br>
+        submit: <input type="submit" value="전송"><br>
+        button(submit): <button type="submit">전송</button><br>
+
+        <button type="button">
+            <="asset/Spongebob-Christmas-PNG-Picture.png" alt="스폰지밥이 웃고 있는 사진" width="200" height="300">
+        </button>
+
+        <hr>
+        checkbox:
+        <input type="checkbox" name="cofffe" value="1">
+        <input type="checkbox" checked>펄추가
+        <input type="checkbox" disabled>checked(물추가)
+        <br>
+        radio:
+        <input type="radio" name="drink">콜라
+        <input type="radio" name="drink" checked>사이다
+        <input type="radio" name="drink" disabled>맥주
+        <br>
+        <input type="radio" value="gender">남자
+        <input type=" radio" value="gender">여자
+        <br>
+
+        select:
+        <select name="sell">
+            <option value="1">콜라</option>
+            <option value="2">사이다</option>
+            <option value="3">맥주</option>
+            <option value="4">환타</option>
+        </select>
+
+        <label>
+            <input type="checkbox">콜라
+        </label>
+        <br>
+        <label>
+            <input id="soda" type="checkbox">사이다
+        </label>
+
+        <br>
+        <textarea cols="30" rows="10" placeholder="입력해주세요"></textarea>
+        <hr>
+
+        <textarea style="width: 300px; height: 200px;" placeholder="입력해주세요"></textarea>
+        reset: <input type="reset" value="초기화">
+        <hr>
+        color: <input type="color">
+        date: <input type="date" value="2026-06-24">
+        datetime-local: <input type="datetime-local">
+        number: <input type="number" value="10" min="0" max="100">
+        평균 계산:<input type="number" value="0" min="0" max="100">
+
+        ragne: <input type="range" value="50" min="0" max="100">
+
+    </form>
+    <!--  -->
+    <hr>
+    <form method="get">
+        <input type="text" name="name" placeholder="이름"><br>
+        <input type="text" name="age" placeholder="나이"><br>
+        <input type="submit" value="get 연습">
+    </form>
+
+    <hr>
+    <form method="get" action="https://finance.naver.com/">
+        <input type="text" name="query"><br>
+        <input type="submit" value="주가 검색">
+    </form>
+
+<form>
+
+    <label>아이디</label><br>
+    <input type="text" placeholder="아이디 입력"><br><br>
+
+    <label>비밀번호</label><br>
+    <input type="password" placeholder="비밀번호 입력"><br><br>
+
+    <input type="submit" value="로그인">
+    
+
+    
+</form>
+
+
+
+
+</html>
