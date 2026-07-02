@@ -1,0 +1,15 @@
+article img{
+    width: 100px;
+    float: right;
+
+
+}
+
+.box{
+    border: 1px solid red;
+
+    width: 100px;
+    height: 100px;
+
+    /* margin 10px; */
+}

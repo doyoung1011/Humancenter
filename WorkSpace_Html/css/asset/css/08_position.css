@@ -1,0 +1,163 @@
+.parent {
+    margin: 30px;
+}
+
+.parent div {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+
+    border: 1px solid red;
+    background-color: aqua;
+
+    text-align: center;
+    line-height: 50px;
+}
+
+/* 두 번째 O만 이동 */
+.relative {
+    position: relative;
+    top: 20px;
+    left: 20px;
+
+    background-color: yellow;
+}
+
+/* 내가 가지고 있던 공간이 없어짐. */
+.parent .absolute {
+    position: absolute;
+    background-color: yellow;
+    top: 0;
+    left: 300px;
+
+    /* 
+    내가 가지고 있던 공간이 없어짐.
+    부모중에 realative가 있는 부모를 기준으로 위치를 잡음.
+    
+    */
+}
+
+.parent .abs-b {
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+
+}
+
+body {
+    height: 200vh;
+    width: 200vw;
+}
+
+.fixed {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+
+    border: 1px solid red;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+}
+
+.sticky {
+    position: sticky;
+    top: 50px;
+}
+
+/* 이걸 선언해줘야하는 것으로 알려져 */
+.rel {
+    position: relative;
+}
+
+.parent2 {
+    border: 1px solid red;
+    width: 100px;
+
+    background-color: green;
+    color: white;
+}
+
+.parent2 div {
+    border: 1px solid red;
+    width: 50px;
+    height: 50px;
+}
+
+.z1 {
+    background-color: hotpink;
+
+    top: 5px;
+    left: 20px;
+
+    z-index: 2;
+}
+
+.z2 {
+    background-color: black;
+    top: -10px;
+    left: 10px;
+    z-index: 300;
+}
+
+.z3 {
+    background-color: orange;
+    color: black;
+    top: -70px;
+    left: 40px;
+
+    z-index: 99;
+}
+
+.rel:active {
+    z-index: 999;
+}
+
+/* 호버를 눌렀을때  */
+
+.menu {
+    border: 1px solid red;
+}
+
+.submenu {
+    border: 1px solid green;
+    display: none;
+}
+
+/* 메뉴에 호버하면 서브메뉴가 보이도록 설정 */
+.menu:hover .submenu {
+    display: block;
+    position: realative;
+    top: -1px;
+
+}
+
+.p1 {
+    border: 1px solid red;
+    width: 400px;
+    height: 400px;
+
+    position: relative;
+}
+
+.c1 {
+    border: 1px solid blue;
+    width: 100px;
+    height: 100px;
+
+    position: absolute;
+    /* top: 50%;
+    left: 50%; */
+    top: calc(400px / 2 - 100px / 2);
+    left: calc(50% - 100px / 2);
+}
+
+/* 변수 선언기법과 비슷한 개념으로 생각을 해야겠오 */
+:root{
+    --box-color: red;
+}
+.p1, .c1{
+    background-color: var(--box-color)
+}

@@ -1,0 +1,48 @@
+* {
+    border: 1px solid red;
+}
+
+/* 우선 디스플레이 논을 선언하고
+마우스를 올렸을때만 보이믄 그만임
+
+
+
+
+*/
+.preview {
+    width: 80px;
+    height: 80px;
+}
+
+.wrapper {
+    position: relative;
+
+}
+
+/* 큰 이미지를 오른쪽 상단 고정하는 코드 */
+.big {
+    position: absolute;
+    left: 250px;
+    top:0;
+}
+
+.img {
+    width: 150px;
+
+
+    position: relative;
+}
+
+/* 원래는 가려져있는이미지 */
+.show {
+    display: none;
+    width: 10%;
+}
+
+
+/* 형제 선택자사용 */
+.img:hover~.big .show {
+    display: block;
+    width: 300px;
+
+}
