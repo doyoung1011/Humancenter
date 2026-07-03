@@ -1,15 +1,40 @@
-article img{
+article img {
     width: 100px;
+    /* float: left; */
     float: right;
-
-
 }
-
-.box{
+.box {
     border: 1px solid red;
 
     width: 100px;
-    height: 100px;
+    height:100px;
 
-    /* margin 10px; */
+    margin: 10px;
 }
+
+.box.left {
+    float: left;
+    border: 1px solid blue;
+}
+
+.box.right {
+    float: right;
+    border: 1px solid green;
+}
+
+.clearFix:after{
+    content: "";
+    display: block;
+}
+
+.logo {
+    border: 1px solid red;
+    width: 100px;
+    /* margin: auto; */
+    display: inline-block;
+
+}
+/* 
+.header{
+
+} */

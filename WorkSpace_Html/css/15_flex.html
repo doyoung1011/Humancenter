@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            border: 1px solid green;
+            height: 300px;
+            width: 300px;
+            display: flex;
+            /* display: inline-flex;  */
+            /* main오축의 기본값: 왼->오 */
+            /* flex-direction: row; */
+            /* flex-direction: row-reverse; */
+
+            /* 위에서 아래로 이동 */
+            /* flex-direction: column; 
+         
+             아래에서 위로 이동*/
+            /* flex-direction: column-reverse; */
+            /* inline-block 처럼 넘치는 경우 다음줄로 */
+            /* flex-wrap: wrap; */
+            /* cross축의 end에서 start로 */
+            /* flex-wrap: wrap-reverse;*/
+            /* /렬 메인축의 가로축 정렬 */
+
+            /* justify-content: center; */
+            /* 남은 공간을 사이사이에 균등하게 배치함 */
+            /* justify-content: space-between; */
+
+            /* justify-content: space-around; */
+
+            /* flex-wrap: wrap; */
+
+            /* 한 줄에 대한 크로스 축의 이야기
+            align-time: stretch; 기본값이며 크로축으로 쭈욱 늘리기
+           
+            */
+
+            /*  cross 축의 start 방향 정렬 */
+            /* align-items: flex-start; */
+
+            /*  cross 축의  end 방향 정렬 */
+            /* align-items: flex-end; */
+
+            /*  cross 축의  중앙방향 정렬 */
+            /* align-items: center; */
+
+            /* 여러 줄에 대한 cross 축의 이야기 */
+            flex-wrap: wrap;
+            /* 기본값, 각 줄의 높이를 꽉 채운 상태 */
+            align-content: stretch;
+
+            /* cross축 기준 스타트 앤드 중앙 */
+
+            
+
+
+        }
+
+        .container .item {
+            border: 1px solid red;
+            background-color: brown;
+            color: white;
+
+            width: 100px;
+
+        }
+
+       
+
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+    </div>
+
+
+
+
+
+</body>
+
+</html>

@@ -1,6 +1,6 @@
-*{
+/* * {
     border: 1px solid red;
-}
+} */
 
 
 /* 구분선 설정 */
@@ -13,71 +13,85 @@
 }
 
 
-/* s */
-/* 로고 디자인 요소 */
-    .logo {
-        font-weight: bold;
-        color: black;
-        font-size: 100px;
-        text-shadow: 3px 3px 5px gray;
-        
-        /* box-sizing: border-box;
-        border-radius: 50%; */
-    }
+
+
+
 /* 덮어쓰는 요소인 래퍼에 text-align:center설정 */
-    .wraper{
-        text-align: center;
-        font-family: 'ChosunIlboMyungjo', sans-serif;
-    }
+.wraper {
+    position: relative;
+    text-align: center;
+    font-family: 'ChosunIlboMyungjo', sans-serif;
+}
 
-    .index{
-        margin-top: 110px;
-        width: 100%;
-    }
+/* 로고 디자인 요소 */
+.logo {
 
+    /* position:absolute; */
     
-    .index2{
-        margin-top: 20px;
-        text-align: center;
-        
-    }
+    font-weight: bold;
+    color: black;
+    font-size: 100px;
+    text-shadow: 3px 3px 5px gray;
+
+    /* box-sizing: border-box;
+        border-radius: 50%; */
+}
+
+
+.index {
+    margin-top: 110px;
+    width: 100%;
+}
+
+
+.index2 {
+    margin-top: 20px;
+    text-align: center;
+
+}
 
 
 
-    .searchbox input{
-        margin-top: 25px;
-        width: 800px;
-        height: 100px;
-        font-size: 20px;
-        padding-left: 20px;
-        border-radius: 20px;
-        cursor: pointer;
-    }
-    
+.searchbox input {
+    margin-top: 25px;
+    width: 600px;
+    height: 100px;
+    font-size: 16px;
+    padding-left: 20px;
+    border-radius: 20px;
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.15);
+    outline: none;
+    cursor: pointer;
+}
+.searchbox input :hover{
+ box-shadow: 0 1px 10px rgba(32,33,36,0.25);
 
-    /* .goglesearch{
+}
+
+
+/* .goglesearch{
         width: 100%;
     } */
 
-    /* .random{
+/* .random{
         vertical-align: top;
         margin-left: 50px;
 
     } */
-    
-   .title, .random{
+
+.title,
+.random {
     display: inline-block;
     padding: 10px 20px;
     background-color: #f8f9fa;
     border-radius: 5px;
     cursor: pointer;
-   }
+}
 
-   .add{
+.add {
     margin-top: 20px;
     width: 100%;
     height: 200px;
     background-color: #f8f9fa;
     border-radius: 5px;
-   }
-
+}
