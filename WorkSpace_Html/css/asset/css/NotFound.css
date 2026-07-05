@@ -1,9 +1,9 @@
-/* * {
+* {
     border: 1px solid red;
-} */
+}
+/* 구분선 */
 
 
-/* 구분선 설정 */
 /* 폰트설정 주석 */
 @font-face {
     font-family: 'ChosunIlboMyungjo';
@@ -16,8 +16,10 @@
 
 
 
-/* 덮어쓰는 요소인 래퍼에 text-align:center설정 */
-.wraper {
+/* 덮어쓰는 요소인 래퍼에 text-align:center설정 
+ 및 폰트 설정
+*/
+.wrapper {
     position: relative;
     text-align: center;
     font-family: 'ChosunIlboMyungjo', sans-serif;
