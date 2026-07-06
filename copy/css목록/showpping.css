@@ -1,0 +1,38 @@
+/* *{
+    border: 1px solid red;
+} */
+body{
+    margin: 0;
+}
+
+.contents{
+    display: flex;
+}
+
+.left_area{
+    margin:left 10px;
+}
+
+
+/* 이미지 크기조절 */
+img{
+    width: 131px;
+    height: 56px;
+}
+/* 검색*/
+
+
+
+.searchbox{
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+   
+}
+
+.searchbox input{
+    width: 236px;
+    height: 24px;
+    box-sizing: border-box;
+}
+
