@@ -182,15 +182,53 @@
         // 이겼다 졌다 비겼다 출력
 
         // 문제 5-1번이고 컴퓨터가 현재 바위만 내는상태
-        let rps_type = '가위'
-        // let rps_type2 = '바위'
-        // let rps_type3 = '보'
-        let rps = prompt('가위,바위,보 입력')
-
-        switch(rps_type){
-            case '가위':
-                console.log('앙')
+              
+        let user=prompt('가위,바위,보 입력 중 무작위로 입력')
+        //  난수생성을 하는거임
+        let rand=parseInt(Math.random() * 3)
+        // rps는 가위 바위 보를 담을 변수임
+        let rps
+       // 0~1까지 맵핑까지만 함
+        if(rand==0){
+            rps='가위'
         }
+        
+        else if(rand==1){
+             rps='바위'
+
+        }
+            else{
+                 rps='보'
+            }
+
+            switch(rps){
+
+            }
+
+            if(user==rps){
+                console.log('비김')
+            }
+            // 유저가 이기는 경우
+            else if(
+                (user=='가위' && rps=='보')||
+                (user=='바위' && rps=='가위')||
+                (user=='보' && rps=='주먹')
+
+        ){
+            console.log(`컴퓨터가 낸건:${rps} 내가 낸건 ${user} 그래서 이김`)
+        }
+
+
+    //  경우의 수 존재함 비겼을때 3개 존재(가위,바위,보
+    // 경우의 수 가위>보자기, 보자기>주먹, 주먹>가위
+    // 이렇게 생각후 구성 시작
+
+
+
+
+
+        
+     
 
 
    
