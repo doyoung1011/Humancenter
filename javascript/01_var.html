@@ -60,38 +60,89 @@
         console.log(7 * '문자')
         // 엔터가능!
         console.log(`백            틱`)
-        
-        let f=true
-        let g=false
 
-        let strA='10.2'
-        let strB='10개'
-        console.log(strA) +2// 102가 출력됨
-        let numA=Number(strA+2)
+        let f = true
+        let g = false
+
+        let strA = '10.2'
+        let strB = '10개'
+        console.log(strA) + 2// 102가 출력됨
+        let numA = Number(strA + 2)
         console.log(numA)
         // console.log(Number(strB))
 
-        numA = parseInt( strA )
+        numA = parseInt(strA)
         console.log(numA)
 
-        console.log( String(numA))
-        console.log(''+numA)
+        console.log(String(numA))
+        console.log('' + numA)
 
-        let py= 3.3
-        let acre=4046.8
-        let 밭=10
+        let py = 3.3
+        let acre = 4046.8
+        let 밭 = 10
         // "평일 때: ..."
         // "단위가 에이커일 때"
 
-        console.log('단위가 평일때:'+밭*py)
-        console.log('단위가 에이커일 때:'+ 밭*acre)
+        console.log('단위가 평일때:' + 밭 * py)
+        console.log('단위가 에이커일 때:' + 밭 * acre)
         // 82제곱미터는 몇평인가욧
 
-        console.log('82제곱미터는'+82 / py)
+        console.log('82제곱미터는' + 82 / py)
 
+        console.log(7 / 3)
+        console.log('나머지:', 7 % 3)
+        console.log('몫:', parseInt(7 / 3))
 
+        // 9명이 회식을 했고 비용을 10만원 나옴
 
+        console.log(100000 / 9)
+        console.log('주최자가 조금 더 낼때:', parseInt(100000 / 9) + (100000 % 9))
 
+        // let h = confirm('할래말래')
+        // console.log('confirm결과:', h)
+
+        // let i = prompt('비번을입력')
+        // console.log('prompt결과', i)
+
+        // console.error('아무거나')
+
+        // 언제나 =을 기준으로 오른쪽을 계산하는것임
+        let j = 10
+        j = j + 1
+        j += 1
+        j++
+        // 전위 연산 후위연산 연습하는 곳
+        ++j
+        --j
+
+        let k = 10
+        k++
+        console.log('k++:' + k)
+        ++k
+        console.log('++k이후:' + k)
+
+        k = 10
+        console.log('k++', k++)
+        console.log('k', k)
+
+        k = 10
+        console.log('++k', ++k)
+        console.log('k++', k++)
+
+        k = 10
+        let m = k++ + 1
+        // 이떄 m의 값은 11 k의 값은 11
+        k=10
+        m= ++k + k++
+
+        // 이떄 m과 k의 값은? 
+        console.log(`m: ${m}, k: ${k}`)
+
+        // m은 22 k는 12가 나오긴함
+
+        k =10
+        m= k-- + ++k - --k
+        // m은 11이고 k는 9가 됨ㅌ  
 
 
 

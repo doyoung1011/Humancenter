@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let j = 10
+        j = j + 1
+        j += 1
+        j++
+        // 전위 연산 후위연산 연습하는 곳
+        ++j
+        --j
+
+        let k = 10
+        k++
+        console.log('k++:' + k)
+        ++k
+        console.log('++k이후:' + k)
+
+        k = 10
+        console.log('k++', k++)
+        console.log('k', k)
+
+        k = 10
+        console.log('++k', ++k)
+        console.log('k++', k++)
+
+        k = 10
+        let m = k++ + 1
+        // 이떄 m의 값은 11 k의 값은 11
+        k = 10
+        m = ++k + k++
+
+        // 이떄 m과 k의 값은? 
+        console.log(`m: ${m}, k: ${k}`)
+
+        // m은 22 k는 12가 나오긴함
+
+        k = 10
+        m = k-- + ++k - --k
+        // m은 11이고 k는 9가 됨 
+        // k--: k가 10에서 1감소되어서 9가 됨  그리고 거기서 1증감됨 10 거기서 1감소됨 9
+        // 그냥 구분선임
+        console.log('-------------------')
+
+        let boolA = true
+        let boolB = false
+        let result = boolA && boolB
+        console.log(result)
+
+        result = boolA || boolB
+        console.log(result)
+
+        console.log('!boolA', !boolA)
+
+        console.log('같은겨?', boolA == boolB)
+        console.log('같지 않은가?', boolA != boolB)
+
+        let n = 3
+        let o = '3'
+
+        console.log('n==o', n == o)
+        console.log(typeof n)
+        console.log(typeof o)
+        console.log('n==o', n === o)
+        console.log('n!==o', n !== o)
+
+        console.log(typeof o == 'String')
+
+        let num = 4
+        // 2로 나누었을 때 나머지가 0이면 짝수 
+        result = (num % 2) == 0 ? '짝수' : '홀수'
+        console.log(result)
+
+        // 문제1
+        // 난 돈이 만원 존재함
+        // 1. 4800원짜리 피스타치오를 몇잔 구매 가능한가를 코드로 짜보자잇
+        // 2. 그리고 남은 돈은?
+
+        let total = 10000
+        let buy = 4800
+
+        console.log('구매능수량:', parseInt(total / buy))
+        console.log('남은 돈:', total % buy)
+
+
+
+
+        // 문제2
+        // 올리브영에 꿀홍차가 8처넌임
+        // 근뎅 이게 15%세일을 함 그렇담 가격은 얼마니?
+
+        let 꿀홍차 = 8000
+        console.log('할인가격', 꿀홍차 - 꿀홍차 * 0.15)
+
+
+
+        // 문제3
+        // 1234를 10의 자리 이하 버림
+        // 결과: 1200이 나와야함
+
+        let number = 1234
+        console.log('1234를 10의 자리 이하 버림:', parseInt(number / 100) * 100)
+
+        // 문제4
+        // 두 값이 1000,794가 있을 떄
+        // 1000/794의 결과를 소수점 2자리까지만 출력하기
+        // 결과는 1.25만 나오게 하면됨
+
+        let value = 1000
+        let values = 794
+
+        console.log('소수점 2자리출력:', (parseInt((value / values) * 100) / 100))
+
+        // 문제5
+        // 17000원을 줄 떄
+        // 5천원과 1천원짜리 밖에 없을 떄 
+        // 각각 몇 장씩 줄수 있는지
+        // 단, 5천원부터 준다는 조건임
+
+        let 돈 = 17000
+        let 오천원 = 5000
+        let 천원 = 1000
+
+        console.log('5천원권 많이 주기:', ` ${parseInt(돈 / 오천원)}장, 천원권:${parseInt(돈 % 오천원 / 천원)}장`)
+
+        // 우선 5천원권으로 나눠줌-> 그럼 3장이 남죠.
+        // 그리고 토탈에서 5천원으로 나눈 나머지를 천원권으로 나누고, 그걸 parseInt해주면 끝
+        // %가 나머지를 구할떄 쓰는 연산자이므로, 이걸 생각하면 아주쉽게 풀리는 문제
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+</head>
+
+<body>
+
+</body>
+
+</html>
