@@ -176,3 +176,73 @@ searchbox 226*24로 커버(실제 유튜브 검색창 사이즈랑 동일)
 
 
     </div>
+
+
+-----------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="../css/login.css"> -->
+    <style>
+        * {
+            border: 1px solid red;
+        }
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .wrapper {
+            /* display: inline-block; */
+            width: 500px;
+            padding: 20px
+        }
+
+        .logo {
+            text-align: left;
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
+            box-sizing: border-box;
+            border-color: black;
+        }
+        .index{
+            width: 100%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="index">
+            <div class="logo">네이버</div>
+            <form action="http://127.0.0.1:5501/html/main.html" method="get">
+                <div class="input_id">
+                    <input type="text" placeholder="이메일을 입력">
+                </div>
+                <div class="input_pw">
+                    <input type="password" placeholder="비밀번호를 입력">
+                    <button type="submit">login</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
+로그인 페이지 야매구성
+
+
+
+
+
