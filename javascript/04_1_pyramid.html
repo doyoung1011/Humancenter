@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      //1단계
+      // +++++를 찍을껀데 for문을 사용할 것임
+
+      //   let string = "";
+      //   //   string = string + "+";
+      //   //   string = string + "+";
+      //   for (let i = 1; i <= 5; i++) {
+      //     string = string + "+";
+      //   }
+      //   console.log(string);
+
+      //   2단계
+      // +_+_+_+_+_
+      //   let string=''
+      //   let m = "+";
+      //   let s = "_";
+      //   for (i = 1; i <= 5; i++){
+      //     string+=m
+      //     string+=s
+      //   }
+      //   console.log(string)
+      // 3단계
+
+      //     let string = "";
+      //     string = string + "+";
+      //   for (let j = 1; j < 3; j = 3) {
+      //     for (let i = 1; i <= 5; i++)
+      //       string = string + "+";
+
+      //   }
+      //   console.log(string);
+
+      /*
+
+       4단계 문제
+        11111
+        22222
+        33333
+        44444
+        55555 -> 이런 형태로 출력하기
+        */
+      //   for (let j = 1; j <= 5; j++) {
+      //     String = "";
+      //     for (let i = 1; i <= 5; i++) {
+      //       String = String + j;
+      //     }
+      //     console.log(String);
+      //   }
+
+      //   5단계
+      /*
+        1
+        22
+        333
+        4444
+        55555
+        */
+      //    1+n으로 구성이 됨 그렇다면 규칙을 만들어보자
+      //   1은 1번 반복 2는 2번 반복 3은 3번 반복 4는 4번 반복 5는 5번 반복이 됨
+      // 1번째 줄은 한줄만 출력하면됨
+      //   여기서 j가 줄번호이기때문에 줄번호에 따라서 바뀌는 코드를 구상하면 쉽게 풀리는 문제
+
+      //   for (let j = 1; j <= 5; j++) {
+      //     String = "";
+      //     for (let i = 1; i <= j; i++) {
+      //       String = String + j;
+      //     }
+      //     console.log(String);
+      //   }
+
+      //   문제6
+      // String = "";
+      // for (let j = 1; j <= 5; j++) {
+      //   String = "+";
+      //   for (let i = 1; i <= j; i++) {
+      //     String = String + "+";
+      //   }
+      //   console.log(String);
+      // }
+
+      //   문제 7
+      //   j가 반복 횟수인데, 6-j를 하는 방법도 있지만...
+      //    j=i;j<=5;j++이렇게 진행을 하는 쉬운 방법도 있다아
+
+      //   string = "";
+      //   for (j = 1; j <= 5; j++) {
+      //     string = "";
+      //     for (i = 1; i <= 6 - j; i++) {
+      //       string += j;
+      //     }
+      //     // string;
+      //     console.log(string);
+      //   }
+      //8단계 풀기 시자악
+      // string을 두개를 주면 될거같음
+
+      // 여기에다가 for문으로 감싸서 다른 코드를 넣으믄 됨
+      //    우선 두개의 코드를 작성했음 ____찍는거랑 + 찍는거
+
+      let String2 = "";
+      let String = "";
+
+    
+    //   for (k = 4; k >= 1; k--) {
+    //     String2 = "";
+
+    //     for (m = 1; m <= k; m++) {
+    //       String2 += "_";
+    //     }
+    //     console.log(String2);
+    //   }
+
+    // 위에꺼 잠시 유기
+
+      for (let j = 1; j <= 5; j++) {
+        String = "";
+        for (let i = 1; i <= j; i++) {
+          String = String + "+";
+        }
+        console.log(String);
+      } 
+
+
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,323 +1,335 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script>
-        let value = true
+      let value = true;
 
-        if (value) {
-            console.log('이거 찐임')
+      if (value) {
+        console.log("이거 찐임");
+      }
 
-        }
+      let value2 = true;
 
-        let value2 = true
+      if (value2) {
+        console.log("참");
+      }
+      if (!value2) {
+        console.log("거짓");
+      }
 
-        if (value2) {
-            console.log('참')
-        }
-        if (!value2) {
-            console.log('거짓')
-        }
+      let value3 = true;
+      if (!value3) {
+        console.log("참");
+      } else {
+        console.log("거짓");
+      }
 
-        let value3 = true
-        if (!value3) {
-            console.log('참')
+      let score = 85;
+
+      if (score >= 60) {
+        console.log("합격");
+      } else {
+        console.log("불합격");
+      }
+      // else문은 컴퓨터적 사고로 좋다아
+
+      if (score >= 90) {
+        console.log("A");
+      } else {
+        if (score >= 80) {
+          console.log("B");
         } else {
-            console.log('거짓')
+          console.log("C");
         }
-
-        let score = 85
-
-        if (score >= 60) {
-            console.log('합격')
-        }
-        else {
-            console.log('불합격')
-        }
-        // else문은 컴퓨터적 사고로 좋다아
-
-        if (score >= 90) {
-            console.log('A')
-        } else {
-            if (score >= 80) {
-                console.log('B')
-            }
-            else {
-                console.log('C')
-            }
-        }
-        // 스위치 문법해봅시다
-        let ac = 17
-        if (ac < 18) {
-            ac = 18
-        }
-
-        let fruit = 'apple'
-        if (fruit == 'apple') {
-            console.log('사과')
-        } else if (fruit == 'banna') {
-            console.log('바나나')
-        } else {
-            console.log('모름')
-        }
-
-        switch (fruit) {
-            case 'apple':
-                console.log('사과')
-                break
-            case 'bannna':
-                console.log('바나나')
-                break
-            default:
-                console.log('모름')
-        }
-
-        let phone = 's23'
-
-        if (phone == 's23') {
-            console.log('삼성')
-        } else if (phone == 's24') {
-            console.log('삼성')
-        }
-
-        if (phone == 's23' || phone == 's24') {
-            console.log('삼성')
-        }
-
-        switch (phone) {
-            case 's23':
-            case 's24':
-            case 's25':
-            case 's26':
-                console.log('삼성')
-                break
-
-            case 'iphone15':
-            case 'iphone16':
-            case 'iphone17':
-                console.log('애플')
-                break
-            default:
-                console.log('삼성,애플 아님')
-
-
-        }
-
-        // 문제1
-        // 아무 숫자나 받아서 다음 형식으로 출력
-        // '양수' 또는 0 또는 '음수'
-
-        // let random_number= prompt()
-
-        // if(random_number>0){
-        //     console.log('양수')
-        // } else if(random_number==0){
-        //     console.log('0')
-        // } else{
-        //     console.log('음수')
-        // }
-
-
-
-
-
-        // 문제2
-        // 어떤 숫자를 입력받아서 홀수인지 짝수인지 출력하기
-
-        // let random_number2=prompt()
-
-        // if(random_number2 %2 ==0){
-        //     console.log('짝수')
-        // }
-        // else{
-        //     console.log('홀수')
-        // }
-
-        // 문제3
-        // 두 수를 받아서 둘중에 큰 값을 출력하기
-        // 예시) 3과 5중에 큰수: 5
-
-        // let input1=prompt('첫번째 숫자입력')
-        // let input2=prompt('두번째 숫자입력')
-
-        // if(input1 > input2){
-        //     alert(`${input1}과 ${input2}중 큰수: ${input1}`)
-        // }
-        // else if(input2>input1){
-        //     alert(`${input1}과 ${input2}중 큰수: ${input2}`)
-        // }
-
-
-
-
-
-        // 문제4
-        //임의의 money가 있을 때 
-        // 7천원 이상이면 '택시타자'출력
-        // 7천원 미만~3천원 이상이면 '버스타자' 출력
-        // 3천원 미만이면 '걸어가자'
-
-        // let money=prompt('돈을 입력하시오')
-
-        // if(money>=7000){
-        //     console.log('택시타자')
-        // }
-        // else if(money<7000 && money>=3000){
-        //     console.log('버스타자')
-
-        // } else {
-        //     console.log('걸어가자')
-        // }
-
-
-
-        // 문제 5번
-        //  가위 바위 보 중에 하나만 입력
-        // 문제 5-1
-        // 컴퓨터는 항상 바위만 내는 경우(무조건적 조건이 탑재된 상황)
-        // 문제 5-2 
-        // 이겼다 졌다 비겼다 출력
-
-        // 문제 5-1번이고 컴퓨터가 현재 바위만 내는상태
-
-        //     let user=prompt('가위,바위,보 입력 중 무작위로 입력')
-        //     //  난수생성을 하는거임
-        //     let rand=parseInt(Math.random() * 3)
-        //     // rps는 가위 바위 보를 담을 변수임
-        //     let rps
-        //    // 0~1까지 맵핑까지만 함
-        //     if(rand==0){
-        //         rps='가위'
-        //     }
-
-        //     else if(rand==1){
-        //          rps='바위'
-
-        //     }
-        //         else{
-        //              rps='보'
-        //         }
-
-        //         switch(rps){
-
-        //         }
-
-        //         if(user==rps){
-        //             console.log('비김')
-        //         }
-        //         // 유저가 이기는 경우
-        //         else if(
-        //             (user=='가위' && rps=='보')||
-        //             (user=='바위' && rps=='가위')||
-        //             (user=='보' && rps=='주먹')
-
-        //     ){
-        //         console.log(`컴퓨터가 낸건:${rps} 내가 낸건 ${user} 그래서 이김`)
-        //     }
-
-
-        //  경우의 수 존재함 비겼을때 3개 존재(가위,바위,보
-        // 경우의 수 가위>보자기, 보자기>주먹, 주먹>가위
-        // 이렇게 생각후 구성 시작
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // switch((parseInt(Math.random())*10) % 3)
-
-
-
-        // let rand = (parseInt(Math.random())*10) % 3
-        // console.log(rand)
-
-
-
-        // 문제6
-        // 임의의 수 3개 x,y,z
-        // z가 x~y 사이에 있는지 판단
-        let x = Number(prompt('첫 번째 숫자입력'))
-        let y = Number(prompt('두 번째 숫자입력'))
-        let z = Number(prompt('세 번째 숫자입력'))
-        // 이거는 그냥 내가 입력한 값이 거지 확인하는 거
-        // 결론적으로 마지막게 첫번쨰보다 크고 두번째 보다 작아야함
-        // 이걸 코드로 구현하믄 끄읏
-        console.log(x, y, z)
-
-        if ((z > x) && (z < y)) {
-            console.log(`z가 x와 y의 사이에 있습니다 z값은 ${z}입니다`)
-        }
-        else {
-            console.log(`z가 x와 y의 사이에 없습니다 z값은 ${z}입니다`)
-        }
-
-
-
-
-
-        // 문제7
-        // 월을 입력 받아서 계절 출력
-        // 단,13이나 -1같은걸 받으면 '다시 입력하세요' 출력
-        // 문제8
-        // 온도를 입력받아 다음처럼 출력
-        // 예: 32 입력
-        // "영상 32도 입니다"
-        // 예: -3 입력
-        // "영하 3도 입니다"
-
-        // -- 멘탈 챙길 자신 있으면 도전
-        // 문제9
-        // 시와 분을 입력 받아서 35분 후의 시간 출력
-        // 3, 51 입력
-        // 출력 : 4시 26분
-
-        // 문제10
-        // 두자리 숫자를 받아서
-        // 10의 자리와 1의 자리가 같은지 판단
-        // 예: 88 => 같음, 89 => 다름
-
-        // 문제11
-        // 369게임
-        // 어떤 수를 받아서 3,6,9가 있으면 "박수" 출력, 없으면 그 숫자 출력
-        // 예: 31=>박수 12=>12
-
-        // 문제12
-        // 사각형에서
-        // 좌상단 좌표 : x1:10, y1:20
-        // 우하단 좌표 : x2:90, y2:100
-        // 입력받은 좌표가 사각형에 겹치는가?
-
-
-
-        // 랜덤 사용법 정리
-        //    let rand= Math.random()
-        //    console.log(rand)
-
-        //    (parseInt(Math.random())*10) % 3
-
-
-
-
-
-
-
-
+      }
+      // 스위치 문법해봅시다
+      let ac = 17;
+      if (ac < 18) {
+        ac = 18;
+      }
+
+      let fruit = "apple";
+      if (fruit == "apple") {
+        console.log("사과");
+      } else if (fruit == "banna") {
+        console.log("바나나");
+      } else {
+        console.log("모름");
+      }
+
+      switch (fruit) {
+        case "apple":
+          console.log("사과");
+          break;
+        case "bannna":
+          console.log("바나나");
+          break;
+        default:
+          console.log("모름");
+      }
+
+      let phone = "s23";
+
+      if (phone == "s23") {
+        console.log("삼성");
+      } else if (phone == "s24") {
+        console.log("삼성");
+      }
+
+      if (phone == "s23" || phone == "s24") {
+        console.log("삼성");
+      }
+
+      switch (phone) {
+        case "s23":
+        case "s24":
+        case "s25":
+        case "s26":
+          console.log("삼성");
+          break;
+
+        case "iphone15":
+        case "iphone16":
+        case "iphone17":
+          console.log("애플");
+          break;
+        default:
+          console.log("삼성,애플 아님");
+      }
+
+      // 문제1
+      // 아무 숫자나 받아서 다음 형식으로 출력
+      // '양수' 또는 0 또는 '음수'
+
+      // let random_number= prompt()
+
+      // if(random_number>0){
+      //     console.log('양수')
+      // } else if(random_number==0){
+      //     console.log('0')
+      // } else{
+      //     console.log('음수')
+      // }
+
+      // 문제2
+      // 어떤 숫자를 입력받아서 홀수인지 짝수인지 출력하기
+
+      // let random_number2=prompt()
+
+      // if(random_number2 %2 ==0){
+      //     console.log('짝수')
+      // }
+      // else{
+      //     console.log('홀수')
+      // }
+
+      // 문제3
+      // 두 수를 받아서 둘중에 큰 값을 출력하기
+      // 예시) 3과 5중에 큰수: 5
+
+      // let input1=prompt('첫번째 숫자입력')
+      // let input2=prompt('두번째 숫자입력')
+
+      // if(input1 > input2){
+      //     alert(`${input1}과 ${input2}중 큰수: ${input1}`)
+      // }
+      // else if(input2>input1){
+      //     alert(`${input1}과 ${input2}중 큰수: ${input2}`)
+      // }
+
+      // 문제4
+      //임의의 money가 있을 때
+      // 7천원 이상이면 '택시타자'출력
+      // 7천원 미만~3천원 이상이면 '버스타자' 출력
+      // 3천원 미만이면 '걸어가자'
+
+      // let money=prompt('돈을 입력하시오')
+
+      // if(money>=7000){
+      //     console.log('택시타자')
+      // }
+      // else if(money<7000 && money>=3000){
+      //     console.log('버스타자')
+
+      // } else {
+      //     console.log('걸어가자')
+      // }
+
+      // 문제 5번
+      //  가위 바위 보 중에 하나만 입력
+      // 문제 5-1
+      // 컴퓨터는 항상 바위만 내는 경우(무조건적 조건이 탑재된 상황)
+      // 문제 5-2
+      // 이겼다 졌다 비겼다 출력
+
+      // 문제 5-1번이고 컴퓨터가 현재 바위만 내는상태
+
+      //     let user=prompt('가위,바위,보 입력 중 무작위로 입력')
+      //     //  난수생성을 하는거임
+      //     let rand=parseInt(Math.random() * 3)
+      //     // rps는 가위 바위 보를 담을 변수임
+      //     let rps
+      //    // 0~1까지 맵핑까지만 함
+      //     if(rand==0){
+      //         rps='가위'
+      //     }
+
+      //     else if(rand==1){
+      //          rps='바위'
+
+      //     }
+      //         else{
+      //              rps='보'
+      //         }
+
+      //         switch(rps){
+
+      //         }
+
+      //         if(user==rps){
+      //             console.log('비김')
+      //         }
+      //         // 유저가 이기는 경우
+      //         else if(
+      //             (user=='가위' && rps=='보')||
+      //             (user=='바위' && rps=='가위')||
+      //             (user=='보' && rps=='주먹')
+
+      //     ){
+      //         console.log(`컴퓨터가 낸건:${rps} 내가 낸건 ${user} 그래서 이김`)
+      //     }
+
+      //  경우의 수 존재함 비겼을때 3개 존재(가위,바위,보
+      // 경우의 수 가위>보자기, 보자기>주먹, 주먹>가위
+      // 이렇게 생각후 구성 시작
+
+      // switch((parseInt(Math.random())*10) % 3)
+
+      // let rand = (parseInt(Math.random())*10) % 3
+      // console.log(rand)
+
+      // 문제6
+      // 임의의 수 3개 x,y,z
+      // z가 x~y 사이에 있는지 판단
+      // let x = Number(prompt('첫 번째 숫자입력'))
+      // let y = Number(prompt('두 번째 숫자입력'))
+      // let z = Number(prompt('세 번째 숫자입력'))
+      // // 이거는 그냥 내가 입력한 값이 거지 확인하는 거
+      // // 결론적으로 마지막게 첫번쨰보다 크고 두번째 보다 작아야함
+      // // 이걸 코드로 구현하믄 끄읏
+      // console.log(x, y, z)
+
+      // if ((z > x || z>y)  && (z < x||z>y)) {
+      //     console.log(`z가 x와 y의 사이에 있습니다 z값은 ${z}입니다`)
+      // }
+      // else {
+      //     console.log(`z가 x와 y의 사이에 없습니다 z값은 ${z}입니다`)
+      // }
+
+      // 문제7
+      // 월을 입력 받아서 계절 출력
+      // 단,13이나 -1같은걸 받으면 '다시 입력하세요' 출력
+      // 이건 내 주석인데, if문으로도 풀 수 있음
+
+      //   let month = Number(prompt("월을 입력"));
+
+      //   if (month > 12 || month < 1) {
+      //     console.log("다시입력하시오");
+      //   } else {
+      //     switch (month) {
+      //       case 12:
+      //       case 1:
+      //       case 2:
+      //         console.log("겨울");
+      //         break;
+      //       case 3:
+      //       case 4:
+      //       case 5:
+      //         console.log("봄");
+      //         break;
+      //       case 6:
+      //       case 7:
+      //       case 8:
+      //         console.log("여름");
+      //         break;
+      //       case 9:
+      //       case 10:
+      //       case 11:
+      //         console.log("가을");
+      //         break;
+      //     }
+      //   }
+      // 문제8
+      // 온도를 입력받아 다음처럼 출력
+      // 예: 32 입력
+      // "영상 32도 입니다"
+      // 예: -3 입력
+      // "영하 3도 입니다"
+
+    //   let temp = Number(prompt("온도를 입력"));
+
+    //   if (temp >= 0) {
+    //     console.log(`영상${temp}도입니다`);
+    //   } else {
+    //     console.log(`-${temp}도입니다`);
+    //   }
+      // -- 멘탈 챙길 자신 있으면 도전
+      // 문제9
+      // 시와 분을 입력 받아서 35분 후의 시간 출력
+      // 3, 51 입력
+      // 출력 : 4시 26분
+
+      let hours = Number(prompt("시 입력"));
+      let minutes = Number(prompt("분 입력"));
+      // 그저 몇 시 몇분을 출력함으로써봄확인을 해봄
+      //   여기다가 함수를 제작해서 넣어보자잇
+
+      //   minutes=minutes+35-> 어찌되었든간에 35분은 늘 더해질거니까
+      minutes += 35;
+      if (minutes >= 60) {
+        hours = hours + 1;
+        minutes = minutes - 60;
+        console.log(`35분을 더한시간은${hours}시${minutes}분입니다`);
+      } else if (minutes < 60){
+        console.log(`35분을 더한시간은${hours}시${minutes}분입니다`)
+      }
+        
+
+        
+
+      //일단 시와 분을 입력받음, 그리고 나서 계산을 떄리믄 됨
+
+      // 문제10
+      // 두자리 숫자를 받아서
+      // 10의 자리와 1의 자리가 같은지 판단
+      // 예: 88 => 같음, 89 => 다름
+
+    // let a=Number(prompt('두자리숫자입력'))
+    
+
+
+
+      // 문제11
+      // 369게임
+      // 어떤 수를 받아서 3,6,9가 있으면 "박수" 출력, 없으면 그 숫자 출력
+      // 예: 31=>박수 12=>12
+
+      // 문제12
+      // 사각형에서
+      // 좌상단 좌표 : x1:10, y1:20
+      // 우하단 좌표 : x2:90, y2:100
+      // 입력받은 좌표가 사각형에 겹치는가?
+
+      // 랜덤 사용법 정리
+      //    let rand= Math.random()
+      //    console.log(rand)
+
+      //    (parseInt(Math.random())*10) % 3
     </script>
-</head>
+  </head>
 
-<body>
-
-</body>
-
+  <body></body>
 </html>
