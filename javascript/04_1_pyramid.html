@@ -103,32 +103,32 @@
 
       // 여기에다가 for문으로 감싸서 다른 코드를 넣으믄 됨
       //    우선 두개의 코드를 작성했음 ____찍는거랑 + 찍는거
+      // 여기서 생각해볼께 변수를 두개 선언할 필요가 없어욧
 
-      let String2 = "";
-      let String = "";
+      let string = "";
 
-    
-    //   for (k = 4; k >= 1; k--) {
-    //     String2 = "";
+      //   for (k = 4; k >= 1; k--) {
+      //     String2 = "";
 
-    //     for (m = 1; m <= k; m++) {
-    //       String2 += "_";
-    //     }
-    //     console.log(String2);
-    //   }
+      //     for (m = 1; m <= k; m++) {
+      //       String2 += "_";
+      //     }
+      //     console.log(String2);
+      //   }
 
-    // 위에꺼 잠시 유기
+      // 위에꺼 잠시 유기
 
       for (let j = 1; j <= 5; j++) {
-        String = "";
+        sring = "";
         for (let i = 1; i <= j; i++) {
-          String = String + "+";
-        }
-        console.log(String);
-      } 
-
-//ㅇㅇㅇ
-
+          string += "+";
+      }
+        for (let k = 1; k <= 5-j; k++) {
+        string += "_";
+      }
+      console.log(string);
+    }
+      //ㅇㅇㅇ
     </script>
   </head>
   <body></body>

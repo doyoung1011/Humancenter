@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // let i = 1;
+      // while (i <= 100) {
+      //   console.log(i);
+      //   i++;
+      // }
+      // 횟수가 정해져 있지 않을때는 while문을 자주씀
+
+      // 메뉴 입력 받기
+      // '1:커피',2:홍차 0:종료
+      //   let menu = 0;
+      //   menu = prompt("1:커피,2:홍차 0:종료");
+      //   if (menu == 1) {
+      //     console.log("커피드림");
+      //   } else if (menu == 2) {
+      //     console.log("홍차드림");
+      //   } else if (menu == 0) {
+      //     console.log("종료해드림");
+      //   }
+      // let menu = -1;
+      // while (menu != 0) {
+      //   let menu = 0;
+      //   menu = prompt("1:커피,2:홍차 0:종료");
+      //   if (menu == 1) {
+      //     console.log("커피드림");
+      //   } else if (menu == 2) {
+      //     console.log("홍차드림");
+      //   } else if (menu == 0) {
+      //     console.log("종료해드림");
+      //   }
+      // }
+
+      // do{
+      //   menu = prompt("1:커피,2:홍차 0:종료")
+      //    if (menu == 1) {
+      //     console.log("커피드림");
+      //   } else if (menu == 2) {
+      //     console.log("홍차드림");
+      //   } else if (menu == 0) {
+      //     console.log("종료해드림");
+      //   }
+      // }
+
+      //  while(menu!=0)
+
+      // 문제1
+      // 먼저 입금부터 만들자
+
+      //       let menu = -1;
+      //       let balance = 0;
+      //       let plus = 0;
+      //       let minus = 0;
+      // console.log(123)
+      //       while (menu != 0) {
+      //         menu = prompt(`1:입금,2:출금 3:잔액보기 4:종료: 번호를 입력`);
+      //         if (menu == 1) {
+      //           plus = Number(prompt("입금금액입력"))
+      //           //입금 조건을 확인 해봄
+      //           if(plus<0){
+      //             alert('마통안돼욧!')
+      //           } else{
+      //           balance += plus; //입금됨
+      //           console.log(`입금됨`);
+      //           }
+      //         } else if (menu == 2) {
+      //           minus = Number(prompt("출금금액 입력"));
+
+      //           console.log(`출금해드림`);
+      //           if(minus>balance){
+      //             alert('잔액보다 큰돈은 못빼요 돌아가요') //잔액보다 큰돈은 못뺴에
+      //           } else{
+      //             balance=balance-minus
+      //             console.log('정상 출금되었습니다')
+      //           }
+      //         } else if (menu == 3) {
+      //           console.log(`잔액 알려줌 니 통장엔 현재 ${balance}있오`);
+      //         } else if( menu==4){
+      //           alert('404 Not Found')
+      //           break
+      //         }
+      //       }
+
+      // 주사위 던지기
+
+      let rand = parseInt(Math.random() * 6) + 1;
+      //+1 인 조건 덕에 1~6까지 쌉가능
+      let count = 0; //주사위를 던진 횟수
+      while (rand != 3) {
+        rand = parseInt(Math.random() * 6) + 1;
+        // console.log(rand)
+      
+      }
+
+      // if(rand==3){
+      //   console.log(`${count}만큼 던졌네요`)
+      // }
+    </script>
+  </head>
+  <body></body>
+</html>

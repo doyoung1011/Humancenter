@@ -90,7 +90,7 @@
       // 그렇다면 이제 맵핑을 해야하는데 2가 되는 조합은 결국 2보다 작은거일때
       // 2가 나오게 하려면 i+j=2
       // if(i+j=2) 이런 조건인건데 합은 어쨋든 간에
-      // 그렇다면 3이 될떄는 i+j=3  4일때는 i+j=4 결론적으로 i+j==k라는게 if문에 들어가야함 
+      // 그렇다면 3이 될떄는 i+j=3  4일때는 i+j=4 결론적으로 i+j==k라는게 if문에 들어가야함
       /*
         합 2 : [1, 1]
         합 3 : [1, 2] [2, 1]
@@ -98,17 +98,56 @@
     
     */
 
-      for (let k = 2; k <= 12; k++) {
-        
-        for (let i = 1; i <= 6; i++)
-          for (let j = 1; j <= 6; j++) {
-            if (i + j == k) {
-              console.log(`합 ${k}:[${i},${j}]`);
-            }
-          }
-      }
+      // for (let k = 2; k <= 12; k++) {
+      //   for (let i = 1; i <= 6; i++)
+      //     for (let j = 1; j <= 6; j++) {
+      //       if (i + j == k) {
+      //         console.log(`합 ${k}:[${i},${j}]`);
+      //       }
+      //     }
+      // }
 
-      // 만약 중복값을 제거한다고 하면 어떻게 구현하면될까?
+      // // 로또 번호 하나만 추출 1~45를 랜덤으로 뽑기
+
+      // for (let i = 1; i <= 6; i++) {
+      //   let rand = parseInt(Math.random() * 45) + 1;
+      //   console.log(rand);
+      // }
+      // // 만약 중복값을 제거한다고 하면 어떻게 구현하면될까?
+
+      // for (i = 1; 1 <= 100; i++) {
+      //   if (i > 10) {
+      //     console.log(i);
+      //     break;
+      //   }
+      //   console.log(i, "종료합니다 ");
+      // }
+
+      // 총 4층의 주차 건물이 있다.
+      // 각 층에는 10대의 자리가 존재
+      // 내 차는 1층 첫번째부터 17번째 자리에 있다.
+      let count = 0;
+      let flag = false;
+      for (i = 1; i <= 4; i++) {
+        for (j = 1; j <= 10; j++) {
+          count++;
+          console.log(i, j, count + "번째");
+          if (count >= 17) {
+            flag = true;
+            break;
+          }
+        }
+        // if (cout >= 17)
+        if (flag == true) {
+          break;
+        }
+      }
+      for (i = 1; i <= 10; i++) {
+        if (i % 2 == 2) {
+          continue;
+        }
+        console.log(i);
+      }
     </script>
   </head>
   <body></body>
