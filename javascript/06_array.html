@@ -203,6 +203,8 @@
       /*
     문제1
     10개의 각 변수에 1~10까지 담기
+    변수 선언부터 
+    
 
     문제2
     [3,4,7,5,1,6]
@@ -233,6 +235,71 @@
     
 
 */
+
+      /*
+  문제1
+    10개의 각 변수에 1~10까지 담기
+    변수 선언 10개의 변수를 담을 방을 구성
+  결론:[1,2,3,4,5,6,7,8,9,10]
+    
+*/
+      const arrz = [];
+
+      for (let i = 1; i < 11; i++) {
+        arrz.push(i);
+      }
+      console.log(arrz);
+
+      /*
+  문제2
+    [3,4,7,5,1,6]
+    문제 2-1
+    홀수의 개수 구하기-> 홀수는 나누었을때 나머지가 1 이고 그걸 세면됨
+  
+    그러면 num의 요소%2!=0글이면 됨
+
+    문제 2-2
+    4보다 큰 수의 개수 구하기
+    
+*/
+      // //  문제 2-1부터
+      // let count = 0;
+      // const num = [3, 4, 7, 5, 1, 6];
+      // for (let i = 0; i < num.length; i++) {
+      //   if (num[i] % 2 != 0) {
+      //   count++
+      // 여기서 헷갈린 부분 count++은 이미 변수에 담는 개념임 count+=count이기 때문임
+      // count는 홀수가 나온걸 세는 변수임
+
+      //   }
+      // }
+      // console.log(`홀수의 개수 ${count}개입니다`); //이러면 끝
+
+      let count = 0;
+      const num = [3, 4, 7, 5, 1, 6];
+      for (let i = 0; i < num.length; i++) {
+        if (num[i] > 4) {
+          count++;
+        }
+      }
+      console.log(`4보다 큰수의 개수는 ${count}개입니다`);
+
+      //완주를 한사람은 음번밖에 없음 그렇다면 3번만 솎아내면됨
+      //나는 3번이 실패한 걸 알지만, 컴퓨터는 그걸 몰라서 그 리스트에 있는지 확인해야함
+      let marathon = [1, 2, 3, 4, 5]; //마라톤 참가 리스트
+      let succes = [2,4,5,1]; //성공한사람
+      // 전체 리스트 검사
+      for (i = 0; i < marathon.length; i++) {
+        //완주사 검사
+        for (j = 0; j < succes.length; j++) {
+          if(succes[j]==marathon[i]){
+            console.log('완주!')
+          
+          }
+         
+        
+        }
+      }console.log(marathon[j])
     </script>
   </head>
   <body></body>
