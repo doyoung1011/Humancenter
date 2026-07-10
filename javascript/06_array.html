@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script>
+      /*
+             배열 array
+             한번에 여러 변수를 만드는 기술
+             각 변수는 index로 구분함
+             index는 0부터 시작
+            */
+      //   배열 선언 방법 1
+      const arr1 = [];
+      console.log(typeof arr1);
+
+      const arr2 = new Array();
+
+      const arr3 = [1, 2, "글씨", false, 3.14, arr1];
+
+      console.log(arr3);
+      //   let i=2
+      //   arr3[i]
+      //   i=3
+      //   arr3[i]
+      let arr = [0, , 2, 3, 4, 5];
+      console.log(arr[60]); //undefined 출력됨
+
+      let i;
+      console.log(i); //이것도 동일
+
+      arr[60] = 60;
+      console.log(arr[60]);
+      console.log(arr);
+
+      arr["문자"] = 60;
+      console.log(arr["문자"]);
+      console.log(arr);
+
+      arr = [0, 1, 2, 3, 4, 5];
+
+      for (let i = 0; i < 6; i++) {
+        console.log(arr[i]);
+      }
+      console.log("arr.length:", arr.length);
+
+      //  실제로는 i<6 대신에 i<arr.length이렇게 사용함
+
+      const 양식 = ["파스타,", "피자", "스테이크", "돈까스", "피시앤칩스"];
+      const 중식 = [
+        "짜장",
+        "짬뽕",
+        "탕수육",
+        "난자완스",
+        "깐풍기",
+        "깐풍기",
+        "칠리새우",
+      ];
+      const 일식 = ["라멘", "슈토", "오차즈케", "후토마키", "스키야끼"];
+
+      const 음식 = [양식, 중식, 일식];
+
+      console.log("음식.length: ", 음식.length);
+
+      //   let y = 음식[0];
+      //   let p = y[0];
+
+      //   let 스테이크=음식[0][2]
+
+      //   ***문제: 모든 먹거리를 출력하시오***
+      //  단,변수 음식만 사용한다
+
+      // 양식에 있는 요소 출력하기.
+      //  음식[0]-> 양식 모두 나올거임, 음식[1]->양식 모두 나올것임
+      //   그렇다면 음식[뭐][뭐]를 조건으로 한다믄 좋을거같음!
+      // 그렇다면 이를 활용한다면? 모두 출력할 수 있는 조건을 찾아낼수 있음.
+      // 이것을 생각해보면 할수 있을거 같은데, 생각해서 다시 하자! 할 수있다!
+      //    for(let j=0;j<음식[i].length;j++)
+      //  이거는 j는 음식이 많이 있음 그걸 가르키는 번호임
+      // 결국 출력할건 음식[음식종류][음식이 뒤지게 많은데 그걸 가르키는 번호->메뉴를 가르키는 번호->그게 인덱스]
+
+      // 1.음식이라는 배열안에는 3개의 요소가 있음 즉 3번을 돌려야함
+
+      //   for (j = 0; j < 음식[i].length; j++) {
+      //     console.log(음식[i][j]);
+      //   }
+
+      //잠시 이해하기 위해 겉의 for문 해제
+      //   내부 for문 설계 메커니즘 생각하기
+      //   for (i = 0; i < 음식.length; i++) {}
+
+      //구분선
+      // 반복문의 종료시점
+      //   let 종료시점 = 음식.length
+      //   밑에꺼는 완성된 코드임
+
+      // for(i=0;i<음식.length;i++){ //여기까지 내가 찾아낸 규칙
+      //     for(let j=0;j<음식[i].length;j++){
+      //         console.log(음식[i][j])
+      //     }
+      // }
+
+      // for (let i = 0; i < 6; i++) {
+      //     console.log(arr[i]);
+      //   }
+      //   console.log('모든 음식:', 음식[])
+
+      //   배열의 메소드(함수
+      arr = [1, 2, 3, 4];
+
+      arr.push(5);
+      console.log(arr);
+
+      // 근데 맨 앞에 추가하고싶다?
+      arr.unshift(0);
+      console.log(arr);
+      //  맨마기막 것 빼기
+      let pop = arr.pop();
+      console.log(arr);
+      console.log(pop);
+
+      //   맨 처음 것 빼서 돌려주기
+      let shift = arr.shift();
+      console.log(shift);
+
+      // 배열 뒤집기
+      const reverse = arr.reverse();
+      console.log(arr);
+      console.log(reverse);
+
+      //  오름차순 정렬
+      arr = [7, 4, 5, 6, 8, 11, 10];
+      const sort = arr.sort();
+      console.log(sort);
+      //  Chaining 체이닝, 체인 방식, 체인이라고 부른다.
+      sort.reverse(); // arr.sort().reverse()랑 똑같다.
+      console.log(sort);
+
+      arr = [0, 1, 2, 3, 4, 5, 6];
+      let a = arr.slice(2, 5);
+      console.log(arr);
+      console.log(a);
+      a = arr.slice(2, 50);
+      console.log(a);
+
+      //   a.arr = slice(2);
+      //   console.log(a);
+
+      let hour = 12;
+      hour = "0" + 2;
+      hour = hour.slice(-2);
+      console.log(hour);
+
+      let b = arr.indexOf(4);
+      console.log(b);
+
+      //   해당 값의 index를 돌려준다
+      let c = "ydy7071@gmail.com";
+      b = c.indexOf("@");
+      console.log(b);
+
+      //   찾는 값이 없으면 -1을 리턴함
+
+      //   배열을 문자로 만든다
+      // 구분하는 문자를 넣을 수 있고
+      // 없으면 기본값,
+
+      arr = [10, 5, 3];
+      console.log(arr.sort());
+      arr = ["a", "b", "c"];
+      b = arr.join();
+      console.log(b);
+      console.log(arr);
+      console.log("" + arr);
+      b = arr.join(";");
+      console.log(b);
+
+      let d = b.split(";");
+      console.log(d);
+
+      //   네이버 검색 결과의 쿼리스트링에서 name=query인 것의 값을 출력하시오.
+      //   이 문제를 해결하려면 우선 url을 변수에 담아두고 그걸 무엇으로 한번 자를지 생각한다
+      //   원리를 이해하는게 중요함
+      const url =
+        "https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&ssc=tab.nx.all&query=%EC%8F%98%EB%82%98%ED%83%80&oquery=%EC%8F%98%EB%82%98%ED%83%80&tqi=jDu7OwqVJLRssBYqmU8-110763&ackey=po2hah8u";
+      let temp = url.split("?");
+      console.log(temp);
+      let qs = temp[1];
+      qs = qs.split("&");
+      console.log(qs);
+
+      for (let i = 0; i < qs.length; i++) {
+        let q = qs[i].split("=");
+        let name = q[0];
+        let value = q[1];
+        if (name == "query") {
+          console.log(value);
+        }
+        // console.log() //여기 중간 중간에 출력하면서 확인해야함
+      }
+      /*
+    문제1
+    10개의 각 변수에 1~10까지 담기
+
+    문제2
+    [3,4,7,5,1,6]
+    문제 2-1
+    홀수의 개수 구하기
+    문제 2-2
+    4보다 큰 수의 개수 구하기
+
+    문제3
+    마라톤에 5명의 선수가 참가함. 등번호는 1~5번까지 
+    대회가 종료시 완주 목록: [2,4,5,1]
+    완주를 못한 사람은?
+    문제 3-1
+    참가 목록:['나미','우솝','조로','루피','상디']
+    완주목록:['우솝','상디','조로']
+
+    문제4
+    소극장 예약시스템
+    자리는 10개. 자리 번호: 1~10
+    메뉴:1.예약 2.모든 좌석 현황 3.잔여 좌석 x.종료
+    조건1: 예약이 가능하다면 'n번자리 예약 완료!'
+    조건2: 예약이 이미 되어있다면 '이미 예약된 자리입니다'
+
+    문제5
+    로또(1~45) 6개 중복없이 출력하기
+    
+
+    
+
+*/
+    </script>
+  </head>
+  <body></body>
+</html>
+
+<!-- const class=[9]
+//이러면 8책상을 만들고 
+그안에 순서대로 앉은 사람들 -->

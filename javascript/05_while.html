@@ -90,12 +90,12 @@
 
       let rand = parseInt(Math.random() * 6) + 1;
       //+1 인 조건 덕에 1~6까지 쌉가능
-      let count = 0; //주사위를 던진 횟수
+      let count = 1; //주사위를 던진순간 1이 카운트됨
       while (rand != 3) {
         rand = parseInt(Math.random() * 6) + 1;
-        // console.log(rand)
+        count++
       
-      }
+      } console.log(count)
 
       // if(rand==3){
       //   console.log(`${count}만큼 던졌네요`)
