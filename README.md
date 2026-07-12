@@ -243,6 +243,120 @@ searchbox 226*24로 커버(실제 유튜브 검색창 사이즈랑 동일)
 로그인 페이지 야매구성
 
 
+----------------------------------------------------------------------------------------------------------------------
+
+문제1
+  10개의 각 변수에 1~10까지 담기
+  변수 선언 10개의 변수를 담을 방을 구성
+결론:[1,2,3,4,5,6,7,8,9,10]
+  
+*/
+    const arrz = [];
+
+    for (let i = 1; i < 11; i++) {
+      arrz.push(i);
+    }
+    console.log(arrz);
+
+    /*
+문제2
+  [3,4,7,5,1,6]
+  문제 2-1
+  홀수의 개수 구하기-> 홀수는 나누었을때 나머지가 1 이고 그걸 세면됨
+ 
+  그러면 num의 요소%2!=0글이면 됨
+
+  문제 2-2
+  4보다 큰 수의 개수 구하기
+  
+*/
+    // //  문제 2-1부터
+    // let count = 0;
+    // const num = [3, 4, 7, 5, 1, 6];
+    // for (let i = 0; i < num.length; i++) {
+    //   if (num[i] % 2 != 0) {
+    //   count++
+    // 여기서 헷갈린 부분 count++은 이미 변수에 담는 개념임 count+=count이기 때문임
+    // count는 홀수가 나온걸 세는 변수임
+
+    //   }
+    // }
+    // console.log(`홀수의 개수 ${count}개입니다`); //이러면 끝
+
+    let count = 0;
+    const num = [3, 4, 7, 5, 1, 6];
+    for (let i = 0; i < num.length; i++) {
+      if (num[i] > 4) {
+        count++;
+      }
+    }
+    console.log(`4보다 큰수의 개수는 ${count}개입니다`);
+
+    //완주를 한사람은 음번밖에 없음 그렇다면 3번만 솎아내면됨
+    //나는 3번이 실패한 걸 알지만, 컴퓨터는 그걸 몰라서 그 리스트에 있는지 확인해야함
+    // let flag=0 //마라톤을 실패한 사람
+    // 오타 주의
+
+
+    let marathon = [1, 2, 3, 4, 5]; //마라톤 참가 리스트
+    let succes = [2, 4, 5, 1]; //성공한 사람 담음
+    let fail = 0 //  이따가 실패한 사람을 담을 공간
+
+    for (i = 0; i < marathon.length; i++) {
+      let flag = false  //아직 실패자를 못찾았다는 상태 코드임
+      for (j = 0; j < succes.length; j++) {
+        if (succes[j] == marathon[i]) { // 만약 성공자와 전체리스트가 같다면이라는 조건
+          flag = true
+          break // 반복문 탈출
+        }
+
+      }
+
+      if (flag == false) {
+        fail = marathon[i]
+        break
+      }
+    } console.log(`탈락하신분은: ${fail}`)
+
+    // 문제3-1
+    참가목록: ['나미', '우솝', '조로', '루피', '상디']
+    완주목록: ['우솝', '나미', '상디', '조로']
+
+    let list = ['나미', '우솝', '조로', '루피', '상디']
+    let clear = ['우솝', '나미', '상디', '조로']
+    let fail_list = 0
+
+    for (i = 0; i < list.length; i++) {
+      let flag = false  //아직 실패자를 못찾았다는 상태 코드임
+      for (j = 0; j < clear.length; j++) {
+        if (clear[j] == list[i]) { // 만약 성공자와 전체리스트가 같다면이라는 조건
+          flag = true
+          break // 반복문 탈출
+        }
+
+      }
+
+      if (flag == false) {
+        fail_list = list[i]
+        break
+      }
+    } console.log(`탈락하신분은: ${fail_list}`)
+
+
+    //문제 4-1
+
+    let seat_num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] // 예약 번호
+    let reservation = [] // 예약 좌석
+     menu = prompt(`1: 예약 2:모든 좌석 현황 3:잔여 좌석 4: 종료`)
+
+    for (let i = 0; i < seat_num.length; i++) {
+      let flag = false
+
+      for (j = 0; j < reservation.length; j++)
+        if (seat_num[i] == reservation[j]) {
+          reservation.push(seat_num[i])
+        }
+    } console.log(reservation[j])
 
 
 
