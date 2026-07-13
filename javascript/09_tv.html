@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script>
+      // tv만들기
+      // 전원,채널 변경,볼륨
+      //   채널 범위값 지정(0~10)
+      //   -10일 떄 up을 누르면 0으로 돌아감
+      //  0일때 down을 누르면 10번으로
+      //음소거는 볼륨 조절시 해제됨
+
+      const CH_MAX = 10; //채널 최대값
+      const CH_MIN = 0; //채널 최소값
+      const MIN_VOLUME = 0; //최소 볼륨
+      const MAX_VOLUME = 5; //최대 볼륨
+      let muted = true;
+      let last_muted = 0; // 그냥 최종 뮤트값은 0임 볼륨이 0이니까
+
+      let power = false; // 전원 상태 저장 및 전역 변수 선언
+      //   let mute_toggle = false;
+      let last_ch = 0; //채널 기본값
+      let last_volume = 0;
+      function power_on() {
+        power = true; //전원 켜진 상태
+        console.log("TV 켜짐");
+      }
+
+      function power_off() {
+        power = false;
+        console.log("전원 꺼짐");
+      }
+
+      function channel(ch) {
+        if (power) {
+          if (ch < CH_MIN || ch > CH_MAX) {
+            console.log("채널이 없습니다");
+            return;
+          }
+          last_ch = ch;
+          console.log(ch + "번으로 채널 변경");
+        } else {
+          console.log("전원 꺼져있음");
+        }
+      }
+      function channel_up() {
+        if (power) {
+          last_ch++;
+          if (last_ch > CH_MAX) {
+            last_ch = 0; //10이상을 누르면 0번 채널로 변경
+          }
+          console.log(last_ch + "번으로 채널 변경");
+        } else {
+          console.log("채널 꺼져있음");
+        }
+      }
+      function channel_down() {
+        if (power) {
+          last_ch--;
+          if (CH_MIN > last_ch) {
+            last_ch = 0;
+          }
+          console.log(last_ch + "번으로 채널 변경");
+        } else {
+          console.log("채널 꺼져있음");
+        }
+      }
+
+      function volum_up() {
+        if (power) {
+          last_volume++;
+          if (last_volume > 5) {
+            last_volume = 5; // 볼륨이 5보다 커지믄 3으로 재설정
+          }
+          console.log(last_volume + "볼륨으로 변경");
+        } else {
+          console.log("전원 꺼져있음");
+        }
+      }
+
+      function volum_down() {
+        if (power) {
+          last_volume--;
+          if (last_volume < 0) {
+            last_volume = 0; // 볼륨이 0보다 작아지믄 3으로 재설정
+          }
+          console.log(last_volume + "볼륨으로 변경");
+        } else {
+          console.log("전원 꺼져있음");
+        }
+      }
+
+      function mute_toggle() {
+        if (power) {
+          if (muted == true) {
+            last_muted = last_volume;
+            last_volume=0
+            console.log("음소거 성공!" + last_volume);
+            muted = false;
+          } else if (muted == false) {
+            last_volume = last_muted;
+            console.log("음소거 해제"+last_volume);
+            muted = true;
+          }
+        }
+      }
+
+      //음소거 상태인걸 선언해두카
+      power_on();
+      channel_up();
+      // // channel_down()
+
+      volum_up();
+      mute_toggle();
+      mute_toggle();
+
+      //mute를 on/off로 해야할지
+      // 아니면 mute_toggle로 해서
+      // ture/false로 줘서 껐다 켜야할지 고민중
+    </script>
+  </head>
+  <body></body>
+</html>

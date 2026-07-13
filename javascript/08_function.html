@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function hello() {
+        //hello라는 함수임
+        console.log(`hello world`);
+      }
+
+      hello(); //함수 호출
+
+      function getArea(width, height) {
+        let area = width * height;
+        console.log(`width:${width}, height:${height}, 면적: ${area}`);
+      }
+      getArea(30, 50);
+
+      function getArea2(width, height) {
+        let area = width * height;
+        return area;
+      }
+      let result = getArea2(10, 20);
+      console.log(result);
+
+      function plus(x, y) {
+        console.log(`x: ${x}`);
+        console.log(`y: ${y}`);
+
+        const z = x + y;
+        return z;
+      }
+      result = plus(2, 3);
+      console.log(result);
+
+      result = plus(2, plus(5, 6));
+      console.log(result);
+
+      const z = plus(2, 3);
+
+      {
+        const a = 10;
+        {
+          const b = 20;
+          console.log(`b, ${b}`);
+        }
+        // console.log(b);
+      }
+
+      function plus2(x, y) {
+        console.log(`x: ${x}`);
+        console.log(`y: ${y}`);
+        if (y == undefined) {
+          console.log(`y값 입력 못받음`);
+          y = 0;
+        }
+        const z = x + y;
+        return z;
+      }
+
+      plus2(2);
+
+      function plus3(x, y = 0) {
+        //기본값주기
+        console.log(`x: ${x}`);
+        console.log(`y: ${y}`);
+
+        const z = x + y;
+        return z;
+      }
+      a = plus3(2);
+      console.log(a);
+
+      a = plus3(2, 3, 4);
+
+      let noName = function () {
+        console.log(`익명 함수`);
+      };
+      //   function noName() {}
+      noName();
+
+      let noName2 = noName;
+      noName2();
+
+      function test(fn) {
+        console.log("test");
+        console.log(typeof fn);
+        if (typeof fn == "function") {
+          fn();
+        }
+        fn();
+      }
+      test(noName);
+
+      function print() {
+        console.log(`print실행`);
+      }
+      function print() {
+        console.log(`2번째 print실행`);
+      }
+      print();
+      console.log(print);
+      let p = print;
+      p();
+
+      let c = console;
+      c.log(123);
+
+      function test1() {
+        console.log("test1");
+        return 3;
+      }
+      function test2(a) {
+        console.log("test2");
+        console.log(a);
+      }
+
+      test2(test1);
+
+      //  시간 지연 함수
+      let yahoo = function () {
+        console.log("야호");
+      };
+      //  setTimeout(함간, 지연시간 ms단위)
+      setTimeout(yahoo, 3000); //예약하는거
+      setTimeout(yahoo, 4000);
+      //setTimeout의 리턴값은임예약 번호임
+      let idx = setTimeout(function () {
+        console.log("야호!!!!!!!!!!!!!!!");
+      }, 1000);
+      console.log(idx);
+      clearTimeout(idx); //예약취소
+
+      //   재귀 함수
+      //   function rc(cb) {
+      //     cb();
+
+      //     setTimeout(cb,
+      //     1000);
+      //   }
+      //        function rc(cb) {
+      //     cb();
+
+      //     setTimeout(cb,
+
+      //     1000);
+      //   }
+      yahoo();
+      let idx2 = setInterval(function () {
+        console.log("인터발");
+      }, 1000 * 2);
+
+      setTimeout(function () {
+        clearInterval(idx);
+      }, 1000 * 2);
+      //   clearInterval(idx2)
+      // 10최 뒤에 인터기 출력 끄기
+    </script>
+  </head>
+  <body></body>
+</html>
