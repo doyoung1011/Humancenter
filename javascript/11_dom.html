@@ -1,0 +1,158 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #view {
+        color: red;
+      }
+
+      div.pizza {
+        font-size: 2em;
+      }
+      .blue {
+        color: blue;
+      }
+      .bg-yellow {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">DOM 연습</h1>
+
+    <div id="view">첫번째 view</div>
+    <div id="view" class="pizza">두번째 view</div>
+
+    <ul id="메뉴">
+      <li class="menu li1">치킨</li>
+      <li class="menu pizza">피자</li>
+      <li class="menu">똠양꿍</li>
+      <li>집밥</li>
+    </ul>
+
+    <img
+      id="aha"
+      alt="아하모먼트!"
+      style="width: 100px"
+      src="https://dcimg1.dcinside.com/viewimage.php?id=3eb4de21e9d73ab360b8dab04785736f&no=24b0d769e1d32ca73dea83fa11d028319fcc22bb8e6c7e0fd5579701e1bff5064abf11cee475015772a7a1d95dc4d48b36830006bde4571f6404873bd4ccabe16cc2ad104c92b6d6893048aa4c604957e0020bd8fb984d5c24a6634e051f98e53e1ad31868124f73b78ea9b7cb&orgExt"
+    />
+
+    <div id="div1">div1</div>
+    <div id="div2" class="">div2</div>
+    <script>
+      //DOM은 무엇인가
+      //javascript로 수정이 가능한 대상
+
+      console.log(document);
+
+      //id 속성으로 DOM을 가져오기
+      const title = document.getElementById("title");
+      console.log(title);
+      console.log("" + title);
+      // 없으면 null
+      const title2 = document.getElementById("title2");
+      console.log(title2);
+
+      //동일한 id가 여러개 있어도
+      //   첫번쨰 DOM만 가져온다
+
+      const view = document.getElementById("view");
+      console.log(view);
+
+      //   잘 안쓰지만 tag로 찾기!
+
+      let divs = document.getElementsByTagName("div2");
+      console.log(divs);
+
+      let divs2 = document.getElementsByTagName("div2");
+      console.log(divs2);
+
+      if (divs2) {
+        console.log("참");
+      }
+
+      let menus = document.getElementsByClassName("menu");
+      console.log(menus);
+
+      //직접 .메뉴를 가져오기
+      let 메뉴 = document.getElementById("메뉴");
+
+      //   //특정 DOM안에서도 찾을 수 있다
+      //   let pizza = menus.getElementsByClassName("pizza");
+      //   console.log(pizza);
+
+      //   querySelector
+      // CSS 선택자를 사용할 수 있다
+      // 하나의 DOM만 돌려준다
+      // 여러개인 경우 첫번째 DOM만 돌려준다
+      // 없는 경우 null
+      console.log("---------------------");
+      let view2 = document.querySelector("div.pizza");
+      console.log(view2);
+
+      console.log("---------------------");
+      let view3 = document.querySelector("#view");
+      console.log(view3);
+
+      console.log("---------없을 경우------------");
+      let view4 = document.querySelector("#view4");
+      console.log(view4);
+
+      let qsa = document.querySelectorAll("#view");
+      console.log(qsa);
+
+      // // // // // // // // // // // // // // // // //
+      // 속성
+      // // // // // // // // // // // // // // // // //
+
+      let aha = document.querySelector("#aha");
+      console.log(aha);
+
+      // 속성명이 있는가
+      let isSrc = aha.hasAttribute("src");
+      console.log(isSrc);
+      //  속성값 가져오기
+      let src = aha.getAttribute("src");
+      console.log(src);
+      // 없으면 null
+      let src2 = aha.getAttribute("src2");
+      console.log(src2);
+
+      setTimeout(function () {
+        aha.setAttribute(
+          "src",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUqXMJ5bcfrUiSO9-XUev1K67qXjLPnCM_-qRyQ7HrZEErS0zgpSCqxCMN&s=10",
+        );
+      }, 1000 * 2);
+
+      // 2초 후에 바뀌게 하기
+
+      //  없으면 추가
+
+      aha.setAttribute("human", "교육센터");
+      //속성 지우기
+      aha.removeAttribute("human");
+
+      //클래스 조작
+
+      let div1 = document.getElementById("div1");
+      let div2 = document.getElementById("div2");
+
+      //class를 배열로 돌려줌
+      console.log(div2.classList);
+      div1.classList.add("blue");
+      //   이미 있는것은 추가하지 않는편임
+      div1.classList.add("blue");
+
+      div1.classList.remove("blue");
+      div1.classList.remove("blue");
+
+      let isBlue = div1.classList.contains("blue");
+      console.log("isBlue", isBlue);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script>
+      const str = "기사도가 죽었을 리가";
+      //   문자열의 길이
+      console.log("str.length", str.length);
+
+      //indexOf
+      //   동일한 글씨 찾기
+      //   있으면 동일한 첫쨰 글씨 index 반환
+      // 없으면 -1
+
+      console.log(str.indexOf("죽었"));
+      console.log(str.indexOf("가"));
+      console.log("나", str.indexOf("나"));
+
+      //   replace-> 첫번째 전달인자를 두번쨰 전달인자로 바꿈
+      // 단, 처음 만나는 것만 바꾼다
+
+      let s1 = str.replace("죽었", "살았");
+      console.log(str);
+      console.log(s1);
+
+      let s2 = str.replace("가", "나");
+      console.log(s2);
+
+      //식정규 표현식
+      s2 = str.replace(/가/g, "나");
+      console.log(s2);
+      //   slice
+      // 시작부터 끝 바로 앞까지 복사
+
+      console.log(str.slice(3, 6));
+
+      console.log(str.split(" "));
+      console.log("----------------");
+      let s = str.substring(3, 6);
+      //   console.log(str);
+      console.log(s);
+
+      console.log("--------substr--------");
+      // 시작 index부터 몇 개
+      s = str.substr(3, 7);
+      console.log(s);
+
+      //   trim
+      let str2 = "    1 2  3   ";
+      s = str2.trim();
+      console.log(s);
+
+      //   실무에서 쓸만한거
+
+      str2 = "    ";
+      if (str2.length != 0) {
+      }
+      if (str2.trim().length != 0) {
+      }
+
+      // 문제 1
+      // 어떤 이메일에서 id만 출력하기 ->@기준 출력하면될거임
+      //   console.log("----------------");
+      //   const mail = "ydy7071@gmail.com";
+      //   a = mail.indexOf("@"); // @위치를 알아야 찾을수 있음
+      //   console.log(a); // @ 위치
+
+      //   b = mail.slice(0, a);
+      //   console.log(b);
+
+      //문제2
+      // 주민번호로 성별 출력하기
+      console.log("--------성별 출력--------");
+      const jumin = "000000-300000";
+      a = jumin.indexOf("-"); //6번째 위치에 있대에
+      console.log(a); // -위치 기준으로 자름
+      b = jumin.slice(a + 1); //이를 통해서 -기호 제거(a+1)
+      console.log(b);
+
+      //여기서 30000에서 3만 추출해야함 추출 성공
+      const gender_code = jumin.substr(a + 1, 1); //a+1한게 시작점이니까, 그다음이 거기서 1
+      console.log(gender_code);
+
+      if (gender_code == 3 || gender_code == 1) {
+        console.log("남자");
+      } else if (gender_code == 4 || gender_code == 1) {
+        console.log("여자");
+      }
+
+      //문제3
+      console.log("------------문제 3 ------------");
+      // 2026-07-14 12:43:19 월, 분 출력하기
+
+      const time = "2026-07-14 12:43:1";
+      //   월부터 출력
+      arr = time.split("-");
+      console.log(arr); // - 위치알아냄- month위치를 통해서 찾아낼수 있을듯
+      console.log(arr[1]); // 결론적으로 여기에 월을 추가해야함
+
+      //   console.log(`${b}년`);
+
+      // ------------------------------------------------------
+      // 4번째 문제
+      // 보안상 당첨 이메일을 가려서 출력
+
+      // 5번 문제 앞 두글자만 제대러 표시하고. *표 4개 표시하고 *표는 가려잔 개수만큼 전부 출력
+
+      //   강사님 코드 참고후 추가 공부해야함
+
+      let email = "sutdy.todair@gmail.com";
+      //앞의 것만 가져오기 1.split 가능 2. indexOf도 가능함
+
+      //   let id=email.split("@")[0] // 배열의 첫번쨰 요소를 출력
+      let pos = email.indexOf("@");
+      let id = "";
+
+      console.log(id);
+    </script>
+  </head>
+  <body></body>
+</html>

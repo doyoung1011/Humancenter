@@ -75,10 +75,10 @@
       // 주사위 두개로 나올수 있는 합 별 조합
       // 예 :
       /*
-        합 2 : [1, 1]
-        합 3 : [1, 2] [2, 1]
-        합 4 : [1, 3] [2, 2] [3, 1]
-    */
+                합 2 : [1, 1]
+                합 3 : [1, 2] [2, 1]
+                합 4 : [1, 3] [2, 2] [3, 1]
+            */
 
       // 이것도 문제 4번에서 가져다가 쓰면될거같음
       // 이게 전에 썼던 코드인데 이건 그냥 조합별로 보여줌
@@ -92,11 +92,11 @@
       // if(i+j=2) 이런 조건인건데 합은 어쨋든 간에
       // 그렇다면 3이 될떄는 i+j=3  4일때는 i+j=4 결론적으로 i+j==k라는게 if문에 들어가야함
       /*
-        합 2 : [1, 1]
-        합 3 : [1, 2] [2, 1]
-        합 4 : [1, 3] [2, 2] [3, 1]
-    
-    */
+                합 2 : [1, 1]
+                합 3 : [1, 2] [2, 1]
+                합 4 : [1, 3] [2, 2] [3, 1]
+
+            */
 
       // for (let k = 2; k <= 12; k++) {
       //   for (let i = 1; i <= 6; i++)
@@ -148,6 +148,78 @@
         }
         console.log(i);
       }
+
+      console.log("---------------------------------------");
+
+      let arr = [1, 2, 3, 4, 5, 6, 7];
+      //for in
+      // in 앞의 변수 i에 현재 index를 저장함
+      // 무조건 처음부터 끝까지
+      for (let i in arr) {
+        console.log("index:", i);
+        console.log("값", arr[i]);
+      }
+
+      console.log("---------------------------------------");
+      // for of
+      // of 앞의 변수에 현재 값을 저장함
+
+      for (let i of arr) {
+        console.log("i", i);
+      }
+      // forEeach: 각 항목별 반복 실행
+      console.log("---------------------------------------");
+      arr.forEach(function (a, b, c, d) {
+        console.log("a:", a);
+        console.log("b:", b);
+        console.log("c:", c);
+        console.log("d:", d);
+      });
+
+      arr.forEach(function (현재값, 인덱스, 배열) {
+        console.log("element:", 현재값);
+        console.log("index:", 인덱스);
+        console.log("array:", 배열);
+      });
+
+      // map: forEach와 비슷함 return으로 구성된 새로운 배열을 돌려줌
+      console.log("---------------------------------------");
+      let r2 = arr.map(function (el, i, a) {
+        console.log(el, i, a);
+        if (el % 2 == 0) {
+          return "짝";
+        } else {
+          return "홀";
+        }
+      });
+      console.log(r2); //undefined
+      console.log("---------------------------------------");
+      let movie = ["호프", "스파이더맨-브랜듀 뉴 데이", "오디세이", "모아나"];
+      let r3 = movie.map(function (el) {
+        return el.length;
+      });
+
+      let r4 = movie.map((el) => el.length);
+      console.log(r3);
+
+      r3.sort(function (y, x) {
+        // return y-x //오름차순
+        return x - y; //내림차순
+      });
+      console.log(r3);
+
+      r3.sort((y, x) => y - x); //화살표 함수( Arrow 함수)
+      console.log(r3);
+
+      console.log(r3[r3.length - 1]);
+
+      // 필터는 리턴값만 배열로 감
+      let r6 = movie.filter(function (el, i, a) {
+        if (el.length >= 4) {
+          return el;
+        }
+      });
+      console.log(r6);
     </script>
   </head>
   <body></body>

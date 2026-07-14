@@ -17,7 +17,7 @@
       const CH_MIN = 0; //채널 최소값
       const MIN_VOLUME = 0; //최소 볼륨
       const MAX_VOLUME = 5; //최대 볼륨
-      let muted = true;
+      let muted = true; //뮤트의 상태
       let last_muted = 0; // 그냥 최종 뮤트값은 0임 볼륨이 0이니까
 
       let power = false; // 전원 상태 저장 및 전역 변수 선언
@@ -72,7 +72,7 @@
       function volum_up() {
         if (power) {
           last_volume++;
-          if (last_volume > 5) {
+          if (last_volume > MAX_VOLUME) {
             last_volume = 5; // 볼륨이 5보다 커지믄 3으로 재설정
           }
           console.log(last_volume + "볼륨으로 변경");
@@ -84,7 +84,7 @@
       function volum_down() {
         if (power) {
           last_volume--;
-          if (last_volume < 0) {
+          if (last_volume < MIN_VOLUME) {
             last_volume = 0; // 볼륨이 0보다 작아지믄 3으로 재설정
           }
           console.log(last_volume + "볼륨으로 변경");
@@ -95,18 +95,24 @@
 
       function mute_toggle() {
         if (power) {
-          if (muted == true) {
+          if (muted == true) { //뮤트 상태 
             last_muted = last_volume;
-            last_volume=0
+            last_volume = 0;
             console.log("음소거 성공!" + last_volume);
             muted = false;
           } else if (muted == false) {
             last_volume = last_muted;
-            console.log("음소거 해제"+last_volume);
+            console.log("음소거 해제" + last_volume);
             muted = true;
           }
         }
       }
+
+      // 강사님 코드는 전체적 틀은 비슷한데 muted 기본값이 false
+      //  last_muted = last_volume;
+      // last_volume=0 -> 이런 변수를 주지 않고 음소거 성공 표시만 함..
+      //  그정도 차이가 있다 정도 끄읏
+      // 그거랑 최초 뮤트값이 true인데 조금 이상한 상태라서 상태 반전시켜야함
 
       //음소거 상태인걸 선언해두카
       power_on();
