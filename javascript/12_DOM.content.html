@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="msg"><span>원래</span> 있던 글씨</div>
+
+    <div id="count">0</div>
+    <div id="clock">0</div>
+    <div id="log">원래 있던 글씨</div>
+
+    <table border="1">
+      <tbody id="tbody">
+        <tr>
+          <!-- <td>첫쨰칸</td>를 만들기
+             태그안에 태그 넣기가 관건인 문제 -->
+        </tr>
+      </tbody>
+    </table>
+
+    <table border="1">
+      <thead>
+        <tr></tr>
+      </thead>
+
+      <tbody id="board"></tbody>
+    </table>
+    <script>
+      const msg = document.querySelector("#msg");
+      console.log(msg);
+
+      // 태그 안쪽의 글씨들(켄텐츠)를 가져온느 방법들
+      // textContent
+      // 컨텐츠 영역의 소스 중에서 text(글씨)만 그대로 가져옴
+      console.log("msg.textContent", msg.textContent);
+
+      // innderText
+      // 브라우저에 보이는 글씨로 가져온다.
+      // -브라우저가 보여줄 내용에 대한 계산이 끝나고 실제로 표시하는 text-
+      console.log("msg.innderText", msg.innerText);
+
+      //  innerHTML
+      console.log("msg.innderText", msg.innerHTML);
+      // 아묻따 다 가져옴
+
+      //  위의 것은 변수의 내용을 읽은 것임
+      //  변수의 값을 담을 수 있음
+      //   이는 컨텐츠의 내용을 바꿀수 있음을 의미함
+
+      //   textContent, innderText는 tag도 글씨로 인식함
+
+      //   msg.textContent = "<h1>제목</h1>  a   b   c";
+      //   msg.innerText = "<h1>제목</h1>  a   b   c";
+      msg.innerHTML = "<h1>제목</h1>  a   b   c";
+      msg.innerHTML += "d";
+      //  innderHTML은 생각보다 강력한 녀석임
+      msg.innerHTML = '<a href=javascript:alert(1);" >눌러바</a>';
+
+      //   const count = document.querySelector("#count");
+      //   setInterval(function () {
+      //     const count = document.querySelector("#count");
+      //     let cnt = count.textContent;
+      //     cnt =Number(cnt)+1
+      //     count.innerText=cnt
+      //   }, 1000);
+
+      //   clock에 시간을 몇분 몇초가 나오게 계속 갱신하게 ㄱㄱ
+
+      setInterval(function () {
+        const now = new Date();
+        //  const d = now.getDate();
+        const m = now.getMinutes();
+        const s = now.getSeconds();
+        // 여기는 기존에 있던 date 파일에서 가져온거임
+
+        const clock = document.querySelector("#clock"); // 불러와서 clock 변수에 저장
+
+        const time = m + "분" + s + "초";
+        clock.textContent = time;
+      }, 250);
+
+      //   dom 생성하기
+
+      //   DOM 요소 생성
+      const div = document.createElement("div");
+      console.log(div);
+      // <div id='lol></div>
+      div.setAttribute("id", "lol");
+      // <div id='lol'>정글차이</div>를 만드시오
+
+      div.innerText = "정글차이";
+      console.log(div); //style을 넣을수 있음
+      div.setAttribute("style", "color:red;");
+
+      const log = document.querySelector("#log"); //html에서 가져오기
+      log.append(div); //자식 요소로 추가된다
+
+      log.append("<h1>abcd</h1>"); //글씨도 넣을수는 있다
+      //   같은 객체는 이동된다
+      //   같은 객체를 두번 append할 떄 조심해야함
+
+      log.append(div);
+      const p = document.createElement("p");
+      p.textContent = "p태그";
+
+      //   appendChild
+      // append 처럼 마지막 자식 요소로 추가됨
+      // DOM만 넣을 수 있다
+      log.appendChild(p);
+      //   log.appendChild('ABCD'); // 글씨는 안됨
+
+      const p2 = document.createElement("p");
+      p2.textContent = "p2";
+
+      //  prepend: 첫번째 자식 요소로 추가
+      log.prepend(p2);
+
+      //   형제로 넣는 경우
+      const p3 = document.createElement("p3");
+      p3.textContent = "p3";
+
+      log.before(p3);
+
+      const p4 = document.createElement("p4");
+      p4.textContent = "p4";
+      log.after = p4;
+
+      //    <td>첫쨰칸</td>를 만들기
+      //              태그안에 태그 넣기가 관건인 문제
+
+      //   let tr = document.createElement("tr"); //tr태그 생성
+
+      //   let td = document.createElement("td"); //td태그 생성
+
+      //   td.innerText = "첫째칸";
+      //   tr.append(td);
+
+      //   let tbody = document.querySelector("#tbody");
+      //   tbody.prepend(tr);
+
+      //    <td>첫쨰칸</td>를 만들기
+      //              태그안에 태그 넣기가 관건인 문제
+
+      let tr = document.createElement("tr");
+      // console.log(tr); // 테스트용 코드
+      let td = document.createElement("td");
+      //   요소를 미리 생성함
+
+      td.innerText = "첫쨰칸"; // 첫쨰 칸 글씨를 tr에 넣기
+      // console.log(td); // 이를 통해서 td에 글씨가 들어감을 확인
+      tr.append(td); // 자식요소로 넣겠다는 의미
+      // console.log(tr); //자식요소로 들어감을 확인
+
+      let tbody = document.querySelector("#tbody"); // 이는 id="tbody"로 설정했기 때문임
+      tbody.prepend(tr);
+      // console.log(tbody)
+
+      //    <tbody id="board">
+      //    <tr>
+      //     <th>제목</th>
+      //      <th>작성자</th>
+      //    </tr>
+
+      const rows = [
+        ["제목1", "작성자1"],
+        ["제목2", "작성자2"],
+        ["제목3", "작성자3"],
+        ["제목4", "작성자4"],
+        ["제목5", "작성자5"],
+      ]; //배열이고 이걸 넣음
+
+      // 게시물을 이용해서 게시판 동적으로 만들기
+
+      //   let tr1 = document.createElement("tr");
+      //   let td1 = document.createElement("td");
+      //   let td2 = document.createElement("td");
+      /*
+ <tbody id="board">
+   <tr>
+        <td>
+        </td>
+
+        <td>
+        </td>
+    </tr>
+
+ </tbody>
+*/
+      //   console.log(td1);
+      let board = document.querySelector("#board"); // 밑에서 쓸꺼라서 for문 밖에 선언함
+
+      for (let i = 0; i < rows.length; i++) {
+        let tr1 = document.createElement("tr");
+
+        let td1 = document.createElement("td");
+        td1.innerText = rows[i][0];
+
+        let td2 = document.createElement("td");
+        td2.innerText = rows[i][1];
+
+
+        // append공부하기이
+        //tr밑에다가 처음으로 td1을 넣겠다
+        tr1.append(td1);
+
+        //td2를 tr에 넣을거다
+        // tr1에다가 td2를 넣겠따
+        tr1.append(td2)
+
+
+        board.append(tr1)
+      }
+
+      console.log(board);
+
+      //   let board1 = document.querySelector("#board");
+      //   td1.innerText = rows[0][0]; // 제목을 하드코딩하는게 아니라 배열에서 뽑아오기
+      //   tr1.append(td1);
+      //   let board = document.querySelector("#board");
+      //   board.prepend(tr1);
+
+      //   td2.innerText = rows[0][0];
+      //   tr1.append(td2);
+      //   let board2 = document.querySelector("#board");
+      //   board.prepend(tr1);
+      //   // 여기까지가 한줄 만들기 코드임
+
+      //   console.log(board);
+
+      // 여기에 넣어서 돌리면 될거같음 어쨋든 반복을 해야하니까 근데 중요한건
+
+      console.log(rows[0][0]);
+      console.log(rows[1][0]); // 이렇게 하드코딩을 할 순없으니 반복문 진행함
+
+      //  이러면 한줄 그려짐 -> 반복문을 돌려서 해결하면 될거같음
+
+      // 배열에서 뽑아와서 그걸 반복문 돌리기 코드임
+
+      //
+    </script>
+  </body>
+</html>

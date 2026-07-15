@@ -42,7 +42,7 @@
     />
 
     <div id="div1">div1</div>
-    <div id="div2" class="">div2</div>
+    <div id="div2" class="bg-yellow">div2</div>
     <script>
       //DOM은 무엇인가
       //javascript로 수정이 가능한 대상
@@ -75,6 +75,8 @@
         console.log("참");
       }
 
+      // class로 찾는 경우//////////////////////////////////////
+      
       let menus = document.getElementsByClassName("menu");
       console.log(menus);
 
@@ -153,6 +155,13 @@
 
       let isBlue = div1.classList.contains("blue");
       console.log("isBlue", isBlue);
+
+      // div2를 가져와서  .blue 적용하기
+      div2.classList.add('blue')
+
+      div2.remove()
+
+      
     </script>
   </body>
 </html>
