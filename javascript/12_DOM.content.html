@@ -26,8 +26,31 @@
         <tr></tr>
       </thead>
 
-      <tbody id="board"></tbody>
+      <tbody id="board">
+        <!-- <tr>
+          <td></td>
+        </tr> -->
+      </tbody>
     </table>
+
+    <!-- 구분선 구분선 구분선 -->
+
+    <table border="1">
+      <thead>
+        <tr></tr>
+      </thead>
+
+      <tbody id="product_list"></tbody>
+    </table>
+
+    <div class="quiz q1">힌트만 달라</div>
+
+    <div class="quiz q2">퀴즈2</div>
+    <div class="quiz q2-1">퀴즈2-1</div>
+    <div class="quiz q2-2">퀴즈2-2</div>
+    <div class="quiz q2"></div>
+    <div class="quiz q2-1">퀴즈2-1</div>
+
     <script>
       const msg = document.querySelector("#msg");
       console.log(msg);
@@ -201,17 +224,15 @@
         let td2 = document.createElement("td");
         td2.innerText = rows[i][1];
 
-
         // append공부하기이
         //tr밑에다가 처음으로 td1을 넣겠다
         tr1.append(td1);
 
         //td2를 tr에 넣을거다
         // tr1에다가 td2를 넣겠따
-        tr1.append(td2)
+        tr1.append(td2);
 
-
-        board.append(tr1)
+        board.append(tr1);
       }
 
       console.log(board);
@@ -239,7 +260,162 @@
 
       // 배열에서 뽑아와서 그걸 반복문 돌리기 코드임
 
-      //
+      //쉽게 다시 만드는법도 있다.
+
+      // // // // // // // // // // // // // // // // // // // // // // //
+      // // // // // // // // // // // // // // // // // // // // // // //
+
+      const products = [
+        ["키보드", 50000, 10],
+        ["마우스", 30000, 5],
+        ["모니터", 250000, 3],
+        ["스피커", 70000, 8],
+      ];
+
+      //    <tbody id="product_list">
+      //    <tr>
+      //     <td>키보드</td>
+      //     <td>마우스</td>
+      //     <td>스피커</td>
+      //    </tr>
+
+      // let product_list = document.querySelector("#product_list");
+
+      let tr1 = document.createElement("tr");
+
+      let td1 = document.createElement("td");
+      let td2 = document.createElement("td");
+      let td3 = document.createElement("td");
+
+      for (let i = 0; i < products.length; i++) {
+        let product_list = document.querySelector("#product_list");
+        tr1.append(td1);
+        td.innerText = products[i][0];
+        tr1.append(td2);
+        td2.innerText = products[i][0];
+        tr1.append(td3);
+        td3.innerText = products[1][i];
+      }
+
+      // // // // // // // // // // // // // // // // // // // //
+      // let str = "";
+      // for (let i = 0; i < 5; i++) {
+      //   // str +=i //
+      //   str = i + str;
+      // }
+      // console.log(str);
+
+      const body = document.querySelector("body");
+      const style = document.createElement("style"); // 스타일 태그 생성됨
+      /*
+        <style>
+          #board{
+          border: 1px solid red}
+
+          </style>
+      */
+      style.innerText = `
+       #board{
+          border: 1px solid red;
+        }
+   
+     `;
+      body.append(style);
+      // body.append(script);
+
+      //////////////////////////////////////////////////////////////////
+      //style
+
+      const clock = document.getElementById("clock"); //css선택자
+      clock.style.color = "red";
+      clock.style.fontSize = "1.5em"; //css선택자에서 -있는부분은 카멜케이스로 들어감
+      console.log(clock.style);
+      console.log(clock.style.color);
+      console.log(clock.style.height);
+      clock.style.height = "50px";
+      console.log(clock.style.height);
+
+      let w = window.getComputedStyle(clock, null).getPropertyValue("width");
+      console.log("w", w);
+
+      clock.style.border = "1px solid salmon";
+
+      // 기존 높이보다 5px 크게 출력하기
+      clock.style.height = parseInt(Math.random() * 100) + "px";
+      console.log(clock.style.height);
+
+      clock.style.height = parseInt(clock.style.height) + 5 + "px";
+      //  pareInt를 통해서 숫자를 추출해서 거기다가 5를 더하고 px를 붙힌 경우임
+
+      // 문제 1
+      // <div class='quiz q1'>힌트만 달라</div>
+      // 글씨 마지막에 붙이기
+      // "힌트만 달라 쮸인님~♥"
+
+      let divs = document.querySelector(".quiz.q1");
+      // console.log(divs)// 그냥 확인용
+      divs.innerText = divs.innerText + "쮸인님~♥";
+      // 원래 있던 글씨에다가 쮸인님을 이어서 붙혀라
+
+      // 문제2
+
+      // 위 코드 중 클래스 q2가 몇개인가?
+      // 2개
+
+      /*
+            <div class='quiz q2'>퀴즈2</div>
+            <div class='quiz q2-1'>퀴즈2-1</div>
+            <div class='quiz q2-2'>퀴즈2-2</div>
+            <div class='quiz q2'></div>
+            <div class='quiz q2-1'>퀴즈2-1</div>
+        */
+
+      // class가 quiz면서 q2인 클래스 찾기
+      // .quiz.q2
+
+      let quiz_find = document.querySelectorAll(".quiz.q2");
+      console.log(quiz_find.length + "개");
+
+      // 문제3
+      // 위 코드에서 q2를 가지는 태그의 글씨를 출력하시오
+      console.log('------------')
+      let quiz_select = document.querySelectorAll(".quiz.q2");
+       for (let i = 0; i < quiz_select.length; i++){
+        if(quiz_select[i].innerText==0){
+          quiz_select[i].innerText='비어있음'
+        } 
+         console.log(quiz_select[i].innerText)
+       
+
+       } 
+      //  문자열이 0이면 
+      // console.log(quiz_select.innerText);
+
+      // 문제4
+      // 위 코드 중 글씨가 없는 태그의 내용을 "비어있음"으로 바꾼다
+
+      // let quiz_select1 = document.querySelectorAll(".quiz");
+      // //
+
+      // for (let i = 0; i < quiz_select1.length; i++) {
+      //   // quiz_select1.innerText = "";
+      //   if (quiz_select1[i].innerText == "") {
+      //     quiz_select1[i].innerText = "비어있음";
+      //   }
+      // }
+
+
+      /*
+      퀴즈를 전부가져온다
+      빈칸을 찾는다  innerText가 공란임
+      그걸 비어있음이라고 표시하고 출력한다
+      quiz_select1.innerText = ""; 이걸로 강제로 초기화시키고
+      없는 값에 뒤집어 썼으므로 코드 수정해야함
+      
+
+
+
+      */
     </script>
   </body>
 </html>

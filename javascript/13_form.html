@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" id="id" value="abcd" /><br />
+      <input type="password" id="pw" /><br />
+      <input type="date" id="date" /><br />
+      <script>
+        setTimeout(() => {
+          const text = document.querySelector("#id");
+          //   console.log("text", text.value);
+          const password = document.querySelector("#pw");
+
+          //   console.log("text", text.value);
+          text.value = "12345";
+          console.log("password", password.value);
+          password.value = "abcd";
+          //  id date인 dom을 가져와서
+          //  아무것도 선택하지 않았을때 무슨 값인지
+          //   js로 날짜를 오늘로 바꾸기
+          const date = document.querySelector("#date");
+
+          //   console.log("date:", date.value);
+          date.value = "2026-07-15";
+          const today = new Date();
+          const y = today.getFullYear();
+          let m = today.getMonth() + 1;
+
+          if (m < 10) {
+            m = "0" + m;
+          }
+
+          let d = today.getDate();
+          d = ("0" + d).slice(-2); //뒤에서부터 두번째
+
+          const result = `${y}-${m}-${d}`;
+          date.value = result;
+          //  console.log
+          console.log(today.toISOString().split("T")[0]);
+        }, 1000 * 3);
+        
+        // 집가서 복습 필수
+      </script>
+    </form>
+  </body>
+</html>
