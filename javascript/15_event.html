@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .warning {
+        color: red;
+      }
+      body {
+        height: 300vh;
+      }
+
+      #top {
+        position: fixed;
+        right: 10px;
+      }
+
+      #game {
+        width: 100px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+
+    <!-- <script src="asset/js/15_event.js"></script> -->
+  </head>
+  <body onload="init()">
+    <div>
+      <button type="button" id="btn1">버튼1</button><br />
+      <button type="button" id="btn2">버튼2</button><br />
+      <button type="button" id="btn3" onclick="btn3click()">버튼3</button><br />
+      <button type="button" id="btn4">버튼4</button><br />
+
+      <div>
+        아이디:<input type="text" id="id" /><br />
+        비밀번호:<input type="password" id="pw" /><br />
+        <div class="warning"></div>
+        <input type="button" id="login" value="로그인" />
+      </div>
+    </div>
+
+    <!-- <img src="" id="game"> -->
+
+    <div id="view">
+      <!-- <div class="log"></div> -->
+    </div>
+    <button type="button" id="top">맨위로</button>
+
+    <script src="asset/js/15_event.js"></script>
+  </body>
+</html>
