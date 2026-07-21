@@ -71,34 +71,57 @@ login.addEventListener('click', function () {
     console.log(pw.value)
 
     // id를 적었는지 판단
-    if (id.value.trim() == '') {
+  if (id.value.trim() == '') {
 
-        console.log('아이디는 필수입니다')//이건 그냥 확인용
-        warning.innerText = '아이디는 필수 입니다'// 이너텍스트로 내용 넣기
+    console.log('아이디는 필수입니다')//이건 그냥 확인용
+    warning.innerText = '아이디는 필수 입니다'// 이너텍스트로 내용 넣기
 
-        log('아이디는 필수입니다')
+    log('아이디는 필수입니다')
 
-        // <div class="log">글씨 출력</div>
+    // <div class="log">글씨 출력</div>
 
+}
+else if (pw.value.trim() == '') {
+    console.log('아이디는 필수입니다')
+    warning.innerText = '비밀번호는 필수 입니다'
+
+
+    log('비밀번호는 필수입니다')
+}
+document.querySelector('#id').addEventListener('keyup', function (event) {
+    // log('keyup 발생')
+    // console.log(event)// 콘솔로 찍어서 뭐나오나 확인
+    // log('key' + event.key)
+    // log('keyCode:' + event.keyCode)
+
+    // log('shiftKey:' + event.shiftKey)
+    // log('ctrlKey:' + event.ctrlKey)
+    // log('alterKey:' + event.alterKey)
+
+    if(event.keyCode==13){
+        //엔터
+        log('엔터 뽱!')
+        const pw = document.querySelector('#pw')
+        pw.focus(   )
     }
-    else if (pw.value.trim() == '') {
-        console.log('아이디는 필수입니다')
-        warning.innerText = '비밀번호는 필수 입니다'
 
-
-        log('비밀번호는 필수입니다')
+    if(event.ctrlKey && event.keyCode ==67){// 복사방지 코드
+        alert('ctr1+c 금지!')
     }
-    document.querySelector('#id').addEventListener('keyup', function (event) {
-        log('keyup 발생')
-        console.log(event)// 콘솔로 찍어서 뭐나오나 확인
-        log('key' + event.key)
-        log('keycode:' + event.keycode)
+}
+)
+document.querySelector('pw').addEventListener('keyup',function(event){
+    if(event.keyCode==13){
+        //엔터일경우
+        const login=document.querySelector('#login')
+        login.click()
     }
-)}
+})
 
+
+}
 
 )
-
 
 
 

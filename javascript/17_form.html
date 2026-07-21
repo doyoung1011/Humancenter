@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="asset/17_form.js"></script>
+  </head>
+  <body>
+    <form
+      id="form"
+      action="https://search.naver.com/search.naver"
+      method="get"
+      target="_blank"
+    >
+      검색: <input type="text" id="query" name="query" /><br />
+
+      <input type="submit" value="검색" />
+    </form>
+
+    <div id="parent">
+      부모
+      <div id="child1">자식1</div>
+      <div id="child2">자식2</div>
+    </div>
+
+    <table id="board" border="1">
+      <tr>
+        <td>
+          <input type="checkbox" class="chk" value="1" />
+        </td>
+        <td class="title">제목1</td>
+        <td writer="w1">작성자1</td>
+      </tr>
+
+      <tr>
+        <td>
+          <input type="checkbox" class="chk" value="1" />
+        </td>
+        <td class="title">제목2</td>
+        <td writer="w1">작성자2</td>
+      </tr>
+
+      <tr>
+        <td>
+          <input type="checkbox" class="chk" value="1" />
+        </td>
+        <td class="title">제목3</td>
+        <td writer="w1">작성자3</td>
+      </tr>
+    </table>
+
+    <div id="order_information">
+      주문정보<br />
+      이름:<input type="text" class="order_name" /><br />
+      주소:<input type="text" class="order_address" /><br />
+    </div>
+
+    <input type="checkbox" id="check" name="selct" />주문 정보와 배송 정보가
+    동일합니다
+
+    <div id="delivery">
+      배송정보<br />
+      이름:<input type="text" class="delivery_name" /><br />
+      주소:<input type="text" class="delivery_address" /><br />
+    </div>
+
+    <div>
+      아이디:<input type="text" id="id" /><br />
+      비밀번호:<input type="password" id="pw" /><br />
+      <div class="warning"></div>
+      <!-- 경고문날리는곳 -->
+      <input type="button" id="login" value="로그인" />
+    </div>
+
+    <h1>피자 골라라!</h1>
+    <select id="pizza">
+      <option value="불고기">불고기 피자</option>
+      <option value="페페로니">페페로니</option>
+      <option value="포테이토">포테이토</option>
+      <option value="치즈">치즈</option>
+      <option value="파인애플">파인애플</option>
+      <option value="고르곤졸라">고르곤졸라</option>
+    </select>
+
+    <h3>사이즈</h3>
+    <label><input type="radio" name="size" value="18000" />Small</label>
+    <label><input type="radio" name="size" value="20000" />Medium</label>
+    <label><input type="radio" name="size" value="22000" />Large</label>
+
+    <h3>도우</h3>
+    <label><input type="radio" name="dough" value="씬" />씬</label>
+    <label><input type="radio" name="dough" value="고구마" />고구마</label>
+    <label><input type="radio" name="dough" value="치즈" />치즈</label>
+
+    <h3>토핑</h3>
+    <label><input type="checkbox" value="2000" />감자</label>
+    <label><input type="checkbox" value="2000" />고구마</label>
+    <label><input type="checkbox" value="2500" />치즈</label>
+    <label><input type="checkbox" value="3000" />베이컨</label>
+    <label><input type="checkbox" value="500" />옥수수</label>
+
+    <br /><br />
+
+    <button id="order">확인</button>
+
+    <div id="result"></div>
+
+    <div id="view"></div>
+  </body>
+</html>

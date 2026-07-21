@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      window.onload = () => {
+        document.querySelector("#btn1").addEventListener("click", () => {
+          console.log(location);
+          console.log(location.href);
+          location.href = "http://naver.com";
+        });
+        document.querySelector("#btn2").addEventListener("click", () => {
+          location.reload();
+        });
+        document.querySelector("#btn3").addEventListener("click", () => {
+          // location.reload();
+          console.log(history);
+        });
+
+        document.querySelector("#btn4").addEventListener("click", () => {
+          const url = "17_form.html";
+          const name = "open 연습";
+          let option = "widht=800, height=600";
+
+          window.open(url, name, option);
+        });
+
+        document.querySelector("#btn5").addEventListener("click", () => {
+          new kakao.Postcode({
+            oncomplete: function (data) {
+                console.log(data)
+              // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+              // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+            },
+          }).open();
+        });
+      };
+
+      //   document.querySelector("#btn3").addEventListener("click", () => {
+      //     // location.reload();
+      //     console.log(history);
+      //   });
+    </script>
+    <!-- 카카오 우편 번호 찾기 -->
+    <script src="//t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  </head>
+  <body>
+    <button type="button" id="btn1">네이버로 이동</button>
+    <button type="button" id="btn2">새로고침</button>
+    <button type="button" id="btn3">뒤로가기</button>
+    <button type="button" id="btn4">open</button>
+    <button type="button" id="btn5">카카오</button>
+  </body>
+</html>
