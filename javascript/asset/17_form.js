@@ -198,19 +198,18 @@ window.addEventListener('load', function () {
 
         }
 
-
-
-
-
-
-
     })
-
-    
-
+    //3번 문제
+    const pizza = document.querySelector('#pizza')
+    const result = document.querySelector('#result')
+    // const label = document.querySelector()
+    //   
+  
 
 
 })
+
+
 
 // console.log(this)
 
