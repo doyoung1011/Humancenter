@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script>
+     const list={
+        contents:[]//컨텐츠를 배열로 초기화
+     }
+      window.onload = function () {gemini()};//함수 호출해야함
+      function gemini() {
+        const ask = document.querySelector("#ask");
+        ask.addEventListener("click", function () {
+          const key = "";
+          const prompt = document.querySelector("#prompt").value;
+
+          const url =
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent";
+
+          const data = {
+            contents: [
+              {
+                parts: [
+                  {
+                    text: prompt,
+                  },
+                ],
+              },
+            ],
+          };
+
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "x-goog-api-key": key,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data), //data를 json으로 변환
+          })
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (result) {
+              console.log(result);
+            })
+            .catch(function (e) {
+              console.log("요청중 에러", e);
+            });
+        });
+      }
+    // //    멀티 탭도 해보기
+    //   const ask = document.querySelector("#ask");
+    //     ask.addEventListener("click", function () {
+    
+    //       const prompt = document.querySelector("#prompt").value;
+
+    //       const url =
+    //         ""
+    //     })
+    </script>
+  </head>
+  <body>
+    <textarea id="prompt"></textarea>
+    <br />
+    <button type="button" id="ask">질문하기</button>
+    <button type="button" id="ask2">멀티턴</button>
+  </body>
+</html>
+<!-- api는 일부로 뺴둔거임 -->
