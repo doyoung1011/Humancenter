@@ -7,6 +7,7 @@ function bind() {
 
     const btn1 = document.querySelector('#btn1')
     btn1.addEventListener('click', function () {
+        debugger
         // 성jax 객체생성
         const xhr = new XMLHttpRequest()
         //  보낼 준비
