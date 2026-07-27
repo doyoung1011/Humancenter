@@ -16,7 +16,7 @@ function bind() {
 
     for (let i = 0; i < btn.length; i++) {
         btn[i].addEventListener('click', function (event) {
-            // 여기에 초기화 코드를 넣으믄 되지 않을카
+            // 여기에 초기화 코드
 
             for (let j = 0; j < btn.length; j++) {
 

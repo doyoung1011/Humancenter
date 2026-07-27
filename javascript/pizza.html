@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="asset/pizaa.js"></script>
+  </head>
+  <body>
+    <h1>피자 골라라!</h1>
+    <select id="pizza">
+      <option value="불고기">불고기 피자</option>
+      <option value="페페로니">페페로니</option>
+      <option value="포테이토">포테이토</option>
+      <option value="치즈">치즈</option>
+      <option value="파인애플">파인애플</option>
+      <option value="고르곤졸라">고르곤졸라</option>
+    </select>
+
+    <h3>사이즈</h3>
+    <label
+      ><input
+        type="radio"
+        class="size"
+        value="Small"
+        price="18000"
+        name="size"
+      />Small</label
+    >
+    <label
+      ><input
+        type="radio"
+        class="size"
+        value="Medium"
+        price="20000"
+        name="size"
+      />Medium</label
+    >
+    <label
+      ><input
+        type="radio"
+        class="size"
+        value="Large"
+        price="22000"
+        name="size"
+      />Large</label
+    >
+
+    <h3>도우</h3>
+    <label><input type="radio" name="dough" value="씬" />씬</label>
+    <label><input type="radio" name="dough" value="고구마"  />고구마</label>
+    <label><input type="radio" name="dough" value="치즈" />치즈</label>
+
+    <h3>토핑</h3>
+    <label><input type="checkbox" name="topping" value="감자"  price="2000" />감자</label>
+    <label><input type="checkbox" name="topping" value="고구마"  price="2000"/>고구마</label>
+    <label><input type="checkbox" name="topping" value="치즈"  price="3000"/>치즈</label>
+    <label><input type="checkbox" name="topping" value="베이컨"  price="2500"/>베이컨</label>
+    <label><input type="checkbox" name="topping" value="옥수수" price="500">옥수수</label>
+
+    <!--                       구분선                                     -->
+    <br /><br />
+
+    <button id="order">확인</button>
+
+    <div id="result"></div>
+    <!-- 여기는 콘솔창 대체용 -->
+    <div id="view"></div>
+  </body>
+</html>

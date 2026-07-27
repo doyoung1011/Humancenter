@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="asset/js/Todolist.js"></script>
+
+    <style>
+      /* 혹시나 css를 적용할수 있으니 작성 */
+      /* *{
+        border: 1px solid red;
+      } */
+
+      body {
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        min-height: 100vh;
+      }
+      .wrapper {
+        background-color: blanchedalmond;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      #inputArea {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 5px;
+      }
+      .todolist_area {
+        box-sizing: border-box;
+        background-color: whitesmoke;
+      }
+      .removeBtn {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 5px;
+      }
+    </style>
+    <!-- 1. 추가버튼 누르면 체크박스와 할일이 하단에 추가된다
+         2. 하단에 추가될거니까 출력창 제작         
+    -->
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- 혹시나 css적용할수도 있으니까, 작성 -->
+
+      <div id="inputArea">
+        <input type="text" id="todoInput" placeholder="엔터를 눌러 입력" />
+        할일추가
+        <input type="button" id="addBtn" />
+        <!-- 할일 추가하는 버튼 -->
+      </div>
+      <div class="removeBtn">
+        전체 해제<input type="checkbox" id="removeBtn" />
+      </div>
+      <div class="todolist_area">
+        <!-- 체크 선택시 여기는 할일이 추가될 공간입니다 -->
+      </div>
+    </div>
+  </body>
+</html>
