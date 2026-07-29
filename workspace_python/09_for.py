@@ -110,7 +110,12 @@ for i in range(num1):
         if j<i:
              print('*',end='')
         else:
-            print('*',end='')     
+            print('*',end='')  
+            
+'''
+공백은 점점 줄어드는 구조니까 k를 두게됨
+'''
+
   
                 
 

@@ -58,3 +58,46 @@ print(list(a))
 print(set(a))
 #set은 중복을 제거함
 # 순서 보장 X
+b={
+    '이름': '호랑이 심장',
+    '직업': '전사',
+    '스킬': {
+        '공격': '불주먹!',
+        '방어': '차단',
+        'javascript':'중'
+        
+    }
+    
+    
+}
+
+b.update(이름='고양이',직업='학생')
+b.update(이름='고양이',직업='학생', 나이="24")
+print(b)
+c=b.pop('나이')
+print(b)
+print(c)
+# 이때 없으면 에러남
+# c=b.pop()
+# print(c)
+#TypeError: pop expected at least 1 argument, got 0 -> 전달인자는 필수임
+
+c=b.popitem()
+print(c)
+print(b)
+
+a=['a','b','c']
+b={
+    
+}
+
+c=dict.fromkeys(a)
+print(c)
+
+# key만 나온다 
+for i in c:
+    print(i)
+    print(c[i])
+    
+for k,v in c.items():
+    print(k,v)    
