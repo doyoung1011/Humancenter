@@ -137,12 +137,106 @@ cart = {
 
 
 # print(total)
-# # print(counts)
+# print(counts)
 a=0
 for i in cart.keys():
     a+=cart[i]['가격']*cart[i]['개수']
     
-print(a)    
+print(a)
+
+'''
+문제3
+UP/DOWN 게임 만들기
+단, 맞추면 몇번째에 맞췄는지도 출력
+'''
+
+import random
+
+randomNum=(random.randint(1,99))
+print(randomNum) 
+ 
+#랜덤 숫자 생성
+
+count=0 # 몇 번째에 나왔는지 체크용
+
+rand=random.randint(1,4)
+userInput=-1
+while userInput!=rand:
+    
+    userInput=int(input('숫자를 입력'))
+    count=count+1
+
+    if userInput>rand:
+        print('사용자의 입력값이 더큽니다')
+        
+    elif userInput<rand:
+        print('사용자의 입력값이 더 작습니다')
+       
+    else:
+        print(f'{count}번 만에 맞추셨습니다.')
+        # print(count)
+        
+        
+
+
+users = {
+    "admin": "1234",
+    "guest": "guest",
+    "user1": "abcd"
+}
+
+id='admin'
+pw='abcd'
+
+print('admin2' in users)
+
+if 'admin2' in users:
+    if users['id']==pw:
+        print('로그인 성공!')
+    else:
+        print('비번이 틀렸어요')
+else:
+    print('아이디가 없습니다')
+
+# in을 쓰면 있는지 여부를 알수 있으
+
+
+# if users['admin']=='1234':
+    
+
+inputAdmin=int(input('아이디를 입력하시오'))
+inputPw=input('비밀번호를 입력')
+for i in users.keys():
+   if users[i]==inputPw:
+       print('로그인성공')
+       
+   else:
+       print('아이디 또는 비밀번호가 다릅니다')
+       
+       
+print('문제5')
+
+후보=[0,0,0]
+
+import random
+for i in range(100):
+ vote= random.randint(0,2)
+ 후보[vote]+=1
+print(후보) 
+
+
+    
+       
+       
+       
+    
+
+
+
+
+
+
+            
     
     
 
