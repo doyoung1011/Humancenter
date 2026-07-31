@@ -7,4 +7,6 @@ for i in range(101):
  if i%3==0:
      print('fizz')
  if 1%5==0:
-     print('buzz')    
+     print('buzz')
+    
+        # 
