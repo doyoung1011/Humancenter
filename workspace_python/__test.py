@@ -27,7 +27,13 @@ def accel(self)
 
 '''
 print('='*20)
-class Car:
+
+class Tank:
+    def shoot(self):
+        print('탕탕탕!')
+
+
+class Car(Tank):
     
     
     def Klaxon(self):
@@ -75,5 +81,31 @@ print('티코 달리는중...')
 c2=티코()
 c2.accel()
 c2.Klaxon()
+c2.shoot()
+
+from abc import *
+# 부모 전용 클래스
+
+class Studentbase(metaclass=ABCMeta):
+    @abstractmethod
+    def study(self):
+        pass
+    
+    @abstractmethod
+    def go_to_school(self):
+       pass
+        
+class Student(Studentbase):
+        def study(self):
+            print('공부하기')
+        def go_to_school(self):
+            print('학교가기')
+               
+            
+a=Student()
+a.study()
+a.go_to_school()          
+
+# b=Studentbase()
       
                                       
