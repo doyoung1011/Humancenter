@@ -32,12 +32,12 @@
 
 # c = int(input('피라미드 높이: '))
 
-for a in range(4):
- for b in range(4 - a - 1):
-    print('_', end='')
- for b in range(a * 2 + 1):
-    print('*', end='')
- print()
+# for a in range(4):
+#  for b in range(4 - a - 1):
+#     print('_', end='')
+#  for b in range(a * 2 + 1):
+#     print('*', end='')
+#  print()
 
 #피라미드 규칙이해용 코드임
 # 규칙을 이해해보자
@@ -56,6 +56,19 @@ for a in range(4):
 # print('--*****')
 # print('-*******')
 
+for i in range(5):
+   # 공백부터 찍어야함
+    for j in range(5-1-i):
+      print('-',end='')
+     
+    for k in range(2*i+1):
+      print('*',end='')
+      
+    print() 
+    
+    
+   
+     
 # 공백부터 찍자아
 
 # for i in range(4):
