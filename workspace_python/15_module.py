@@ -29,3 +29,4 @@ s.attack()
 import urllib.request 
 response=urllib.request.urlopen('http://google.com')
 print(response.read().decode('utf-8'))
+

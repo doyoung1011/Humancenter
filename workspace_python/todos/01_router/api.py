@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from todo import todo_router
 
+# 위에서 가져온걸 app에다 넣고 실행시킨다
+
+# 크로스 도메인 CORS 해결 코드
 app=FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -10,9 +13,9 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
 )
+ 
 
 @app.get("/")
-
 async def welcome() -> dict:
     return {
         "message":"Hello World2"

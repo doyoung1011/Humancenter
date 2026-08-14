@@ -1,10 +1,11 @@
 from fastapi import APIRouter,Form,Request
 # from fastapi import APIRouter
-
+from model import Todo
 
 todo_router=APIRouter()
 
 todo_list=[]
+
 @todo_router.post('/todo')
 async def add_todo(todo:dict)->dict:
     print('todo:',todo)
@@ -18,7 +19,12 @@ async def retrieve_todo()->dict:
         return{
             "todos": todo_list
         }
-        
+ 
+ 
+'''
+get 방식일때는 변수명이 HTML에서 사용한 변수명과 동일해야함.
+'''
+      
 @todo_router.get('/todo/param')
 async def todoParamGet(id: int ,item:str='')->dict:
     print(id,item)
@@ -26,9 +32,10 @@ async def todoParamGet(id: int ,item:str='')->dict:
         "id":id,
         "item":item
     }
+    
   
 @todo_router.post('/todo/param')
-async def todoParamPost(id: int=Form() ,item:str='')->dict:
+async def todoParamPost(id: int=Form() ,item:str=Form())->dict:
     print(id,item)
     return{
         "id":id,
@@ -54,9 +61,18 @@ async def todoParam(req:Request)->dict:
         "item":item
         
     }    
-        
+
+# 43페이지 실습이라서 todo43
+@todo_router.post('/todo43')
+def add_todo43(todo:Todo)->dict:
+   print(f'todo:{todo}')
+   
+   return{
+       'code':'성공성공성공!'
+   }
+          
+
         
 print(2,__name__)
-
 if __name__=='__main__':
     print('todo.py 파일 직접실행')
