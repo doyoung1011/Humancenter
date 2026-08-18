@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from todo import todo_router
+from CRUD import todo_crud
 
 # 위에서 가져온걸 app에다 넣고 실행시킨다
 
@@ -22,6 +23,17 @@ async def welcome() -> dict:
     }
 
 app.include_router(todo_router)
+app.include_router(todo_crud)
+
+
+@app.get('/ip')
+def test(req: Request):
+    ip=req.client.host
+    print(ip)
+    
+    return ip
+
+
 
 print(1,__name__)
 

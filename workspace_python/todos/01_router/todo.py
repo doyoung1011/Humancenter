@@ -56,7 +56,7 @@ async def todoParam(req:Request)->dict:
     item=data.get('item')
     print(id,item,req.method)
    
-    return{
+    return{ 
         "id":id,
         "item":item
         
@@ -66,10 +66,45 @@ async def todoParam(req:Request)->dict:
 @todo_router.post('/todo43')
 def add_todo43(todo:Todo)->dict:
    print(f'todo:{todo}')
+   todo_list.append(todo)
    
    return{
        'code':'성공성공성공!'
    }
+   
+# 주소에 값을 넣을 수도 있다.   
+@todo_router.get('/todo/{todo_id}')
+async def get_single_todo(todo_id: int) -> dict:
+    print(todo_id)
+    for todo in todo_list:
+        if todo.id==todo_id:
+            return{
+                'todo':todo
+            }  
+    return{
+        'message':'id없음'
+    }
+# 잠시 주석 처리함
+# from fastapi import Path
+# from typing import Annotated        
+# @todo_router.get('/todo3/{todo_id}')
+# async def get_single_todo3(todo_id): Annotated[int,Path(ge=10)] -> dict:
+#     print(todo_id)
+#     for todo in todo_list:
+#         if todo.id==todo_id:
+#             return{
+#                 'todo':todo
+#             }  
+#     return{
+#         'message':'id없음'
+#     }
+
+# get 방식일 때 즉 ? 뒤에 오는 쿼리스트링
+from fastapi import Query
+
+@todo_router.get('/todo4')
+def todo4(id:int=Query(gt=0,lt=10000)):
+    print(id)    
           
 
         
