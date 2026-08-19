@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Request
+from fastapi import FastAPI,Request,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from todo import todo_router
@@ -34,6 +34,19 @@ def test(req: Request):
     return ip
 
 
+
+@app.get('/err')
+def err():
+    print('/err실행했오')
+    
+    raise HTTPException(
+        status_code=400,
+        detail='글씨 아무거나 SuperMan'
+    )
+
+@app.get('/html')
+def html():
+    return "<h1>hello world</h1>"
 
 print(1,__name__)
 
