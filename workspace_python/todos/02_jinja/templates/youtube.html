@@ -1,0 +1,143 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+동영상 페이지
+{% endblock %}
+
+
+{% block youtube %}
+
+{{ super() }}
+
+<div>
+  동영상1: 좋아요 <span>{{ like }}</span>
+</div>
+
+{% endblock %}
+
+
+{% block star %}
+
+<div>
+
+  {% if star %}
+    star를 전달 받았다<br />
+
+    {% if star >= 0 %}
+      별점이 있습니다<br />
+    {% endif %}
+
+  {% endif %}
+
+
+  {#
+    만약 전달받지 않은 변수를 직접 숫자와 비교하면
+    에러가 발생할 수 있음
+  #}
+
+
+  {# 단순 존재 여부 확인 #}
+
+  {% if star2 %}
+    star2를 전달 받았다<br />
+  {% endif %}
+
+
+  {% if star2 %}
+    star2가 참이다
+  {% else %}
+    star2가 거짓이다<br />
+  {% endif %}
+
+
+  <hr />
+
+
+  star2: {{ star2 }}<br />
+
+  star2: {{ star2 | default('기본값') }}<br />
+
+
+  {% if star >= 4 %}
+
+    별점이 높아요: {{ star }}
+
+  {% elif star == 3 %}
+
+    별점이 중간: {{ star }}
+
+  {% elif star <= 2 %}
+
+    별점이 낮아요: {{ star }}
+
+  {% else %}
+
+    별점이 이상해요: {{ star }}
+
+  {% endif %}
+
+</div>
+
+{% endblock %}
+
+
+{% block bookmark %}
+
+bookmark 블럭<br />
+
+{% for bm in bookmark %}
+
+<div>
+  {{ loop.index }}. {{ bm }} {{ loop.first }}
+</div>
+
+{% endfor %}
+
+{% endblock %}
+
+
+{% block filter %}
+
+{# 변수로 받았다고 치고 진행함 #}
+
+{{ '하드코딩한 글씨' | length }}<br />
+
+{{ ('하드코딩한 글씨' | length) > 10 }}<br />
+
+{{ '2026-08-20' | format_data }}<br />
+
+{% endblock %}
+{# 외부에 매크로 모아두고 사용하는 법 #}
+{% import 'macros.html' as marcros %}
+
+{% block marco %}
+ {{render_card('제목1','내용1')}}
+ {{render_card('제목2','내용2')}}
+ {{macros.render_card2('제목3','내용3')}}
+
+
+{% macro render_card(title, text) %}
+
+<div class="card">
+
+  <h2>{{ title }}</h2>
+
+  <div>
+    {{ text }}
+  </div>
+
+  <div>
+    {{ like }}
+  </div>
+
+</div>
+
+{% endmacro %}
+
+
+{{ render_card('제목입니다', '내용입니다') }}
+
+
+<div>
+  이거 youtube.html 쌩으로 쓴 내용
+</div>

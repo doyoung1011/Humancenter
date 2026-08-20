@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    <style>
+      .container {
+        width: 1000px;
+        border: 1px solid red;
+      }
+
+      header {
+        height: 70px;
+        border-bottom: 1px solid red;
+      }
+
+      .wrap {
+        display: flex;
+        border-bottom: 1px solid red;
+      }
+
+      .menu {
+        width: 100px;
+      }
+
+      .main {
+        flex: 1;
+        background-color: lightblue;
+      }
+
+      footer {
+        height: 100px;
+      }
+      /* {% block css%} {% endblock%} */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- <header>
+        logo, menu
+      </header> -->
+      {% include 'header.html'%}
+
+      <div class="wrap">
+        <div class="menu">
+          왼쪽 메뉴1<br />
+          왼쪽 메뉴2<br />
+          왼쪽 메뉴3<br />
+          왼쪽 메뉴4
+        </div>
+
+        <div class="main">
+          컨텐츠<br />
+          <!-- block 시작 -->
+
+          {% block youtube %} 
+          동영상1 
+          {% endblock %}
+        </div>
+        <div>
+            {% block star %} 
+            {% endblock %} 
+        </div>
+
+         <div>
+            {% block bookmark %} 
+            {% endblock %} 
+        </div>
+
+         <div>
+            {% block filter %} 
+            {% endblock %} 
+        </div>
+
+
+      </div>
+
+  
+
+      <footer>회사 정보</footer>
+    </div>
+  </body>
+</html>
