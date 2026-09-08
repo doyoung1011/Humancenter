@@ -8,6 +8,7 @@ from fastapi import FastAPI,Depends
 
 from sqlalchemy import text
 from typing import Optional
+import traceback
 from DTO.EmpDTO import Emp3 #이를 함으로써 create table을 수행가능함
 import multipart
 
@@ -18,8 +19,9 @@ import multipart
 app=FastAPI()
 templates = Jinja2Templates(directory='templates/')  
 # Session
-
+# db에 로그인 하는 파트
 DATABASE_URL='mysql+pymysql://root:human123$@127.0.0.1:3306/human'
+# sql문이 파이썬에 뜨게 하겠다.
 engine=create_engine(DATABASE_URL,echo=True)
 emp3=[]
 # 기초적인 틀은 잡아두기
@@ -57,55 +59,7 @@ def emp_list(
     return templates.TemplateResponse(request,'emp_list.html',{
             'emp3':emp3
         })
-    
- # 추가페이지로 이동중..
-# @app.get('/add')
-# def _add(request:Request):
-#     print('이동중(성공했니?)')
-      
-#     return templates.TemplateResponse(request,'add.html')    
-# empno(사번에 a태그를 줘서 이동하는 구조로 설계)
 
-# @app.post('/emp/add')
-# def add(
-#     request:Request,
-#     empno: int=Form(),
-#     ename: str=Form(),
-#     job:str=Form(),
-#     mgr:Optional[int]=Form(None),
-#     hiredaste:str=Form(),
-#     sal:float=Form(),   
-#     comm:Optional[int]=Form(None),
-#     deptno: int=Form(),
-    
-#     session:Session=Depends(get_session),
-    
-# ):   
-#     try :
-#         sql = text('''
-#             insert into emp3 
-#             (empno, ename, job, mgr, hiredaste, sal, comm, deptno)
-#             values (:empno, :ename, :job, :mgr, :hiredaste, :sal, :comm, :deptno )
-#         ''')
-
-#         session.execute(sql, {
-#             "empno" : empno,
-#             "ename" : ename,
-#             "job" : job,
-#             "mgr" : mgr,
-#             "hiredaste" : hiredaste,
-#             "sal" : sal,
-#             "comm" : comm,
-#             "deptno" : deptno
-#         })
-
-#         session.commit()
-    
-#     except Exception as e :
-#         print(e)
-
-# detail 페이지부터 다시 접근하기
-# select문에 where이 where=deptno로 접근하면됨
 
 @app.get('/detail')
 def detail(
@@ -159,9 +113,8 @@ def _update(
      return templates.TemplateResponse(request,'update.html',{'emp3':a})
 
 
-    
-    
-#수정 페이지는 post 방식으로 수행해야하며, 넘는 방식이 잘못된거    
+   
+#수정 페이지는 post 방식으로 수행 
 @app.post('/api/update')
 def update_emp(emp:Emp3=Form(),
             session:Session=Depends(get_session)):
@@ -257,11 +210,12 @@ def add(request:Request,emp:Emp3=Form(),
 
 @app.post('/emp/delete')
 def _delete_emp(
-         emp:Emp3=Form(), # 이거는 EmpDTO를 만들어 둬서 가능한것
+         emp:Emp3=Form(),# 이거는 EmpDTO를 만들어 둬서 가능한것
          session:Session=Depends(get_session)):
     
         try:
-         session.execute(text('''
+         result=session.execute(
+         text('''
          delete from emp3
          where empno=:empno                 
         '''),{'empno':emp.empno})

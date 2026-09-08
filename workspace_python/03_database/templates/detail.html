@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>상세페이지</h1>
+   <!-- 여기서는 한줄에 대한 정보가 나오면 된다.
+   어디에 있는 뭐뭐 어디에 있는 뭐뭐 
+   
+   -->
+    <table border="1">
+        <thead>
+       <tr>
+        <th>EMPNO</th>
+        <th>ENAME</th>
+        <th>JOB</th>
+        <th>MGR</th>
+        <th>HIREDATE</th>
+        <th>SAL</th>
+        <th>COMM</th>
+        <th>DEPTNO</th>
+       </tr>
+    </thead>
+     <tr>
+        <td>{{emp3.empno}}</a></td>
+        <td>{{emp3.ename}}</td>
+        <td>{{emp3.job}}</td>
+        <td>{{emp3.mgr}}</td>
+        <td>{{emp3.hiredaste}}</td> 
+        <td>{{emp3.sal}}</td>
+        <td>{{emp3.comm}}</td>
+        <td>{{emp3.deptno}}</td>
+    </tr>
+   </table>
+   <hr>
+   <a href="/update?empno={{emp3.empno}}">수정</a><br>
+
+   <a href="/emp/list">목록으로</a>
+    
+   <form method="post" action="/emp/delete">
+     <input type="hidden" name="empno" value="{{emp3.empno}}">
+     <button type="submit">삭제</button>
+   </form>
+  
+   
+
+   
+   <!-- 수정/삭제 버튼 -->
+
+</body>
+</html>

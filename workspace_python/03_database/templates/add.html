@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 파이썬에서 넘어온 count 값을 js의 변수에 넣기 -->
+  </head>
+  <body>
+    <!-- 추가 페이지는 깡통으로 구성됨, value는 빠짐
+     
+    -->
+    <h1>추가페이지</h1>
+    <form method="post" action="/api/add">
+      empno
+      <input type="text" name="empno" placeholder="(숫자만입력)" /><br />
+
+      ename
+      <input type="text" name="ename" placeholder="내용을 입력해주세요" /><br />
+
+      job
+      <input type="text" name="job" placeholder="내용을 입력해주세요" /><br />
+
+      mgr
+      <input type="text" name="mgr" placeholder="(숫자만입력)" /><br />
+
+      hiredate
+      <input
+        type="text"
+        name="hiredaste"
+        placeholder="YYYY-MM-DD형식으로"
+      /><br />
+
+      sal
+      <input type="text" name="sal" placeholder="내용을 입력해주세요" /><br />
+
+      comm
+      <input type="text" name="comm" placeholder="내용을 입력해주세요" /><br />
+
+      deptno
+      <input type="text" name="deptno" placeholder="숫자만 입력" /><br />
+
+      <input type="submit" value="추가 완료" />
+  
+  </body>
+</html>

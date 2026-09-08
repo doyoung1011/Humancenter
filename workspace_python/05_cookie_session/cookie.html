@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .popup{
+        border: 1px solid black;
+        padding: 20px;
+        position: absolute;
+        top:20px;
+        left: 30px;
+        background-color: blanchedalmond;
+      }
+      .hide{
+        display: none;
+      }
+
+    </style>
+
+
+
+    <script>
+      window.onload = () => {
+        document.querySelector("#btn1").addEventListener("click", () => {
+          // 만료일이 없는 세션 쿠키 생성
+          document.cookie = "key=value";
+        });
+        document.querySelector("#btn2").addEventListener("click", () => {
+          //    max-age: 만료일, 단위는 초
+          document.cookie = `mode=attack; max-age=${60 * 60}`;
+          document.cookie = `heal=full; max-age=${60 * 60 * 2}`;
+        });
+        document.querySelector("#btn3").addEventListener("click", () => {
+          //    max-age: 만료일, 단위는 초
+          console.log(document.cookie);
+          // key=value; mode=attack; heal=full
+          //   쿠키 중 heal의 값이  'full'이면 힐합니다
+          //  아니면 힐 안합니다 출력
+          // ;과 띄워쓰기로
+          cookies = document.cookie.split("; ");
+          for (cookie of cookies) {
+            console.log(cookie);
+            name = cookie.split("=")[0];
+            value = cookie.split("=")[1];
+
+            if (name == "heal") {
+              if (value == "full") {
+                console.log("힐 합니다");
+              } else {
+                console.log("힐 안합니다아");
+              }
+            } else {
+              console.log("힐 합니다");
+            }
+          }
+        });
+         
+        document.querySelector('.close').addEventListener('click',()=>{
+         const popup=document.querySelector('.popup')
+      
+         popup.classList.add('hide') // 여기가 if문으로 감싸질거고
+        //  가릴 때 체크가 되어있다면, 
+          if(popup.checked=true){
+             document.cookie = `heal=full; max-age=${10}`
+             console.log( document.cookie)
+          }
+          cookies = document.cookie.split("; ");
+          console.log(cookies)
+          
+
+
+        })     
+        //  document.cookie = `mode=attack; max-age=${10}`
+        //  console.log('10초뒤에 사라질 거어',document.cookie)
+
+        
+      };
+    </script>
+  </head>
+  <body>
+    <button type="button" id="btn1">btn1</button><br />
+    <button type="button" id="btn2">btn2</button><br />
+    <button type="button" id="btn3">btn3</button><br />
+
+    <div class="popup">
+      <div>
+        너무 너무 중요한 공지
+      </div>
+
+      <div>
+      <input type="checkbox" class="chk" />10초간 안 보이기
+      <button type="button" class="close">닫기</button>
+      </div>
+    </div>
+
+
+    <!-- 1. 닫기 버튼 클릭 시 무조건 팝업 안보이게 처리
+         2. 닫을 때 체크가 되어 있다면
+         if checked
+          document.cookie = `heal=full; max-age=${10}`
+           - 10초짜리 쿠키 설정
+         3. 새로 고침할 때 
+           - 쿠키가 있다면 팝업 안보이게 처리
+           - 쿠키가 없을 때만 팝업 보이기   
+     
+    -->
+  </body>
+</html>

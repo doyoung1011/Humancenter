@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>전체조회</h1>
+    <a href="/add">추가</a><br>
+
+    
+<!-- emp.hiredaste ㄹㅇ기분탓 -->
+ <table border="1">
+    <thead>
+       <tr>
+        <th>EMPNO</th>
+        <th>ENAME</th>
+        <th>JOB</th>
+        <th>MGR</th>
+        <th>HIREDATE</th>
+        <th>SAL</th>
+        <th>COMM</th>
+        <th>DEPTNO</th>
+       </tr>
+    </thead>
+    <tbody>
+    {% for emp in emp3 %}
+    <tr>
+        <td><a href="/detail?empno={{emp.empno}}">{{emp.empno}}</a></td>
+        <td>{{emp.ename}}</td>
+        <td>{{emp.job}}</td>
+        <td>{{emp.mgr}}</td>
+        <td>{{emp.hiredaste}}</td> 
+        <td>{{emp.sal}}</td>
+        <td>{{emp.comm}}</td>
+        <td>{{emp.deptno}}</td>
+    </tr>
+    {% endfor %}
+     
+    </tbody>
+ </table>
+    
+</body>
+</html>

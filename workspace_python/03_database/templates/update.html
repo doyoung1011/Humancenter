@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    
+    <!-- 추가 버튼 눌리면 그냥 바로 추가되는 식으로 가보자 -->
+     <h1>수정페이지</h1>
+
+<form method="post" action="/api/update">
+
+    empno
+    <input
+        type="text"
+        name="empno"
+        value="{{ emp3.empno }}"
+        readonly
+    ><br>
+
+    ename
+    <input
+        type="text"
+        name="ename"
+        value="{{ emp3.ename }}"
+        placeholder="내용을 입력해주세요"
+    ><br>
+
+    job
+    <input
+        type="text"
+        name="job"
+        value="{{ emp3.job }}"
+        placeholder="내용을 입력해주세요"
+    ><br>
+
+    mgr
+    <input
+        type="text"
+        name="mgr"
+        value="{{ emp3.mgr }}"
+        placeholder="내용을 입력해주세요"
+    ><br>
+
+    hiredate
+    <input
+        type="text"
+        name="hiredaste"
+        value="{{ emp3.hiredaste }}"
+        placeholder="내용을 입력해주세요"
+    ><br>
+
+    sal
+    <input
+        type="text"
+        name="sal"
+        value="{{ emp3.sal }}"
+        placeholder="내용을 입력해주세요"
+    ><br>
+
+    comm
+    <input
+        type="text"
+        name="comm"
+        value="{{ emp3.comm }}"
+        placeholder="내용을 입력해주세요"
+    ><br>
+
+    deptno
+    <input
+        type="text"
+        name="deptno"
+        value="{{ emp3.deptno }}"
+        placeholder="내용을 입력해주세요"
+        readonly
+    ><br>
+
+    <input type="submit" value="수정 완료">
+
+</form>
+
+    <a>목록으로</a>
+        
+    
+    
+</body>
+</html>
