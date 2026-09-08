@@ -1,0 +1,475 @@
+/* ========================================
+   Dish Inside 마이페이지
+======================================== */
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background-color: #f7f8fa;
+}
+
+.mypage-content,
+.mypage-content * {
+  box-sizing: border-box;
+}
+
+.mypage-content {
+  --brand: #ff5b3f;
+  --brand-dark: #e7472e;
+  --brand-light: #fff2ee;
+  --text: #202124;
+  --sub-text: #777;
+  --line: #e5e7eb;
+  --card: #fff;
+
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 20px;
+
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 30px 0 50px;
+
+  color: var(--text);
+
+  font-family:
+    "Pretendard",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    sans-serif;
+}
+
+/* ========================================
+   메인으로 돌아가기
+======================================== */
+
+.mypage-content .back-to-main {
+  grid-column: 1 / -1;
+  justify-self: start;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  height: 38px;
+  padding: 0 13px;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background-color: #fff;
+  color: #555;
+
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.mypage-content .back-to-main span {
+  color: var(--brand);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.mypage-content .back-to-main:hover {
+  border-color: #ffb6a8;
+  background-color: var(--brand-light);
+  color: var(--brand-dark);
+  transform: translateX(-2px);
+}
+
+/* ========================================
+   프로필 카드
+======================================== */
+
+.mypage-content .user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: 280px;
+  padding: 30px 24px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background-color: var(--card);
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+/* 프로필 아이콘 배경 */
+.mypage-content .user-avatar {
+  position: relative;
+
+  width: 86px;
+  height: 86px;
+  margin-bottom: 20px;
+
+  border-radius: 50%;
+  background: linear-gradient(
+    145deg,
+    #ff7a62,
+    var(--brand)
+  );
+
+  box-shadow: 0 7px 16px rgba(255, 91, 63, 0.2);
+}
+
+/* 프로필 머리 */
+.mypage-content .avatar-head {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+
+  width: 22px;
+  height: 22px;
+
+  border: 3px solid #fff;
+  border-radius: 50%;
+
+  transform: translateX(-50%);
+}
+
+/* 프로필 어깨 */
+.mypage-content .avatar-shoulders {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+
+  width: 35px;
+  height: 19px;
+
+  border: 3px solid #fff;
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+
+  transform: translateX(-50%);
+}
+
+/* 사용자 정보 */
+.mypage-content .user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+}
+
+/* 사용자 아이디 */
+.mypage-content .user-id {
+  display: block;
+
+  width: 100%;
+  min-height: 42px;
+  padding: 11px 13px;
+
+  border-radius: 9px;
+  background-color: var(--brand-light);
+  color: var(--brand-dark);
+
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* 회원 정보 수정 버튼 */
+.mypage-content .edit-profile-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 41px;
+
+  border: 1px solid #ffc4b8;
+  border-radius: 9px;
+  background-color: #fff;
+  color: var(--brand-dark);
+
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.mypage-content .edit-profile-button:hover {
+  border-color: var(--brand);
+  background-color: var(--brand-light);
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   나의 활동 카드
+======================================== */
+
+.mypage-content .mypage-menu {
+  min-width: 0;
+  padding: 25px 27px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background-color: var(--card);
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+/* 나의 활동 제목 */
+.mypage-content .mypage-menu::before {
+  display: block;
+
+  margin-bottom: 13px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--line);
+
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 800;
+
+  content: "나의 활동";
+}
+
+/* 활동 메뉴 */
+.mypage-content .menu-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  min-height: 65px;
+  padding: 10px 14px;
+
+  border-bottom: 1px solid #ededed;
+  color: #333;
+
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.mypage-content .menu-item:last-child {
+  border-bottom: 0;
+}
+
+/* 별 아이콘 */
+.mypage-content .menu-star {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 9px;
+  background-color: var(--brand-light);
+  color: var(--brand);
+
+  font-size: 11px;
+}
+
+/* 오른쪽 화살표 */
+.mypage-content .menu-item::after {
+  margin-left: auto;
+
+  color: #b5b5b5;
+  font-size: 21px;
+  font-weight: 400;
+
+  content: "›";
+}
+
+.mypage-content .menu-item:hover {
+  padding-left: 19px;
+
+  border-radius: 9px;
+  background-color: #fff8f6;
+  color: var(--brand-dark);
+}
+
+.mypage-content .menu-item:hover::after {
+  color: var(--brand);
+}
+
+/* ========================================
+   광고 영역
+======================================== */
+
+.mypage-content .advertisement {
+  grid-column: 1 / -1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 145px;
+  padding: 24px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  background: linear-gradient(
+    135deg,
+    #fff 0%,
+    #fff5f2 100%
+  );
+
+  color: #555;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.035);
+}
+
+/* 광고 이미지가 들어갈 경우 */
+.mypage-content .advertisement img {
+  display: block;
+
+  width: 100%;
+  max-height: 220px;
+
+  border-radius: 11px;
+  object-fit: contain;
+}
+
+/* ========================================
+   푸터
+======================================== */
+
+.mypage-content .mypage-footer {
+  grid-column: 1 / -1;
+
+  padding-top: 4px;
+  color: #aaa;
+
+  font-size: 11px;
+  text-align: center;
+}
+
+/* ========================================
+   태블릿
+======================================== */
+
+@media (max-width: 850px) {
+  .mypage-content {
+    grid-template-columns: 255px minmax(0, 1fr);
+    gap: 17px;
+
+    width: calc(100% - 30px);
+  }
+
+  .mypage-content .user-profile {
+    padding: 27px 19px;
+  }
+
+  .mypage-content .mypage-menu {
+    padding: 22px;
+  }
+}
+
+/* ========================================
+   모바일
+======================================== */
+
+@media (max-width: 650px) {
+  .mypage-content {
+    grid-template-columns: 1fr;
+    gap: 15px;
+
+    width: calc(100% - 24px);
+    padding: 22px 0 40px;
+  }
+
+  .mypage-content .back-to-main {
+    grid-column: auto;
+
+    height: 37px;
+    padding: 0 11px;
+
+    font-size: 12px;
+  }
+
+  .mypage-content .user-profile {
+    flex-direction: row;
+    align-items: center;
+    gap: 17px;
+
+    min-height: auto;
+    padding: 22px 18px;
+  }
+
+  .mypage-content .user-avatar {
+    flex-shrink: 0;
+
+    width: 74px;
+    height: 74px;
+    margin: 0;
+  }
+
+  .mypage-content .avatar-head {
+    top: 19px;
+
+    width: 19px;
+    height: 19px;
+  }
+
+  .mypage-content .avatar-shoulders {
+    bottom: 17px;
+
+    width: 30px;
+    height: 16px;
+  }
+
+  .mypage-content .user-info {
+    align-items: stretch;
+    min-width: 0;
+  }
+
+  .mypage-content .user-id {
+    min-height: 39px;
+
+    font-size: 13px;
+    text-align: left;
+  }
+
+  .mypage-content .edit-profile-button {
+    height: 39px;
+  }
+
+  .mypage-content .mypage-menu {
+    padding: 21px 17px;
+  }
+
+  .mypage-content .menu-item {
+    min-height: 59px;
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .mypage-content .advertisement,
+  .mypage-content .mypage-footer {
+    grid-column: auto;
+  }
+
+  .mypage-content .advertisement {
+    min-height: 120px;
+
+    font-size: 23px;
+  }
+}

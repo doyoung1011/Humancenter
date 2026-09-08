@@ -1,0 +1,156 @@
+/* ========================================
+   Dish Inside 마이페이지 공통 헤더
+======================================== */
+
+.mypage-header,
+.mypage-header * {
+  box-sizing: border-box;
+}
+
+.mypage-header {
+  --brand: #ff5b3f;
+  --brand-dark: #e7472e;
+  --brand-light: #fff2ee;
+  --text: #202124;
+  --sub-text: #7a7a7a;
+  --line: #e5e7eb;
+
+  width: 100%;
+  margin-bottom: 22px;
+  padding: 25px 28px 20px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background-color: #fff;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+
+  font-family:
+    "Pretendard",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    sans-serif;
+}
+
+/* ========================================
+   제목 영역
+======================================== */
+
+.mypage-header-title h1 {
+  margin: 0 0 6px;
+
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.mypage-header-title p {
+  margin: 0;
+
+  color: var(--sub-text);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ========================================
+   마이페이지 메뉴
+======================================== */
+
+.mypage-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 20px;
+  padding-top: 17px;
+
+  border-top: 1px solid var(--line);
+}
+
+.mypage-navigation a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 75px;
+  height: 38px;
+  padding: 0 14px;
+
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background-color: transparent;
+  color: #555;
+
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* 메뉴 마우스 효과 */
+.mypage-navigation a:hover {
+  border-color: #ffd0c6;
+  background-color: var(--brand-light);
+  color: var(--brand-dark);
+
+  transform: translateY(-1px);
+}
+
+/* 현재 선택된 메뉴 */
+.mypage-navigation a.active {
+  border-color: var(--brand);
+  background-color: var(--brand);
+  color: #fff;
+}
+
+.mypage-navigation a.active:hover {
+  border-color: var(--brand-dark);
+  background-color: var(--brand-dark);
+  color: #fff;
+}
+
+/* ========================================
+   모바일
+======================================== */
+
+@media (max-width: 600px) {
+  .mypage-header {
+    margin-bottom: 16px;
+    padding: 21px 17px 16px;
+
+    border-radius: 14px;
+  }
+
+  .mypage-header-title h1 {
+    font-size: 21px;
+  }
+
+  .mypage-header-title p {
+    font-size: 12px;
+  }
+
+  .mypage-navigation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+
+    margin-top: 16px;
+    padding-top: 14px;
+  }
+
+  .mypage-navigation a {
+    width: 100%;
+    min-width: 0;
+    height: 37px;
+    padding: 0 9px;
+
+    font-size: 12px;
+  }
+}

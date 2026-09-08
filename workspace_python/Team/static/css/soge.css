@@ -1,0 +1,411 @@
+/* ========================================
+   Dish Inside 사이트 소개
+======================================== */
+/* *{
+    border: 1px solid green;
+} */
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background-color: #f7f8fa;
+}
+
+.about-page,
+.about-page * {
+  box-sizing: border-box;
+}
+
+.about-page {
+  --brand: #ff5b3f;
+  --brand-dark: #e7472e;
+  --brand-light: #fff2ee;
+  --text: #202124;
+  --sub-text: #707070;
+  --line: #e5e7eb;
+
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 30px 0 60px;
+
+  color: var(--text);
+
+  font-family:
+    "Pretendard",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    sans-serif;
+}
+
+/* 메인으로 돌아가기 */
+.about-page .back-to-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  height: 38px;
+  margin-bottom: 18px;
+  padding: 0 13px;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background-color: #fff;
+  color: #555;
+
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.about-page .back-to-main span {
+  color: var(--brand);
+  font-size: 18px;
+}
+
+.about-page .back-to-main:hover {
+  border-color: #ffb6a8;
+  background-color: var(--brand-light);
+  color: var(--brand-dark);
+  transform: translateX(-2px);
+}
+
+/* 소개 전체 카드 */
+.about-hero {
+  position: relative;
+  padding: 65px 60px 45px;
+
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      145deg,
+      #fff 0%,
+      #fff 60%,
+      #fff4f0 100%
+    );
+
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.055);
+  overflow: hidden;
+}
+
+/* 배경 장식 */
+.about-hero::before {
+  position: absolute;
+  top: -120px;
+  right: -100px;
+
+  width: 320px;
+  height: 320px;
+
+  border-radius: 50%;
+  background-color: rgba(255, 91, 63, 0.08);
+
+  content: "";
+}
+
+.about-hero::after {
+  position: absolute;
+  top: 80px;
+  right: 120px;
+
+  width: 90px;
+  height: 90px;
+
+  border-radius: 50%;
+  background-color: rgba(255, 91, 63, 0.06);
+
+  content: "";
+}
+
+.about-content,
+.about-values {
+  position: relative;
+  z-index: 1;
+}
+
+/* 작은 소개 문구 */
+.about-label {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 20px;
+  padding: 7px 11px;
+
+  border-radius: 8px;
+  background-color: var(--brand-light);
+  color: var(--brand-dark);
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* 메인 제목 */
+.about-content h1 {
+  margin: 0 0 25px;
+
+  color: var(--text);
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -2.5px;
+
+  animation: fade-up 0.65s ease both;
+}
+
+.about-content h1 strong {
+  color: var(--brand);
+}
+
+/* 인사말 */
+.about-greeting {
+  margin: 0 0 28px;
+
+  color: #444;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.about-greeting strong {
+  color: var(--brand-dark);
+}
+
+/* 소개 본문 */
+.about-message {
+  max-width: 760px;
+  padding-left: 22px;
+  border-left: 4px solid var(--brand);
+}
+
+.about-message p {
+  margin: 0 0 18px;
+
+  color: var(--sub-text);
+  font-size: 16px;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+
+.about-message p:last-child {
+  margin-bottom: 0;
+}
+
+.about-message strong {
+  color: #333;
+  font-weight: 800;
+}
+
+/* 버튼 */
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-top: 35px;
+}
+
+.about-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 140px;
+  height: 46px;
+  padding: 0 20px;
+
+  border: 1px solid transparent;
+  border-radius: 11px;
+
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.about-actions .primary-button {
+  border-color: var(--brand);
+  background-color: var(--brand);
+  color: #fff;
+}
+
+.about-actions .primary-button:hover {
+  border-color: var(--brand-dark);
+  background-color: var(--brand-dark);
+  box-shadow: 0 7px 16px rgba(255, 91, 63, 0.2);
+  transform: translateY(-1px);
+}
+
+.about-actions .secondary-button {
+  border-color: #ffc5b8;
+  background-color: #fff;
+  color: var(--brand-dark);
+}
+
+.about-actions .secondary-button:hover {
+  border-color: var(--brand);
+  background-color: var(--brand-light);
+  transform: translateY(-1px);
+}
+
+/* 핵심 가치 카드 */
+.about-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+
+  margin-top: 60px;
+}
+
+.value-card {
+  min-height: 180px;
+  padding: 25px;
+
+  border: 1px solid #eee;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.value-card:hover {
+  border-color: #ffc5b8;
+  box-shadow: 0 9px 22px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+}
+
+.value-number {
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.value-card h2 {
+  margin: 13px 0 10px;
+
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.value-card p {
+  margin: 0;
+
+  color: var(--sub-text);
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+/* 푸터 */
+.about-footer {
+  padding: 25px 20px;
+
+  border-top: 1px solid #e5e7eb;
+  background-color: #fff;
+  color: #aaa;
+
+  font-size: 11px;
+  text-align: center;
+}
+
+/* 처음 나타나는 효과 */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 태블릿 */
+@media (max-width: 800px) {
+  .about-page {
+    width: calc(100% - 30px);
+  }
+
+  .about-hero {
+    padding: 50px 35px 35px;
+  }
+
+  .about-values {
+    grid-template-columns: 1fr;
+    margin-top: 45px;
+  }
+
+  .value-card {
+    min-height: auto;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 500px) {
+  .about-page {
+    width: calc(100% - 24px);
+    padding-top: 22px;
+  }
+
+  .about-hero {
+    padding: 38px 22px 25px;
+    border-radius: 18px;
+  }
+
+  .about-content h1 {
+    margin-bottom: 20px;
+
+    font-size: 34px;
+    letter-spacing: -1.5px;
+  }
+
+  .about-greeting {
+    font-size: 16px;
+  }
+
+  .about-message {
+    padding-left: 15px;
+  }
+
+  .about-message p {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .about-actions a {
+    width: 100%;
+  }
+
+  .about-values {
+    margin-top: 38px;
+  }
+}
+
+/* 모션 최소화 설정 사용자 */
+@media (prefers-reduced-motion: reduce) {
+  .about-content h1 {
+    animation: none;
+  }
+
+  .value-card,
+  .about-actions a,
+  .back-to-main {
+    transition: none;
+  }
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 페이지 | DishInside</title>
+  <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+  <main class="admin-page">
+    <section class="admin-heading">
+      <div>
+        <span class="admin-label">ADMIN</span>
+        <h1>관리자 페이지</h1>
+        <p>Dish Inside의 회원, 식당, 리뷰 정보를 관리합니다.</p>
+      </div>
+
+      <a href="/" class="home-button">메인으로</a>
+    </section>
+
+    <section class="admin-summary">
+      <article class="summary-card">
+        <span class="summary-title">전체 회원</span>
+        <strong class="summary-value">128</strong>
+        <span class="summary-unit">명</span>
+      </article>
+
+      <article class="summary-card">
+        <span class="summary-title">등록 식당</span>
+        <strong class="summary-value">42</strong>
+        <span class="summary-unit">곳</span>
+      </article>
+
+      <article class="summary-card">
+        <span class="summary-title">전체 리뷰</span>
+        <strong class="summary-value">356</strong>
+        <span class="summary-unit">개</span>
+      </article>
+
+      <article class="summary-card">
+        <span class="summary-title">신고 리뷰</span>
+        <strong class="summary-value warning">7</strong>
+        <span class="summary-unit">개</span>
+      </article>
+    </section>
+
+    <section class="admin-layout">
+      <nav class="admin-menu">
+        <a href="/admin/users" class="admin-menu-item active">
+          <span class="menu-icon">U</span>
+          <span>
+            <strong>회원 관리</strong>
+            <small>회원 목록과 계정 상태를 확인합니다.</small>
+          </span>
+        </a>
+
+        <a href="/admin/restaurants" class="admin-menu-item">
+          <span class="menu-icon">R</span>
+          <span>
+            <strong>식당 관리</strong>
+            <small>등록된 식당 정보와 상태를 관리합니다.</small>
+          </span>
+        </a>
+
+        <a href="/admin/reviews" class="admin-menu-item">
+          <span class="menu-icon">★</span>
+          <span>
+            <strong>리뷰 관리</strong>
+            <small>작성된 리뷰와 신고 내역을 확인합니다.</small>
+          </span>
+        </a>
+      </nav>
+
+      <section class="admin-content">
+        <div class="content-heading">
+          <div>
+            <h2>회원 관리</h2>
+            <p>최근 가입한 회원과 계정 상태를 확인하세요.</p>
+          </div>
+
+          <div class="admin-search">
+            <input type="search" placeholder="회원 검색">
+            <button type="button">검색</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>회원 번호</th>
+                <th>아이디</th>
+                <th>가입일</th>
+                <th>작성 리뷰</th>
+                <th>상태</th>
+                <th>관리</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>101</td>
+                <td>foxlover</td>
+                <td>2026-09-07</td>
+                <td>12</td>
+                <td><span class="status normal">정상</span></td>
+                <td><a href="/admin/users/101" class="manage-button">상세</a></td>
+              </tr>
+
+              <tr>
+                <td>102</td>
+                <td>dishmaster</td>
+                <td>2026-09-05</td>
+                <td>7</td>
+                <td><span class="status normal">정상</span></td>
+                <td><a href="/admin/users/102" class="manage-button">상세</a></td>
+              </tr>
+
+              <tr>
+                <td>103</td>
+                <td>reviewking</td>
+                <td>2026-09-03</td>
+                <td>18</td>
+                <td><span class="status blocked">정지</span></td>
+                <td><a href="/admin/users/103" class="manage-button">상세</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="admin-note">
+          <strong>관리자 안내</strong>
+          <p>현재 화면은 HTML/CSS UI 예시입니다. 검색, 정지, 삭제 등의 실제 기능은 서버 및 JavaScript 연결 후 동작합니다.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>Provided by Team. NAT</small>
+  </footer>
+</body>
+</html>

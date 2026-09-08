@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/static/css/write.css">
+  <link rel="stylesheet" href="/static/css/header.css">
+
+  <title>글쓰기 | Dish Inside</title>
+</head>
+
+<body>
+  {% include 'header.html' %}
+
+  <main class="write-page">
+    <a href="/board" class="back-to-board">
+      <span aria-hidden="true">←</span>
+      게시판으로 돌아가기
+    </a>
+
+    <section class="write-card">
+      <div class="write-heading">
+        <div>
+          <h1>글쓰기</h1>
+          <p>맛집과 음식에 관한 이야기를 자유롭게 남겨보세요.</p>
+        </div>
+      </div>
+
+      <form
+        class="write-form"
+        method="post"
+        action="/board/write"
+        enctype="multipart/form-data"
+      >
+        <!-- 게시글 분류 -->
+        <div class="form-field">
+          <label for="category">
+            분류
+            <span class="required">*</span>
+          </label>
+
+          <select id="category" name="category" required>
+            <option value="">게시글 분류를 선택하세요</option>
+            <option value="review">맛집 후기</option>
+            <option value="recommend">맛집 추천</option>
+            <option value="question">맛집 질문</option>
+            <option value="free">자유 이야기</option>
+          </select>
+        </div>
+
+        <!-- 제목 -->
+        <div class="form-field">
+          <label for="board-title">
+            제목
+            <span class="required">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="board-title"
+            name="title"
+            maxlength="100"
+            placeholder="제목을 입력하세요"
+            required
+          >
+
+          <div class="field-guide">
+            최대 100자까지 입력할 수 있습니다.
+          </div>
+        </div>
+
+        <!-- 식당 이름 -->
+        <div class="form-field">
+          <label for="restaurant-name">식당 이름</label>
+
+          <input
+            type="text"
+            id="restaurant-name"
+            name="restaurant_name"
+            maxlength="50"
+            placeholder="소개할 식당이 있다면 입력하세요"
+          >
+        </div>
+
+        <!-- 지역 -->
+        <div class="form-field">
+          <label for="location">지역</label>
+
+          <input
+            type="text"
+            id="location"
+            name="location"
+            maxlength="50"
+            placeholder="예: 충청남도 천안시"
+          >
+        </div>
+
+        <!-- 내용 -->
+        <div class="form-field content-field">
+          <label for="board-content">
+            내용
+            <span class="required">*</span>
+          </label>
+
+          <textarea
+            id="board-content"
+            name="content"
+            maxlength="5000"
+            placeholder="맛집의 분위기, 메뉴, 가격, 솔직한 후기를 작성해 주세요."
+            required
+          ></textarea>
+
+          <div class="field-guide">
+            개인정보나 다른 사람을 비방하는 내용은 작성하지 마세요.
+          </div>
+        </div>
+
+        <!-- 이미지 첨부 -->
+        <div class="form-field upload-field">
+          <label for="board-images">사진 첨부</label>
+
+          <div class="upload-box">
+            <input
+              type="file"
+              id="board-images"
+              name="images"
+              accept="image/png, image/jpeg, image/webp"
+              multiple
+            >
+
+            <p>
+              JPG, PNG, WEBP 형식의 음식 사진을 첨부할 수 있습니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- 실제로 글을 작성후 등록하는 부분 -->
+        <div class="write-actions">
+          <a href="/board" class="cancel-button">
+            취소
+          </a>
+
+          <button type="submit" class="submit-button">
+            게시글 등록
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="write-footer">
+    <small>Provided by Team. NAT</small>
+  </footer>
+</body>
+</html>

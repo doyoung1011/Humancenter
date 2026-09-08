@@ -1,0 +1,358 @@
+/* ========================================
+   Dish Inside 게시글 작성
+======================================== */
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background-color: #f7f8fa;
+}
+
+.write-page,
+.write-page * {
+  box-sizing: border-box;
+}
+
+.write-page {
+  --brand: #ff5b3f;
+  --brand-dark: #e7472e;
+  --brand-light: #fff2ee;
+  --text: #202124;
+  --sub-text: #777;
+  --line: #e5e7eb;
+
+  width: min(960px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 30px 0 60px;
+
+  color: var(--text);
+
+  font-family:
+    "Pretendard",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    sans-serif;
+}
+
+/* 게시판으로 돌아가기 */
+.write-page .back-to-board {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  height: 38px;
+  margin-bottom: 18px;
+  padding: 0 13px;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background-color: #fff;
+  color: #555;
+
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.write-page .back-to-board span {
+  color: var(--brand);
+  font-size: 18px;
+}
+
+.write-page .back-to-board:hover {
+  border-color: #ffb6a8;
+  background-color: var(--brand-light);
+  color: var(--brand-dark);
+  transform: translateX(-2px);
+}
+
+/* 글쓰기 카드 */
+.write-card {
+  padding: 34px 38px;
+
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background-color: #fff;
+
+  box-shadow: 0 7px 24px rgba(0, 0, 0, 0.045);
+}
+
+/* 제목 */
+.write-heading {
+  margin-bottom: 30px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid var(--line);
+}
+
+.write-heading h1 {
+  margin: 0 0 7px;
+
+  color: var(--text);
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.write-heading p {
+  margin: 0;
+
+  color: var(--sub-text);
+  font-size: 14px;
+}
+
+/* 폼 */
+.write-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.write-page .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.write-page .form-field > label {
+  color: #333;
+  font-size: 14px;
+  font-weight: laug700;
+}
+
+.write-page .required {
+  margin-left: 2px;
+  color: var(--brand);
+}
+
+/* 공통 입력창 */
+.write-page .form-field input[type="text"],
+.write-page .form-field select,
+.write-page .form-field textarea {
+  display: block;
+
+  width: 100%;
+  padding: 0 14px;
+
+  border: 1px solid #dcdfe3;
+  border-radius: 10px;
+  outline: none;
+  background-color: #fafafa;
+
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.write-page .form-field input[type="text"],
+.write-page .form-field select {
+  height: 48px;
+}
+
+.write-page .form-field textarea {
+  min-height: 330px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  line-height: 1.7;
+  resize: vertical;
+}
+
+.write-page .form-field input::placeholder,
+.write-page .form-field textarea::placeholder {
+  color: #aaa;
+}
+
+.write-page .form-field input:hover,
+.write-page .form-field select:hover,
+.write-page .form-field textarea:hover {
+  border-color: #c9ccd1;
+  background-color: #fff;
+}
+
+.write-page .form-field input:focus,
+.write-page .form-field select:focus,
+.write-page .form-field textarea:focus {
+  border-color: var(--brand);
+  background-color: #fff;
+
+  box-shadow: 0 0 0 3px rgba(255, 91, 63, 0.09);
+}
+
+/* 입력 안내 문구 */
+.field-guide {
+  color: #999;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* 사진 첨부 */
+.upload-box {
+  padding: 18px;
+
+  border: 1px dashed #d5d7da;
+  border-radius: 11px;
+  background-color: #fafafa;
+}
+
+.upload-box input[type="file"] {
+  display: block;
+  width: 100%;
+
+  color: #666;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.upload-box input[type="file"]::file-selector-button {
+  height: 38px;
+  margin-right: 12px;
+  padding: 0 14px;
+
+  border: 1px solid #ffc4b8;
+  border-radius: 8px;
+  background-color: var(--brand-light);
+  color: var(--brand Einwohner-dark);
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.upload-box input[type="file"]::file-selector-button:hover {
+  border-color: var(--brand);
+  background-color: #ffe3dc;
+}
+
+.upload-box p {
+  margin: 11px 0 0;
+
+  color: rebeccapurple
+
+}
+
+/* 하단 버튼 */
+.write-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+
+  margin-top: 5px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.write-actions .cancel-button,
+.write-actions .submit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 105px;
+  height: 45px;
+  padding: 0 18px;
+
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+.write-actions .cancel-button {
+  border: 1px solid #dcdfe3;
+  background-color: #fff;
+  color: #555;
+}
+
+.write-actions .cancel-button:hover {
+  background-color: #f3f4f5;
+}
+
+.write-actions .submit-button {
+  border: 1px solid var(--brand);
+  background-color: var(--brand);
+  color: #fff;
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.write-actions .submit-button:hover {
+  border-color: var(--brand-dark);
+  background-color: var(--brand-dark);
+
+  box-shadow: 0 7px 16px rgba(255, 91, 63, 0.2);
+  transform: translateY(-1px);
+}
+
+/* 푸터 */
+.write-footer {
+  padding: 24px 20px;
+
+  border-top: 1px solid #e5e7eb;
+  background-color: #fff;
+  color: #aaa;
+
+  font-size: 11px;
+  text-align: center;
+}
+
+/* 모바일 */
+@media (max-width: 650px) {
+  .write-page {
+    width: calc(100% - 24px);
+    padding: 22px 0 45px;
+  }
+
+  .write-card {
+    padding: 25px 19px;
+    border-radius: 15px;
+  }
+
+  .write-heading {
+    
+    margin-bottom: 25px;
+  }
+
+  .write-heading h1 {
+    font-size: 23px;
+  }
+
+  .write-heading p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .write-form {
+    gap: 21px;
+  }
+
+  .write-page .form-field textarea {
+    min-height: 260px;
+  }
+
+  .write-actions .cancel-button,
+  .write-actions .submit-button {
+    flex: 1;
+    min-width: 0;
+  }
+}
