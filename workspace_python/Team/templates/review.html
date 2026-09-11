@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="/static/css/header.css">
   <link rel="stylesheet" href="/static/css/review_list.css">
 </head>
+
 <body>
   {% include 'header.html' %}
   <main class="review-page">
@@ -17,22 +19,22 @@
         <div class="review-title-area">
           <div>
             <span class="review-label">REVIEW</span>
-            <h1>둘이 먹다 둘이 죽어도 모르는 집</h1>
+            <h1>{{res_info.res_name}}</h1>
             <p>방문한 사람들이 남긴 솔직한 리뷰를 확인해 보세요.</p>
           </div>
 
-          <a href="/review/add" class="write-review-button">리뷰 작성</a>
+          <a href="/review/{{res_info.res_code}}/add" class="write-review-button">리뷰 작성</a>
         </div>
       </div>
 
       <div class="rating-summary">
         <div class="rating-number">
           <span>★</span>
-          <strong>4.8</strong>
+          <strong>{{res_info.rating}}</strong>
         </div>
 
         <div class="rating-detail">
-          <strong>전체 리뷰 3개</strong>
+          <strong>전체 리뷰 {{review_count.count}}개</strong>
           <span>평균 만족도가 높은 식당입니다.</span>
         </div>
       </div>
@@ -53,11 +55,11 @@
       </div>
 
       <div class="review-list">
-        <article class="review-card">
-          <div class="reviewer-area">
-            <div class="reviewer-avatar" aria-hidden="true">B</div>
+        <!-- <article class="review-card"> -->
+          <!-- <div class="reviewer-area">
+            <div class="reviewer-avatar" aria-hidden="true">B</div> -->
 
-            <div class="reviewer-info">
+            <!-- <div class="reviewer-info">
               <strong>botchi</strong>
               <span>2026.09.07</span>
             </div>
@@ -143,18 +145,55 @@
               음식도 빨리 나오고 매장이 깔끔해서 편하게 먹었습니다.
               메뉴판도 보기 쉬워서 처음 방문해도 주문하기 좋았어요.
             </p>
-          </div>
+          </div> -->
 
-          <div class="review-actions">
+          <!-- <div class="review-actions">
             <button type="button" class="helpful-button">도움돼요 2</button>
           </div>
-        </article>
+        </article> -->
+        {% if review_list %}
+            {% for review in review_list %}
+              <article class="review-card">
+                <div class="reviewer-area">
+                  <div class="reviewer-avatar" aria-hidden="true">B</div>
+
+                  <div class="reviewer-info">
+                    <strong>{{review.member_id}}</strong>
+                    <span>{{review.review_time}}</span>
+                  </div>
+
+                  <div class="review-score" aria-label="평점 5점">
+                    <span>★</span>
+                    <strong>{{review.rating}}</strong>
+                  </div>
+                </div>
+
+                <div class="review-content">
+                  <div class="review-tags">
+                    <span>내 컴퓨터 누가 해킹했어</span>
+                    <span>로그인도 안 되지롱</span>
+                  </div>
+
+                  <p>
+                    {{review.review_content}}
+                  </p>
+                </div>
+
+                <div class="review-actions">
+                  <button type="button" class="helpful-button">도움돼요 74</button>
+                  <a href="/review/update/1">수정</a>
+                  <button type="button" class="delete-button">삭제</button>
+                </div>
+              </article>
+            {% endfor %}
+        {% endif %}
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <small>Provided by Team. NAT</small>
+    {% include 'footer.html' %}
   </footer>
 </body>
+
 </html>

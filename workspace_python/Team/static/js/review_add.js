@@ -1,15 +1,15 @@
-function init(){
+const init = () => {
     bind()
 }
 
 window.onload = init
 
-function bind(){
+const bind = () => {
     const textarea = document.getElementById('review-content')
     const charCount = document.getElementById('char-count')
     const MAX_LENGTH = 1000
 
-    textarea.addEventListener('input', function() {
+    textarea.addEventListener('input', () => {
         let currentLength = textarea.value.length
 
         // 1000자를 초과한 경우 처리

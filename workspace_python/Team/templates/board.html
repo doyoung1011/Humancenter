@@ -1,153 +1,190 @@
-<!doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="/static/css/board.css">
-  <link rel="stylesheet" href="/static/css/header.css">
+    <title>DISH INSIDE 게시판</title>
 
-  <title>게시판 | Dish Inside</title>
+    <link rel="stylesheet" href="/static/css/board.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/footer/footer.css">
 </head>
 
 <body>
-  {% include 'header.html' %}
+    <!--  위에 검색창은 진자로 불러옴 -->
+     {% include 'header.html' %}
+<div class="board-container">
 
-  <main class="board-page">
-    <a href="/dsinside" class="back-to-main">
-      <span aria-hidden="true">←</span>
-      메인으로 돌아가기
-    </a>
+    <!-- 게시판 상단 -->
+    <div class="board-header">
 
-    <section class="board-card">
-      <!-- 게시판 제목 -->
-      <div class="board-heading">
         <div>
-          <h1>맛집 게시판</h1>
-          <p>맛집 정보와 솔직한 후기를 자유롭게 공유해 보세요.</p>
+            <h1>자유 게시판</h1>
+            <p>DISH INSIDE 회원들과 자유롭게 이야기를 나눠보세요.</p>
         </div>
 
-        <a href="/board/write" class="write-button">
-          글쓰기
+        <a href="/board/write" class="write-btn">
+            글쓰기
         </a>
-      </div>
 
-      <!-- 게시판 검색하는 곳 -->
-      <form
-        class="board-search-form"
-        method="post"
-        action="/board"
-      >
-        <select name="category" aria-label="검색 분류">
-          <option value="all">전체</option>
-          <option value="title">제목</option>
-          <option value="writer">작성자</option>
-        </select>
+    </div>
 
-        <input
-          type="search"
-          name="keyword"
-          aria-label="게시글 검색"
-          placeholder="검색할 내용을 입력하세요"
+
+    <!-- 게시판 목록 -->
+    <div class="board-table">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th class="num">번호</th>
+                    <th class="title">제목</th>
+                    <th class="writer">작성자</th>
+                    <th class="date">작성일</th>
+                    <th class="view">조회</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                {% for post in posts %}
+
+                <tr>
+
+                    <td>
+                        {{ post.board_code }}
+                    </td>
+
+                    <td class="post-title">
+
+                        <a href="/board/detail/{{ post.board_code }}">
+                            {{ post.title }}
+                        </a>
+
+                    </td>
+
+                    <td>
+                        {{ post.member_id }}
+                    </td>
+
+                    <td>
+                        {{ post.created_at }}
+                    </td>
+
+                    <td>
+                        {{ post.views }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+
+                <!-- 게시글 없을 때 -->
+
+                {% if not posts %}
+
+                <tr>
+
+                    <td colspan="5" class="empty-board">
+
+                        등록된 게시글이 없습니다.
+
+                    </td>
+
+                </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- 게시판 아래 영역 -->
+    <div class="board-bottom">
+
+        <!-- 검색 -->
+
+        <form
+            action="/board"
+            method="get"
+            class="search-box"
         >
 
-        <button type="submit">검색</button>
-      </form>
+            <select name="type">
 
-      <!-- 게시글 목록 -->
-      <div class="board-table-wrapper">
-        <table class="board-table">
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>작성일</th>
-              <th>조회</th>
-            </tr>
-          </thead>
+                <option value="title">
+                    제목
+                </option>
 
-          <tbody>
-            <!-- 공지사항 -->
-            <tr class="notice-row">
-              <td>
-                <span class="notice-badge">공지</span>
-              </td>
+                <option value="writer">
+                    작성자
+                </option>
 
-              <td class="title-cell">
-                <a href="/board/detail/1">
-                  Dish Inside 게시판 이용 안내
-                </a>
-              </td>
+                <option value="content">
+                    내용
+                </option>
 
-              <td>관리자</td>
-              <td>2026-09-07</td>
-              <td>152</td>
-            </tr>
+            </select>
 
-            <!-- 일반 게시글 -->
-            <tr>
-              <td>3</td>
 
-              <td class="title-cell">
-                <a href="/board/detail/3">
-                  천안에서 진짜 맛있는 고깃집 찾았습니다
-                </a>
+            <input
+                type="text"
+                name="keyword"
+                placeholder="검색어를 입력하세요"
+            >
 
-                <span class="comment-count">5</span>
-              </td>
 
-              <td>USER1234</td>
-              <td>2026-09-07</td>
-              <td>43</td>
-            </tr>
+            <button type="submit">
+                검색
+            </button>
 
-            <tr>
-              <td>2</td>
+        </form>
 
-              <td class="title-cell">
-                <a href="/board/detail/2">
-                  혼자 먹기 좋은 식당 추천해주세요
-                </a>
 
-                <span class="comment-count">2</span>
-              </td>
+        <!-- 페이지 -->
 
-              <td>맛집헌터</td>
-              <td>2026-09-06</td>
-              <td>31</td>
-            </tr>
+        <div class="pagination">
 
-            <tr>
-              <td>1</td>
+            <a href="#" class="page-arrow">
+                ‹
+            </a>
 
-              <td class="title-cell">
-                <a href="/board/detail/1">
-                  새로 생긴 파스타집 다녀온 후기
-                </a>
-              </td>
+            <a href="#" class="page active">
+                1
+            </a>
 
-              <td>천안주민</td>
-              <td>2026-09-05</td>
-              <td>28</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            <a href="#" class="page">
+                2
+            </a>
 
-      <!-- 페이지 이동 -->
-      <nav class="pagination" aria-label="게시판 페이지">
-        <a href="#" aria-label="이전 페이지">‹</a>
-        <a href="#" class="active" aria-current="page">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#" aria-label="다음 페이지">›</a>
-      </nav>
-    </section>
-  </main>
+            <a href="#" class="page">
+                3
+            </a>
 
-  <footer class="site-footer">
-    <small>Provided by Team. NAT</small>
-  </footer>
+            <a href="#" class="page">
+                4
+            </a>
+
+            <a href="#" class="page">
+                5
+            </a>
+
+            <a href="#" class="page-arrow">
+                ›
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% include 'footer.html' %}
 </body>
 </html>
