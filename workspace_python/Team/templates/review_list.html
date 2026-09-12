@@ -8,6 +8,13 @@
 </head>
 <body>
     {% include 'header.html' %}
-    <h1>리뷰 조회하는곳</h1>
+    
+    <div class="reviews">
+         {% for reviews in  review_list%}
+          {{reviews.review_content}}
+         
+         {% endfor %}
+
+    </div>
 </body>
 </html>

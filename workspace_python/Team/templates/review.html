@@ -23,14 +23,14 @@
             <p>방문한 사람들이 남긴 솔직한 리뷰를 확인해 보세요.</p>
           </div>
 
-          <a href="/review/{{res_info.res_code}}/add" class="write-review-button">리뷰 작성</a>
+          <a href="/review/{{res_info.res_code}}/{{request.session.get('member_id')}}" class="write-review-button">리뷰 작성</a>
         </div>
       </div>
 
       <div class="rating-summary">
         <div class="rating-number">
           <span>★</span>
-          <strong>{{res_info.rating}}</strong>
+          <strong>{{rating_info.rating}}</strong>
         </div>
 
         <div class="rating-detail">

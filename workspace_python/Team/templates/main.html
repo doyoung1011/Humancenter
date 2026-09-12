@@ -72,7 +72,7 @@
                   <div class="restaurant-rating">
                     <span>★</span>
 
-                    <strong> {{ res_info.rating }} </strong>
+                    <strong> {{ rating_info.rating }} </strong>
                   </div>
                 </div>
 
@@ -81,7 +81,8 @@
               ======================================== -->
 
                 <div class="restaurant-actions">
-                  <a href="/review/{{res_info.res_code}}" class="primary-action"> 리뷰 조회 </a>
+                  <!-- <a href="/review/{{request.session.get('res_code')}}" class="primary-action"> 리뷰 조회 </a> -->
+                  <a href="/review/{{ res_info.res_code }}" class="primary-action"> 리뷰 조회 </a>
 
                   <a href="/restaurant/update"> 정보 수정 </a>
 

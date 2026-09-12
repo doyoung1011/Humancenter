@@ -66,6 +66,8 @@ def main(
     session: Session = Depends(get_session)):
     
     res_info = []
+    menu_info = []
+    rating_info = 0.0
     
     # where절 조건 리스트 전체 조회하는 페이지에서 넘어갈 때 res_code 들고 오게끔 수정.
     try:
@@ -86,13 +88,23 @@ def main(
                             where r.res_code = 1
                         ''')
         
+        sql_rating = text('''
+                            select round(avg(re.rating), 2) as rating
+                            from restaurant r join review re using(res_code)
+                            where res_code = 1
+                        ''')
+        
         result = session.exec(sql_res)
         
         result2 = session.exec(sql_menu)
         
+        result3 = session.exec(sql_rating)
+        
         res_info = result.mappings().fetchone()
         
         menu_info = result2.mappings().fetchall()
+        
+        rating_info = result3.mappings().fetchone()
         
     except Exception as e:
         # 출력 확인용
@@ -106,7 +118,8 @@ def main(
         'main.html',
         {
         'res_info': res_info,
-        'menu_info': menu_info
+        'menu_info': menu_info,
+        'rating_info': rating_info
         }
     )
 
@@ -186,6 +199,7 @@ def _login(
     
     request.session['member_id']=member['member_id']
     request.session['name']=member['name']
+    
    
     
     return RedirectResponse(
@@ -260,6 +274,7 @@ def review(
     print('res_code:', res_code)
     res_info = []
     review_list = []
+    rating_info = 0.0
     
     try:
         sql = text('''
@@ -287,6 +302,12 @@ def review(
                                     where res_code = :res_code
                               ''')
         
+        sql_rating = text('''
+                            select round(avg(re.rating), 2) as rating
+                            from restaurant r join review re using(res_code)
+                            where res_code = :res_code
+                        ''')
+        
         result = session.exec(sql, params ={'res_code': res_code})
         res_info = result.mappings().fetchone()
         
@@ -295,13 +316,18 @@ def review(
         
         result_review_count = session.exec(sql_review_cnt, params = {'res_code': res_code})
         review_count = result_review_count.mappings().fetchone()
+        
+        result_rating = session.exec(sql_rating, params={'res_code': res_code})
+        rating_info = result_rating.mappings().fetchone()
 
-        print('리뷰 조회 결과:', review_list)
-
+        # print('리뷰 조회 결과:', review_list)
+    
     except Exception as e:
-        print(res_info)
-        print(review_list)
+        # print(res_info)
+        # print(review_list)
         print('리뷰 조회 에러:', e)
+        
+    # request.session['res_code'] = res_info['res_code']
 
     return templates.TemplateResponse(
         request,
@@ -309,7 +335,8 @@ def review(
         {
             'res_info': res_info,
             'review_list': review_list,
-            'review_count': review_count
+            'review_count': review_count,
+            'rating_info': rating_info
         }
     )
 
@@ -319,10 +346,13 @@ def review(
 # 리뷰 작성 페이지
 # =========================================================
 
-@app.get('/review/{res_code}/add')
+@app.get('/review/{res_code}/{member_id}')
 def review_add(request: Request,
                res_code: int,
+               member_id: str,
                session: Session = Depends(get_session)):
+    print('/review/{res_code}/{member_id} 실행 성공')
+    member_info = []
     try:
         sql = text('''
                    select res_code, res_name
@@ -333,18 +363,19 @@ def review_add(request: Request,
         sql_member = text('''
                             select member_code, name
                             from member
-                            where member_code = 7
+                            where member_id = :member_id
                             ''')
         
         result = session.exec(sql, params = {'res_code': res_code})
         res_info = result.mappings().fetchone()
         
-        member = session.exec(sql_member)
+        member = session.exec(sql_member, params = {'member_id': member_id})
         member_info = member.mappings().fetchone()
         
     except Exception as e:
         print('리뷰 작성 페이지 이동 오류:', e)
     
+    print(member_info)
     return templates.TemplateResponse(
         request,
         'review_add.html',
@@ -393,16 +424,19 @@ def review_add2(
                 'review_time': datetime.now()
             }
         )
-
+        
     except Exception as e:
         # print('res_code:', review.res_code)
         # print('member_code:', review.member_code)
         print('리뷰 등록 에러:', e)
-
+        
+    # print(res_code)
+    
     return RedirectResponse(
-        url='/review/{res_code}',
+        url=f'/review/{res_code}',
         status_code=303
     )
+
 
 
 # =========================================================
@@ -497,17 +531,58 @@ def mypage(request: Request):
             }
         )
     
-        
+# =========================================================
+# 마이페이지에서 내가 쓴 리뷰를 모아둔 공간임
+# =========================================================        
         
    
- 
 
 @app.get('/mypage/reviews')
-def reviews(request: Request):
-    return templates.TemplateResponse(
-        request,
-        'review_list.html'
-    )
+def reviews(request: Request, session: Session = Depends(get_session)):
+    
+    print("리뷰 조회 사이트 들어와졌니?")
+    
+    # 세션에서 로그인 여부 체크하고 
+    logChk = request.session.get('member_id')
+    print("logChk:", logChk)
+    print("세션 전체:", request.session)
+    
+    if logChk:       
+       
+        sql = text('''
+            SELECT * 
+            FROM Review r 
+            JOIN member m USING(member_code) 
+            WHERE m.member_id = :member_id;
+        ''')
+        
+      
+        result=session.exec(
+            sql,
+            params={'member_id': logChk}
+        )
+         
+   
+        review_list=result.mappings().fetchall()
+        
+        return templates.TemplateResponse(
+                  request,
+                  'review_list.html',
+                  {
+                      'review_list': review_list
+                  }
+              )
+          
+    else:
+    
+        return RedirectResponse(
+            url='/login',
+            status_code=303
+        )
+       
+        
+    
+
     
 # ========== 해당 부분은 아직 개발 중입니다========= 
 @app.get('/mypage/update')
