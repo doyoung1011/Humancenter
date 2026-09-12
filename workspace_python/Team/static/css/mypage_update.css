@@ -1,0 +1,215 @@
+/* =========================
+   내 정보 페이지
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        Pretendard,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+
+/* 페이지 전체 */
+.myinfo-page {
+    width: 100%;
+    min-height: 650px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 80px 20px;
+}
+
+
+/* 내정보 카드 */
+.myinfo-card {
+    width: 100%;
+    max-width: 700px;
+
+    background-color: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* 제목 */
+.myinfo-card h1 {
+    margin: 0 0 8px;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #222;
+}
+
+
+/* 설명 */
+.myinfo-description {
+    margin: 0 0 32px;
+
+    font-size: 14px;
+
+    color: #888;
+}
+
+
+/* 테이블 */
+.myinfo-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    border-top: 2px solid #ff5b3f;
+}
+
+
+/* 테이블 제목 */
+.myinfo-table th {
+    width: 35%;
+
+    padding: 18px 20px;
+
+    background-color: #fff5f2;
+
+    border-bottom: 1px solid #eeeeee;
+
+    color: #555;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    text-align: center;
+}
+
+
+/* 회원 정보 */
+.myinfo-table td {
+    padding: 20px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    font-size: 16px;
+
+    text-align: center;
+
+    color: #333;
+}
+
+
+/* 행 hover */
+.myinfo-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.myinfo-table tbody tr:hover {
+    background-color: #fffaf8;
+}
+
+
+/* 버튼 영역 */
+.myinfo-btn-area {
+    margin-top: 32px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+
+/* 공통 버튼 */
+.myinfo-btn-area a {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 44px;
+
+    padding: 0 22px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+/* 뒤로가기 */
+.back-btn {
+    background-color: #eeeeee;
+
+    color: #555;
+}
+
+.back-btn:hover {
+    background-color: #dddddd;
+}
+
+
+/* 수정 버튼 */
+.update-btn {
+    background-color: #ff5b3f;
+
+    color: white;
+}
+
+.update-btn:hover {
+    background-color: #e94b32;
+
+    transform: translateY(-1px);
+}
+
+
+/* 모바일 */
+@media (max-width: 600px) {
+
+    .myinfo-page {
+        padding: 40px 16px;
+    }
+
+    .myinfo-card {
+        padding: 28px 20px;
+    }
+
+    .myinfo-card h1 {
+        font-size: 24px;
+    }
+
+    .myinfo-table th,
+    .myinfo-table td {
+        padding: 15px 10px;
+
+        font-size: 14px;
+    }
+
+    .myinfo-btn-area {
+        flex-direction: column;
+    }
+
+    .myinfo-btn-area a {
+        width: 100%;
+    }
+}

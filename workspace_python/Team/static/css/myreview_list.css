@@ -1,0 +1,183 @@
+.reviews {
+  width: 100%;
+  margin-top: 8px;
+  background: #fff;
+
+  border-top: 1px solid #e8e8e8;
+}
+
+
+/* 리뷰 하나 */
+.review-card {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 6px;
+
+  background: #fff;
+
+  border: none;
+  border-bottom: 1px solid #eeeeee;
+  border-radius: 0;
+
+  box-shadow: none;
+}
+
+
+/* 식당명 + 시간 */
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 0 0 6px 0;
+  padding: 0;
+
+  border: none;
+}
+
+
+.restaurant-name {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  color: #222;
+}
+
+
+.review-time {
+  font-size: 10px;
+
+  color: #999;
+
+  white-space: nowrap;
+}
+
+
+/* 리뷰 내용 */
+.review-body {
+  min-height: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+.review-content {
+  margin: 0;
+
+  font-size: 12px;
+  line-height: 1.5;
+
+  color: #444;
+
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+
+/* 하단 */
+.review-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 8px;
+  padding: 0;
+
+  border: none;
+}
+
+
+/* 별점 */
+.review-rating {
+  padding: 0;
+
+  background: transparent;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  color: #ff5b3f;
+}
+
+
+/* 버튼 */
+.review-actions {
+  display: flex;
+  align-items: center;
+}
+
+
+.delete-form {
+  margin: 0;
+}
+
+
+.delete-btn {
+  padding: 2px 4px;
+
+  border: none;
+  background: transparent;
+
+  font-size: 10px;
+
+  color: #aaa;
+
+  cursor: pointer;
+}
+
+
+.delete-btn:hover {
+  color: #ff5b3f;
+}
+
+
+/* 리뷰 없음 */
+.empty-review {
+  padding: 28px 10px;
+
+  text-align: center;
+
+  background: #fff;
+
+  border: none;
+  border-bottom: 1px solid #eeeeee;
+}
+
+
+.empty-review p {
+  margin: 0;
+
+  font-size: 12px;
+
+  color: #999;
+}
+
+
+/* 모바일 */
+@media (max-width: 600px) {
+
+  .review-card {
+    padding: 10px 4px;
+  }
+
+  .restaurant-name {
+    font-size: 13px;
+  }
+
+  .review-content {
+    font-size: 11px;
+  }
+
+  .review-time {
+    font-size: 9px;
+  }
+
+  .review-rating {
+    font-size: 10px;
+  }
+
+}

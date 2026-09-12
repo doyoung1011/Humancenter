@@ -229,24 +229,6 @@ def logout(request:Request):
                status_code=303
            )
        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  
-    
-    
-
-
-    
-
-   
-
 
 # =========================================================
 # 식당 정보 수정
@@ -550,11 +532,12 @@ def reviews(request: Request, session: Session = Depends(get_session)):
     if logChk:       
        
         sql = text('''
-            SELECT * 
-            FROM Review r 
-            JOIN member m USING(member_code) 
-            WHERE m.member_id = :member_id;
-        ''')
+         SELECT *
+         FROM review rv
+         JOIN member m  using(member_code)
+         left join restaurant r using(res_code)
+         where m.member_id=:member_id;
+         ''')
         
       
         result=session.exec(
@@ -564,10 +547,11 @@ def reviews(request: Request, session: Session = Depends(get_session)):
          
    
         review_list=result.mappings().fetchall()
+        print("review_list:", review_list)
         
         return templates.TemplateResponse(
                   request,
-                  'review_list.html',
+                  'myreview_list.html',
                   {
                       'review_list': review_list
                   }
@@ -579,42 +563,91 @@ def reviews(request: Request, session: Session = Depends(get_session)):
             url='/login',
             status_code=303
         )
-       
-        
-    
 
+# 마이 페이지에서 내가 쓴 글 삭제하는 부분        
+@app.post('/review/delete')
+
+def delete_review(
+    review_code : int=Form(),
+    session:Session=Depends(get_session)):
     
+  
+    try:
+      sql=text('''
+                delete from review
+                where review_code=:review_code    
+                ''')
+      
+      session.exec(
+            sql,
+            params={'review_code': review_code}
+        )
+      session.commit()
+      
+    except Exception as e:
+        print('에러가 발생했습니다',e)
+        session.rollback()
+          
+    return RedirectResponse(               
+                    url='/mypage/reviews',
+                    status_code=303 # 303: 무조건 GET으로 다시 들어오게 한다
+                   )    
+                     
+      
+
+
 # ========== 해당 부분은 아직 개발 중입니다========= 
 @app.get('/mypage/update')
-
 def mypage_updatepage(
     request: Request,
     session: Session = Depends(get_session)
 ):
 
-    try:
+    # 세션에 id가 담겨있음
+    member_id = request.session.get('member_id')
+
+    if member_id:
         sql = text('''
             SELECT *
             FROM member
-            where member_id=:member_id
+            WHERE member_id = :member_id
         ''')
 
-        result = session.exec(sql)
+        result = session.exec(
+            sql,
+            params={
+                'member_id': member_id
+            }
+        )
+
         member = result.mappings().fetchone()
 
-        print('회원 전체 조회:', member)
+        return templates.TemplateResponse(
+            request,
+            'mypage_update.html',
+            {
+                'member': member
+            }
+        )
 
-    except Exception as e:
-        print(f"데이터베이스 조회 중 에러 발생: {e}")
-
-    return templates.TemplateResponse(
-        request,
-        'admin_member.html',
-        {
-            'member': member
-        }
-    )
+    else:
+        return RedirectResponse(
+            url='/dsinside',
+            status_code=303
+        )
    
+
+    
+    
+    
+    
+    
+    
+    
+
+ 
+   
+
 
 @app.post('/api/mypage/update')
 def _update(
@@ -748,6 +781,8 @@ def board_write(request:Request):
              request,
              'board_write.html'
          )
+  
+  
 
 
 

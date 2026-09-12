@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/myreview_list.css">
+    <link rel="stylesheet" href="/static/css/mypageHeader.css">
+    <link rel="stylesheet" href="/static/css/footer/footer.css">
+  
+</head>
+<body>
+
+  {% include 'mypageHeader.html' %}
+ 
+
+  <div class="reviews">
+
+  {% for review in review_list %}
+  <article class="review-card">
+
+    <div class="review-header">
+      <h3 class="restaurant-name">
+        {{ review.res_name }}
+      </h3>
+
+      <span class="review-time">
+        {{ review.review_time }}
+      </span>
+    </div>
+
+    <div class="review-body">
+      <p class="review-content">
+        {{ review.review_content }}
+      </p>
+    </div>
+
+    <div class="review-footer">
+
+      {% if review.rating %}
+      <span class="review-rating">
+        ⭐ {{ review.rating }}
+      </span>
+      {% endif %}
+
+      <div class="review-actions">
+
+        <form
+          action="/review/delete"
+          method="post"
+          class="delete-form"
+        >
+          <input
+            type="hidden"
+            name="review_code"
+            value="{{ review.review_code }}"
+          >
+
+          <button type="submit" class="delete-btn">
+            삭제
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+
+  </article>
+
+  {% else %}
+
+  <div class="empty-review">
+    <p>작성한 리뷰가 없습니다.</p>
+  </div>
+
+  {% endfor %}
+
+</div>
+ {% include 'footer.html' %}
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/mypage.css">
+</head>
+
+<body>
+
+<header class="mypage-header">
+
+    <!-- 왼쪽 로고 -->
+    <a href="/dsinside" class="mypage-logo">
+        <img
+            src="/static/images/KakaoTalk_20260902_172536230.png"
+            alt="Dish Inside 로고"
+        >
+    </a>
+
+
+    <!-- 오른쪽 회원 영역 -->
+    <div class="mypage-member-area">
+
+        {% if request.session.get('member_id') %}
+
+            <div class="mypage-member-info">
+                <strong>{{ request.session.get('member_id') }}</strong>
+                님 로그인 중
+            </div>
+
+            <div class="mypage-member-buttons">
+                <a href="/dsinside">메인으로</a>
+                <a href="/logout" class="logout-btn">로그아웃</a>
+            </div>
+
+        {% else %}
+
+            <div class="mypage-member-buttons">
+                <a href="/login">로그인</a>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</header>
+
+</body>
+</html>
