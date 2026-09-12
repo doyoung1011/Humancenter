@@ -21,7 +21,7 @@ window.onload = () => {
         document.querySelector('.popup').classList.add('hide')
     }
    
-}
+} 
 
 function getCookieValue(key){
     cookies=document.cookie.split('; ')

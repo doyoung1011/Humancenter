@@ -54,4 +54,4 @@ const bind = () => {
             imagePreview.style.display = 'block'
         }
     })
-}
+} 

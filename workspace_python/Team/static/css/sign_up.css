@@ -14,7 +14,7 @@
   --text: #202124;
   --sub-text: #777;
   --line: #e4e4e4;
-
+ 
   width: min(620px, calc(100% - 32px));
   margin: 50px auto 70px;
   padding: 42px 40px;

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ post.title }} - DISH INSIDE</title>
+
+    <link rel="stylesheet" href="/static/css/board_detail.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/footer/footer.css">
+</head>
+
+<body>
+
+    {% include 'header.html' %}
+
+    <main class="board-detail-container">
+
+        <!-- 게시판 상단 -->
+        <div class="board-detail-header">
+            <div>
+                <h1>자유 게시판</h1>
+                <p>DISH INSIDE 회원들과 자유롭게 이야기를 나눠보세요.</p>
+            </div>
+
+            <a href="/board" class="list-top-btn">
+                목록
+            </a>
+        </div>
+
+
+        <!-- 게시글 -->
+        <article class="post">
+
+            <!-- 제목 영역 -->
+            <div class="post-header">
+
+                <h2 class="post-title">
+                    {{ post.title }}
+                </h2>
+
+                <div class="post-info">
+
+                    <div class="post-writer">
+                        <span class="info-label">작성자</span>
+                        <strong>{{ post.member_id }}</strong>
+                    </div>
+
+                    <div class="post-meta">
+
+                        <span>
+                            {{ post.created_at }}
+                        </span>
+
+                        <span class="divider"></span>
+
+                        <span>
+                            조회 {{ post.views }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 게시글 내용 -->
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+
+        </article>
+
+
+        <!-- 버튼 영역 -->
+        <div class="post-buttons">
+
+            <a href="/board" class="btn btn-list">
+                목록
+            </a>
+
+            <div class="right-buttons">
+
+                <a
+                    href="/board/edit/{{ post.board_code }}"
+                    class="btn btn-edit"
+                >
+                    수정
+                </a>
+
+                <form
+                    action="/board/delete"
+                    method="post"
+                    class="delete-form"
+                    onsubmit="return confirm('게시글을 삭제하시겠습니까?');"
+                >
+
+                    <input
+                        type="hidden"
+                        name="board_code"
+                        value="{{ post.board_code }}"
+                    >
+
+                    <button
+                        type="submit"
+                        class="btn btn-delete"
+                    >
+                        삭제
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- 댓글 영역 -->
+        <section class="comment-section">
+
+            <div class="comment-title">
+                <h3>댓글</h3>
+
+                <span>
+                    {{ comments|length if comments else 0 }}
+                </span>
+            </div>
+
+
+            <!-- 댓글 작성 -->
+            <form
+                action="/board/comment/add"
+                method="post"
+                class="comment-write"
+            >
+
+                <input
+                    type="hidden"
+                    name="board_code"
+                    value="{{ post.board_code }}"
+                >
+
+                <textarea
+                    name="comment_content"
+                    placeholder="댓글을 입력해주세요."
+                    required
+                ></textarea>
+
+                <button type="submit">
+                    등록
+                </button>
+
+            </form>
+
+
+            <!-- 댓글 목록 -->
+            <div class="comment-list">
+
+                {% if comments %}
+
+                    {% for comment in comments %}
+
+                    <div class="comment-item">
+
+                        <div class="comment-top">
+
+                            <strong class="comment-writer">
+                                {{ comment.member_id }}
+                            </strong>
+
+                            <span class="comment-date">
+                                {{ comment.created_at }}
+                            </span>
+
+                        </div>
+
+                        <div class="comment-content">
+                            {{ comment.comment_content }}
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="no-comment">
+                        아직 작성된 댓글이 없습니다.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

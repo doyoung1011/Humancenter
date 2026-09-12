@@ -668,7 +668,7 @@ def _update(
                 'member_id': login_id
             }
         )
-
+ 
         session.commit()
         
         

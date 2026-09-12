@@ -41,4 +41,4 @@ const bind = () => {
             passwordWarning.innerText = ''
         }
     })
-}
+} 

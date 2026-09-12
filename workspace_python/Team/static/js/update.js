@@ -36,7 +36,7 @@ const bind = () => {
         `
         menuList.append(menuRow)
     })
-
+ 
     menuList.addEventListener('click', function (event) {
         if (event.target.classList.contains('menu-delete')) {
             event.target.parentElement.remove()
