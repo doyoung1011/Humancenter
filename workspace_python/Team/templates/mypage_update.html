@@ -5,15 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>내 정보</title>
-     <link rel="stylesheet" href="/static/css/mypageHeader.css">
+    <title>내 정보 수정</title>
+
+    <link rel="stylesheet" href="/static/css/mypageHeader.css">
     <link rel="stylesheet" href="/static/css/mypage_update.css">
     <link rel="stylesheet" href="/static/css/mypage.css">
     <link rel="stylesheet" href="/static/css/footer/footer.css">
 </head>
 
 <body>
+
     {% include 'mypageHeader.html' %}
+
     <main class="myinfo-page">
 
         <section class="myinfo-card">
@@ -21,8 +24,11 @@
             <h1>내 정보</h1>
 
             <p class="myinfo-description">
-                회원 정보를 확인하고 수정할 수 있습니다.
+                현재 회원 정보를 확인하고 수정할 수 있습니다.
             </p>
+
+            <!-- 현재 회원 정보 -->
+            <h2>현재 정보</h2>
 
             <table class="myinfo-table">
 
@@ -42,25 +48,73 @@
 
             </table>
 
-            <div class="myinfo-btn-area">
 
-                <a href="/mypage" class="back-btn">
-                    뒤로가기
-                </a>
+            <!-- 회원 정보 수정 -->
+            <h2>정보 수정</h2>
 
-                <a href="/mypage/update" class="update-btn">
-                    회원정보 수정
-                </a>
+            <form action="/api/mypage/update" method="post">
 
-            </div>
+                <table class="myinfo-table">
+
+                    <thead>
+                        <tr>
+                            <th>이름</th>
+                            <th>전화번호</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value="{{ member.name }}"
+                                    required
+                                >
+                            </td>
+
+                            <td>
+                                <input
+                                    type="text"
+                                    name="member_pnum"
+                                    value="{{ member.member_pnum }}"
+                                    required
+                                >
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <div class="myinfo-btn-area">
+
+                    <a href="/mypage" class="back-btn">
+                        뒤로가기
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="update-btn"
+                    >
+                        수정하기
+                    </button>
+
+                </div>
+
+            </form>
 
         </section>
 
     </main>
-
 
     {% include 'footer.html' %}
 
 </body>
 
 </html>
+

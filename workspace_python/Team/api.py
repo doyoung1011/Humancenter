@@ -596,7 +596,9 @@ def delete_review(
       
 
 
-# ========== 해당 부분은 아직 개발 중입니다========= 
+# ========== 2026-09-12 마이 페이지 업데이트부분========= 
+
+
 @app.get('/mypage/update')
 def mypage_updatepage(
     request: Request,
@@ -637,41 +639,39 @@ def mypage_updatepage(
         )
    
 
-    
-    
-    
-    
-    
-    
-    
 
- 
-   
-
-
+    
+    
+# 내정보 수정, 이름과 전화번호까지만 수정가능한 설정,
+# 세션에 있는거
 @app.post('/api/mypage/update')
 def _update(
-    member: Member=Form(),
+    request:Request,
+    name:str=Form(),
+    member_pnum:str=Form(), 
     session: Session = Depends(get_session)
 ):
+    
+    member_id = request.session.get('member_id')
     try:
         session.exec(
             text('''
                 UPDATE member
                 SET
-                    member_pw = :member_pw,
+                    name = :name,
                     member_pnum = :member_pnum
-                WHERE member_id = :member_id
+                    WHERE member_id = :member_id
             '''),
             params={
-                'member_id': member.member_id,
-                'member_pw': member.member_pw,
-                'member_pnum': member.member_pnum
+                'name': name,
+                'member_pnum':member_pnum,
+                'member_id':member_id
             }
         )
 
         session.commit()
-
+        
+        
     except Exception as e:
         print('에러 발생 수정요망', e)
 
