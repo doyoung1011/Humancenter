@@ -652,7 +652,7 @@ def _update(
     session: Session = Depends(get_session)
 ):
     
-    member_id = request.session.get('member_id')
+    login_id = request.session.get('member_id')
     try:
         session.exec(
             text('''
@@ -665,7 +665,7 @@ def _update(
             params={
                 'name': name,
                 'member_pnum':member_pnum,
-                'member_id':member_id
+                'member_id': login_id
             }
         )
 
