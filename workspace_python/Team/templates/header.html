@@ -28,9 +28,17 @@
 
   <!-- 오른쪽: 회원 영역 -->
   <div class="member-area">
-    <a href="/mypage">프로필</a>
-    <a href="/login">로그인</a>
-    <a href="/logout">로그아웃</a>
+
+    {% if request.session.get('member_id')%}
+     <a href="/mypage">프로필</a>
+     <a href="/logout">로그아웃</a>
+    {% else %} 
+     <a href="/login">로그인</a>
+
+    {% endif %}  
+  
+   
+     
   </div>
 </header>
 

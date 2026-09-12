@@ -38,11 +38,6 @@ engine = create_engine(
     echo=True
 )
 
-engine = create_engine(
-    DATABASE_URL,
-    echo=True
-)
-
 
 def get_session():
     with Session(engine) as session:
@@ -142,7 +137,7 @@ def search(request: Request):
 
 # =========================================================
 # 로그인 처리
-# 로그인 구현 성공
+# 로그인 구현 성공, 로그인할때 세션에 이름도 전달해야함
 # =========================================================
 
 def verify(orig, hashed):
@@ -190,12 +185,15 @@ def _login(
                     )
     
     request.session['member_id']=member['member_id']
+    request.session['name']=member['name']
    
     
     return RedirectResponse(
            url='/dsinside',
            status_code=303
        )
+    
+    
    
 
     
@@ -315,73 +313,6 @@ def review(
         }
     )
 
-
-# =========================================================
-# 리뷰 전체 조회
-# =========================================================
-
-@app.get('/review/{res_code}')
-def review(
-    request: Request,
-    res_code:int,
-    session: Session = Depends(get_session)
-):
-    print('/review/{res_code} 실행 성공')
-    print('res_code:', res_code)
-    res_info = []
-    review_list = []
-    
-    try:
-        sql = text('''
-                   select *
-                   from restaurant
-                   where res_code = :res_code
-                   ''')
-        
-        sql_review = text('''
-            select
-                mem.member_id,
-                review_content,
-                rev.rating,
-                DATE_FORMAT(review_time, "%Y.%m.%d") AS review_time
-            FROM restaurant as r join review AS rev using(res_code)
-            JOIN member AS mem on rev.member_code = mem.member_code
-            where res_code = :res_code
-        ''')
-        
-        sql_review_cnt = text('''
-                              select
-                                    count(*) as count
-                                    FROM restaurant as r join review AS rev using(res_code)
-                                    JOIN member AS mem on rev.member_code = mem.member_code
-                                    where res_code = :res_code
-                              ''')
-        
-        result = session.exec(sql, params ={'res_code': res_code})
-        res_info = result.mappings().fetchone()
-        
-        result_review = session.exec(sql_review, params = {'res_code': res_code})
-        review_list = result_review.mappings().fetchall()
-        
-        result_review_count = session.exec(sql_review_cnt, params = {'res_code': res_code})
-        review_count = result_review_count.mappings().fetchone()
-
-        # print('리뷰 조회 결과:', review_list)
-
-    except Exception as e:
-        print(res_info)
-        print(review_list)
-        print('리뷰 조회 에러:', e)
-
-    return templates.TemplateResponse(
-        request,
-        'review.html',
-        {
-            'res_info': res_info,
-            'review_list': review_list,
-            'review_count': review_count
-        }
-    )
 
 
 # =========================================================
@@ -552,6 +483,7 @@ def mypage(request: Request):
     return templates.TemplateResponse(
         request,
         'mypage.html'
+       
     )
  
 
