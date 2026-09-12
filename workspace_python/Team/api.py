@@ -480,11 +480,26 @@ def _signup(
 
 @app.get('/mypage')
 def mypage(request: Request):
+    
+    login_chk=request.session.get('member_id')
+    
+    if not login_chk:
+        return RedirectResponse(
+                url='/dsinside',
+                status_code=303
+            )
+        
     return templates.TemplateResponse(
-        request,
-        'mypage.html'
-       
-    )
+            request,
+            'mypage.html',
+            {
+                'member_id': login_chk
+            }
+        )
+    
+        
+        
+   
  
 
 @app.get('/mypage/reviews')

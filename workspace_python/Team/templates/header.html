@@ -26,20 +26,28 @@
     <button type="submit">검색</button>
   </form>
 
-  <!-- 오른쪽: 회원 영역 -->
-  <div class="member-area">
+<div class="member-area">
 
-    {% if request.session.get('member_id')%}
-     <a href="/mypage">프로필</a>
-     <a href="/logout">로그아웃</a>
-    {% else %} 
-     <a href="/login">로그인</a>
+  {% if request.session.get('member_id') %}
 
-    {% endif %}  
-  
-   
-     
-  </div>
+    <div class="member-buttons">
+      <a href="/mypage">프로필</a>
+      <a href="/logout">로그아웃</a>
+    </div>
+
+    <div class="member-info">
+      {{request.session.get('member_id')}} 님 로그인 중 
+    </div>
+
+  {% else %}
+
+    <div class="member-buttons">
+      <a href="/login">로그인</a>
+    </div>
+
+  {% endif %}
+
+</div>
 </header>
 
     

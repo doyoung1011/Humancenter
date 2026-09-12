@@ -1,335 +1,326 @@
-/* ========================================
-   Dish Inside 공통 헤더
-======================================== */
-
-.site-header,
-.site-header * {
-  box-sizing: border-box;
-}
+/* =========================
+   HEADER 전체
+========================= */
 
 .site-header {
-  --brand: #ff5b3f;
-  --brand-dark: #e7472e;
-  --brand-light: #fff2ee;
-  --text: #202124;
-  --line: #e8e8e8;
+    width: min(1200px, calc(100% - 40px));
+    min-height: 92px;
 
-  display: grid;
-  grid-template-columns: 150px minmax(320px, 1fr) 190px;
-  align-items: center;
-  gap: 28px;
+    margin: 0 auto;
 
-  position: relative;
-  width: min(1200px, calc(100% - 40px));
-  min-height: 92px;
-  margin: 0 auto;
-  padding: 7px 0;
+    display: grid;
 
-  border-bottom: 1px solid var(--line);
-  background-color: #fff;
+    /* 로고 / 검색창 / 회원영역 */
+    grid-template-columns:
+        145px
+        minmax(300px, 1fr)
+        minmax(180px, 230px);
 
-  font-family:
-    "Pretendard",
-    "Noto Sans KR",
-    "Malgun Gothic",
-    sans-serif;
+    align-items: center;
+    gap: 24px;
+
+    box-sizing: border-box;
 }
 
-/* ========================================
+
+/* =========================
    로고
-======================================== */
+========================= */
 
-.site-header .site-logo {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+.site-logo {
+    display: flex;
+    align-items: center;
 
-  width: 130px;
-  height: 78px;
+    width: 110px;
 
-  color: inherit;
-  text-decoration: none;
-  overflow: hidden;
+    text-decoration: none;
 }
 
-.site-header .site-logo img {
-  display: block;
-  width: 120px;
-  height: 78px;
-  object-fit: contain;
+.site-logo img {
+    display: block;
 
-  /* 원본 이미지 안쪽 여백 보정 */
-  transform: scale(1.1);
-  transform-origin: left center;
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
 }
 
-/* ========================================
+
+/* =========================
    검색창
-======================================== */
+========================= */
 
-.site-header .search-form {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 64px;
-  align-items: center;
-  gap: 8px;
+.search-form {
+    width: 100%;
 
-  justify-self: center;
+    display: flex;
+    align-items: center;
 
-  width: 100%;
-  max-width: 590px;
-  height: 48px;
-  padding: 4px 5px 4px 16px;
+    gap: 8px;
 
-  border: 1px solid #dedede;
-  border-radius: 14px;
-  background-color: #f8f8f9;
+    border: 1px solid #dddddd;
+    border-radius: 15px;
 
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease;
+    padding: 4px;
+
+    background-color: #fafafa;
+
+    box-sizing: border-box;
+
+    /*
+        grid 안에서 input 때문에
+        영역이 강제로 늘어나는 것 방지
+    */
+    min-width: 0;
 }
 
-.site-header .search-form:hover {
-  border-color: #cfcfcf;
-  background-color: #fff;
+
+/* 검색 input */
+.search-form input {
+    flex: 1;
+
+    min-width: 0;
+
+    height: 38px;
+
+    padding: 0 16px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
 }
 
-.site-header .search-form:focus-within {
-  border-color: var(--brand);
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(255, 91, 63, 0.1);
+
+/* 검색 placeholder */
+.search-form input::placeholder {
+    color: #999999;
 }
 
-.site-header .search-form input {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  height: 38px;
-  padding: 0 4px;
 
-  border: none;
-  outline: none;
-  background-color: transparent;
+/* 검색 버튼 */
+.search-form button {
+    flex-shrink: 0;
 
-  color: var(--text);
-  font-family: inherit;
-  font-size: 14px;
+    height: 38px;
+
+    padding: 0 20px;
+
+    border: none;
+    border-radius: 11px;
+
+    background-color: #ff5b3f;
+    color: white;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
 }
 
-.site-header .search-form input::placeholder {
-  color: #999;
+
+.search-form button:hover {
+    background-color: #ee4f35;
 }
 
-.site-header .search-form input::-webkit-search-cancel-button {
-  display: none;
+
+/* =========================
+   회원 영역
+========================= */
+
+.member-area {
+    /*
+        중요
+        ID가 아무리 길어도
+        이 영역 이상으로 커지지 않게 함
+    */
+    width: 100%;
+    max-width: 230px;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 6px;
+
+    box-sizing: border-box;
 }
 
-.site-header .search-form button {
-  width: 64px;
-  height: 38px;
-  padding: 0;
 
-  border: none;
-  border-radius: 10px;
-  background-color: var(--brand);
-  color: #fff;
+/* =========================
+   프로필 / 로그아웃 버튼
+========================= */
 
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
+.member-buttons {
+    width: 100%;
 
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    white-space: nowrap;
 }
 
-.site-header .search-form button:hover {
-  background-color: var(--brand-dark);
-  transform: translateY(-1px);
-}
 
-.site-header .search-form button:active {
-  transform: translateY(0);
-}
+.member-buttons a {
+    display: inline-flex;
 
-/* ========================================
-   프로필·로그인
-======================================== */
+    align-items: center;
+    justify-content: center;
 
-.site-header .member-area {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 9px;
+    min-width: 78px;
+    height: 40px;
 
-  justify-self: end;
-  white-space: nowrap;
-}
+    padding: 0 15px;
 
-.site-header .member-area a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    border: 1px solid #ffb5a8;
+    border-radius: 10px;
 
-  min-width: 82px;
-  height: 40px;
-  padding: 0 17px;
+    color: #ff5b3f;
+    background-color: #fff7f5;
 
-  border: 1px solid transparent;
-  border-radius: 10px;
+    text-decoration: none;
 
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-/* 프로필 */
-.site-header .member-area a:first-child {
-  border-color: #ffc8bc;
-  background-color: var(--brand-light);
-  color: var(--brand-dark);
-}
-
-.site-header .member-area a:first-child:hover {
-  border-color: var(--brand);
-  background-color: #ffe5df;
-  transform: translateY(-1px);
-}
-
-/* 로그인 */
-.site-header .member-area a:last-child {
-  border-color: var(--brand);
-  background-color: var(--brand);
-  color: #fff;
-}
-
-.site-header .member-area a:last-child:hover {
-  border-color: var(--brand-dark);
-  background-color: var(--brand-dark);
-  transform: translateY(-1px);
-}
-
-/* ========================================
-   태블릿
-======================================== */
-
-@media (max-width: 950px) {
-  .site-header {
-    grid-template-columns: 110px minmax(240px, 1fr) max-content;
-    gap: 17px;
-
-    width: calc(100% - 30px);
-  }
-
-  .site-header .site-logo {
-    width: 105px;
-  }
-
-  .site-header .site-logo img {
-    width: 100px;
-  }
-
-  .site-header .search-form {
-    max-width: 520px;
-  }
-
-  .site-header .member-area a {
-    min-width: 68px;
-    padding: 0 13px;
-  }
-}
-
-/* ========================================
-   모바일
-======================================== */
-
-@media (max-width: 700px) {
-  .site-header {
-    grid-template-columns: 100px 1fr;
-    gap: 8px 12px;
-
-    width: calc(100% - 24px);
-    min-height: auto;
-    padding: 7px 0 13px;
-  }
-
-  .site-header .site-logo {
-    width: 100px;
-    height: 66px;
-  }
-
-  .site-header .site-logo img {
-    width: 95px;
-    height: 68px;
-  }
-
-  .site-header .member-area {
-    justify-self: end;
-  }
-
-  .site-header .member-area a {
-    min-width: 60px;
-    height: 36px;
-    padding: 0 11px;
-
-    border-radius: 9px;
-    font-size: 12px;
-  }
-
-  .site-header .search-form {
-    grid-column: 1 / -1;
-
-    max-width: none;
-    height: 46px;
-    padding-left: 13px;
-    border-radius: 12px;
-  }
-
-  .site-header .search-form input {
-    height: 36px;
     font-size: 13px;
-  }
+    font-weight: bold;
 
-  .site-header .search-form button {
-    width: 60px;
-    height: 36px;
-    border-radius: 9px;
-  }
+    box-sizing: border-box;
+
+    transition: 0.2s;
 }
 
-/* ========================================
-   작은 모바일
-======================================== */
 
-@media (max-width: 400px) {
-  .site-header {
-    grid-template-columns: 88px 1fr;
-  }
+.member-buttons a:hover {
+    background-color: #ff5b3f;
+    color: white;
+}
 
-  .site-header .site-logo {
-    width: 88px;
-  }
 
-  .site-header .site-logo img {
-    width: 84px;
-  }
+/* 로그아웃 버튼 */
+.member-buttons a[href="/logout"] {
+    background-color: #ff5b3f;
+    border-color: #ff5b3f;
 
-  .site-header .member-area {
-    gap: 5px;
-  }
+    color: white;
+}
 
-  .site-header .member-area a {
-    min-width: 53px;
-    padding: 0 8px;
-  }
+
+.member-buttons a[href="/logout"]:hover {
+    background-color: #ee4f35;
+}
+
+
+/* =========================
+   로그인된 사용자 정보
+========================= */
+
+.member-info {
+    /*
+        부모 너비보다 길어지는 것 방지
+    */
+    width: 100%;
+    min-width: 0;
+
+    text-align: right;
+
+    font-size: 12px;
+
+    color: #777777;
+
+    /*
+        한 줄 유지
+    */
+    white-space: nowrap;
+
+    /*
+        영역 침범 방지
+    */
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* ID 부분 */
+.member-id {
+    display: inline;
+
+    color: #ff5b3f;
+    font-weight: bold;
+}
+
+
+/* =========================
+   반응형
+========================= */
+
+@media (max-width: 900px) {
+
+    .site-header {
+        width: calc(100% - 24px);
+
+        grid-template-columns:
+            100px
+            minmax(220px, 1fr)
+            minmax(160px, 190px);
+
+        gap: 14px;
+    }
+
+    .site-logo {
+        width: 90px;
+    }
+
+    .member-area {
+        max-width: 190px;
+    }
+
+    .member-buttons a {
+        min-width: 68px;
+
+        padding: 0 10px;
+
+        font-size: 12px;
+    }
+}
+
+
+/* 모바일 */
+@media (max-width: 700px) {
+
+    .site-header {
+        grid-template-columns: 90px 1fr;
+
+        gap: 12px;
+
+        padding: 12px 0;
+    }
+
+
+    /* 검색창을 다음 줄로 */
+    .search-form {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+
+    .member-area {
+        justify-self: end;
+
+        width: 100%;
+        max-width: 210px;
+    }
+
+
+    .member-buttons {
+        justify-content: flex-end;
+    }
 }
