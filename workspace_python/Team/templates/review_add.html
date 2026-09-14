@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{review_info.review_code}} | DishInside</title>
+  <title>{{res_info.review_code}} | DishInside</title>
   <link rel="stylesheet" href="/static/css/header.css">
   <link rel="stylesheet" href="/static/css/review_add.css">
   <script src="/static/js/review_add.js"></script>
@@ -16,32 +16,32 @@
   <main class="review-write-page">
     <section class="review-write-card">
       <div class="review-write-heading">
-        <a href="/review/res_code={{review_info.res_code}}" class="back-link">← 리뷰 목록으로 돌아가기</a>
+        <a href="/review/res_code={{res_info.res_code}}" class="back-link">← 리뷰 목록으로 돌아가기</a>
 
         <span class="review-label">REVIEW</span>
         <h1>리뷰 수정</h1>
-        <p><strong>{{res.res_name}}</strong>에서의 경험을 남겨주세요.</p>
+        <p><strong>{{res_info.res_name}}</strong>에서의 경험을 남겨주세요.</p>
       </div>
 
-      <form action="/review/review_code={{review_info.review_code}}/update" method="post" class="review-form">
+      <form action="/review/review_code={{res_info.review_code}}/update" method="post" class="review-form">
         <fieldset class="rating-field">
           <legend>별점</legend>
           <p class="field-description">이 식당은 어떠셨나요?</p>
           <div class="star-rating" aria-label="별점 선택">
             <input type="radio" id="star5" name="rating" value="5"
-            {% if review_info.rating == 5.0 %} checked {% endif %}>
+            {% if res_info.rating == 5.0 %} checked {% endif %}>
             <label for="star5" title="5점">★</label>
             <input type="radio" id="star4" name="rating" value="4"
-            {% if review_info.rating == 4.0 %} checked {% endif %}>
+            {% if res_info.rating == 4.0 %} checked {% endif %}>
             <label for="star4" title="4점">★</label>
             <input type="radio" id="star3" name="rating" value="3"
-            {% if review_info.rating == 3.0 %} checked {% endif %}>
+            {% if res_info.rating == 3.0 %} checked {% endif %}>
             <label for="star3" title="3점">★</label>
             <input type="radio" id="star2" name="rating" value="2"
-            {% if review_info.rating == 2.0 %} checked {% endif %}>
+            {% if res_info.rating == 2.0 %} checked {% endif %}>
             <label for="star2" title="2점">★</label>
             <input type="radio" id="star1" name="rating" value="1"
-            {% if review_info.rating == 1.0 %} checked {% endif %}>
+            {% if res_info.rating == 1.0 %} checked {% endif %}>
             <label for="star1" title="1점">★</label>
           </div>
         </fieldset>
@@ -51,10 +51,10 @@
             <label for="review-content">리뷰 내용</label>
             <span id="char-count">0 / 1000자</span>
           </div>
-          <input type="number" name="res_code" value="{{review_info.res_code}}" hidden>
-          <input type="number" name="member_code" value="{{review_info.member_code}}" hidden>
+          <input type="number" name="res_code" value="{{res_info.res_code}}" hidden>
+          <input type="number" name="member_code" value="{{res_info.member_code}}" hidden>
           <textarea id="review-content" name="review_content" placeholder="음식의 맛, 서비스, 분위기 등 방문 경험을 자유롭게 작성해 주세요."
-            required>{{review_info.review_content}}</textarea>
+            required>{{res_info.review_content}}</textarea>
         </div>
 
         <div class="form-field">
@@ -76,7 +76,7 @@
         </div>
 
         <div class="form-actions">
-          <a href="/review/res_code={{review_info.res_code}}" class="cancel-button">취소</a>
+          <a href="/review/res_code={{res_info.res_code}}" class="cancel-button">취소</a>
           <button type="submit" class="submit-button">리뷰 수정</button>
         </div>
       </form>

@@ -141,7 +141,7 @@ def login(request: Request):
 
 
 # =========================================================
-# 검색 페이지
+# 검색 페이지(검색 아직 미구현)
 # =========================================================
 
 @app.get('/search')
@@ -765,6 +765,70 @@ def _update(
         url='/mypage/update',
         status_code=303
     ) 
+    
+# =========================================================
+# 비밀 번호 재설정
+# 
+# ========================================================= 
+
+@app.get('/find_pw')
+def find_fw(request:Request):
+    
+      return templates.TemplateResponse(
+          request,'find_pw.html'
+          
+      )
+      
+# 비밀번호를 재설정하는 함수
+
+new_pw = CryptContext(
+    schemes=['argon2'],
+    deprecated='auto'
+)
+
+def crypt(txt):
+    return new_pw.hash(txt)
+   
+@app.post('/api/find_pw')
+def resetPassword(
+    request:Request,
+    member: Member = Form(),
+    session: Session = Depends(get_session)
+):
+    
+     print('/api/pw 실행 성공')
+     print('member:', member)
+    
+     hashed = crypt(member.member_pw)
+     
+     try:
+             session.exec(
+                 text('''
+                     UPDATE member
+                     SET member_pw = :new_pw
+                     WHERE member_id=:member_id
+                 '''),
+                 params={
+                     'new_pw': hashed,
+                     'member_id':  member.member_id
+                 }
+             )
+             
+             session.commit()
+             
+             print('성공?')
+             
+     except Exception as e:
+             print(f"비밀번호 재설정 중 에러가 발생함: {e}")
+             
+     return RedirectResponse(
+                url='/login',
+                status_code=303
+            )     
+              
+     
+      
+   
   
         
 

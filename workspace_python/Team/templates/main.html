@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -19,74 +20,39 @@
     <!-- 푸터 -->
     <link rel="stylesheet" href="/static/css/footer/footer.css" />
 
-    
-   <!-- 좌측 사이드바 열고 닫기 js 연결 -->
-   <script src="/static/js/left_sidebar.js"></script>
-
-   <script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fa8a14b937611ab23a5327b324ec73fb">
-      
-      // 지도를 표시할 영역
-    var container = document.getElementById('map');
-
-    // 지도 중심 좌표
-    // 일단 테스트용 좌표
-    var position = new kakao.maps.LatLng(36.8190, 127.1070);
-
-    // 지도 설정
-    var options = {
-        center: position,
-        level: 3
-    };
-
-    // 지도 생성
-    var map = new kakao.maps.Map(container, options);
-
-    // 마커 생성
-    var marker = new kakao.maps.Marker({
-        position: position
-    });
-
-    // 마커를 지도에 표시
-    marker.setMap(map);</script>
-
-
+    <!-- 좌측 사이드바 열고 닫기 js 연결 -->
+    <script src="/static/js/left_sidebar.js"></script>
   </head>
 
   <body>
-   <!-- 헤더는 진자로 불러옴 -->
-
+    <!-- 헤더는 진자로 불러옴 -->
     {% include 'header.html' %}
-     
 
-      <!-- 이거는 로그인 한 사람이 볼 수 있는 팝업  -->
+    <!-- 로그인 한 사람이 볼 수 있는 팝업 -->
+    {% if should_show_welcome_popup == true %} {% include
+    'popup/login_welcome_popup.html' %} {% endif %}
 
-    {% if should_show_welcome_popup==true %} 
-
-     {% include 'popup/login_welcome_popup.html' %}
-       
-    {% endif %}
-     <div class="content-layout">
+    <div class="content-layout">
       <!-- ========================================
-         왼쪽 접이식 사이드바
-    ======================================== -->
+       왼쪽 접이식 사이드바
+  ======================================== -->
 
       {% include 'left_sidebar.html' %}
 
       <!-- ========================================
-         메인 페이지
-    ======================================== -->
+       메인 페이지
+  ======================================== -->
 
       <main class="restaurant-page">
         <div class="restaurant-layout">
           <!-- ========================================
-             가운데 메인 영역
-        ======================================== -->
+           가운데 메인 영역
+      ======================================== -->
 
           <div class="restaurant-main">
             <!-- ========================================
-               식당 대표 정보
-          ======================================== -->
+             식당 대표 정보
+        ======================================== -->
 
             <article class="restaurant-summary">
               <!-- 식당 이미지 -->
@@ -115,26 +81,39 @@
                 </div>
 
                 <!-- ========================================
-                   식당 기능 버튼
-              ======================================== -->
+                 식당 기능 버튼
+            ======================================== -->
 
                 <div class="restaurant-actions">
-                  <!-- <a href="/review/{{request.session.get('res_code')}}" class="primary-action"> 리뷰 조회 </a> -->
-                  <a href="/review/res_code={{ res_info.res_code }}" class="primary-action"> 리뷰 조회 </a>
+                  <!-- 리뷰 조회 -->
+
+                  <a
+                    href="/review/res_code={{ res_info.res_code }}"
+                    class="primary-action"
+                  >
+                    리뷰 조회
+                  </a>
+
+                  <!-- 정보 수정 -->
 
                   <a href="/restaurant/update"> 정보 수정 </a>
 
+                  <!-- 전화 -->
+
                   <a href="tel:{{ res_info.res_pnum }}"> 전화 </a>
+
+                  <!-- 북마크 -->
 
                   <button type="button">북마크</button>
                 </div>
 
                 <!-- ========================================
-                   식당 상세정보
-              ======================================== -->
+                 식당 상세정보
+            ======================================== -->
 
                 <div class="restaurant-info-grid">
                   <!-- 주소 -->
+
                   <div class="info-item info-address">
                     <span class="info-label"> 주소 </span>
 
@@ -148,6 +127,7 @@
                   </div>
 
                   <!-- 영업시간 -->
+
                   <div class="info-item">
                     <span class="info-label"> 영업시간 </span>
 
@@ -157,6 +137,7 @@
                   </div>
 
                   <!-- 전화번호 -->
+
                   <div class="info-item">
                     <span class="info-label"> 전화번호 </span>
 
@@ -166,6 +147,7 @@
                   </div>
 
                   <!-- 휴무일 -->
+
                   <div class="info-item">
                     <span class="info-label"> 휴무일 </span>
 
@@ -178,8 +160,8 @@
             </article>
 
             <!-- ========================================
-               메뉴
-          ======================================== -->
+             메뉴
+        ======================================== -->
 
             <section class="menu-card">
               <div class="section-heading">
@@ -205,13 +187,13 @@
           </div>
 
           <!-- ========================================
-             오른쪽 영역
-        ======================================== -->
+           오른쪽 영역
+      ======================================== -->
 
           <aside class="side-area">
             <!-- ========================================
-               지도
-          ======================================== -->
+             지도 영역
+        ======================================== -->
 
             <section class="map-card">
               <div class="section-heading">
@@ -222,12 +204,14 @@
                 </div>
               </div>
 
+              <!-- 지도 API가 들어갈 영역 -->
+
               <div id="map">지도 API가 들어갈 영역</div>
             </section>
 
             <!-- ========================================
-               광고
-          ======================================== -->
+             광고
+        ======================================== -->
 
             <section class="advertisement-card">
               <a href="#">
@@ -243,11 +227,9 @@
     </div>
 
     <!-- ========================================
-       푸터
-  ======================================== -->
+     푸터
+======================================== -->
 
     {% include 'footer.html' %}
-
-
   </body>
 </html>
