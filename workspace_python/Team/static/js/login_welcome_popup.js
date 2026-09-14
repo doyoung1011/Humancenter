@@ -29,9 +29,9 @@ window.onload = () => {
 
     close.addEventListener('click',function(){
         popup.classList.add('hide')
-    // 체크되어있으면 하루동안 팝업을 숨기는 쿠키를 생성한다
+    // 체크되어있으면 하루동안 팝업을 숨기는 쿠키를
         if(chk.checked == true) {
-            document.cookie = 'popuptest=close; max-age=20'
+            document.cookie = `popup=close; max-age=${60 * 60 *24}; path=/`
         }
     })
 
@@ -39,7 +39,7 @@ window.onload = () => {
     console.log(cookies)
 
     for(i=0; i<cookies.length; i++) {
-        if(cookies[i]!='popuptest=close'){
+        if(cookies[i]!='popup=close'){
             popup.classList.remove('hide')
         } else {
             popup.classList.add('hide')

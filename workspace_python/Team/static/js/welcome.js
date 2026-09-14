@@ -12,26 +12,27 @@ window.onload = () => {
             if (event.target.parentElement.querySelector('.chk').checked) {
                 document.cookie = `welcomePopup=True;  max-age=${60 * 60 * 24 * 7}; path=/`
             }
-            
+
         }
     )
-    value=getCookieValue('welcomePopup')
+    value = getCookieValue('welcomePopup')
 
-    if(value!=null){
+    if (value != null) {
         document.querySelector('.popup').classList.add('hide')
     }
-   
-} 
 
-function getCookieValue(key){
-    cookies=document.cookie.split('; ')
-    for(cookie of cookies)
-        
-        names=cookie.split('=')[0]
-        value=cookie.split('=')[1]
+}
 
-        if(names==key){
+function getCookieValue(key) {
+    cookies = document.cookie.split('; ')
+    for (cookie of cookies) {
+
+        names = cookie.split('=')[0]
+        value = cookie.split('=')[1]
+
+        if (names == key) {
             return value
         }
         return null
+    }
 }

@@ -19,9 +19,36 @@
     <!-- 푸터 -->
     <link rel="stylesheet" href="/static/css/footer/footer.css" />
 
-    <!-- 로그인 웰컴 팝업 css -->
+    
+   <!-- 좌측 사이드바 열고 닫기 js 연결 -->
+   <script src="/static/js/left_sidebar.js"></script>
 
+   <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fa8a14b937611ab23a5327b324ec73fb">
+      
+      // 지도를 표시할 영역
+    var container = document.getElementById('map');
 
+    // 지도 중심 좌표
+    // 일단 테스트용 좌표
+    var position = new kakao.maps.LatLng(36.8190, 127.1070);
+
+    // 지도 설정
+    var options = {
+        center: position,
+        level: 3
+    };
+
+    // 지도 생성
+    var map = new kakao.maps.Map(container, options);
+
+    // 마커 생성
+    var marker = new kakao.maps.Marker({
+        position: position
+    });
+
+    // 마커를 지도에 표시
+    marker.setMap(map);</script>
 
 
   </head>
@@ -33,10 +60,13 @@
      
 
       <!-- 이거는 로그인 한 사람이 볼 수 있는 팝업  -->
-    {% include 'popup/login_welcome_popup.html' %}
 
+    {% if should_show_welcome_popup==true %} 
 
-    <div class="content-layout">
+     {% include 'popup/login_welcome_popup.html' %}
+       
+    {% endif %}
+     <div class="content-layout">
       <!-- ========================================
          왼쪽 접이식 사이드바
     ======================================== -->

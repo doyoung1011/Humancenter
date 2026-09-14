@@ -114,13 +114,16 @@ def main(
         print('메인 페이지 에러:', e)
     
     
+    should_show_welcome_popup =request.session.get('login_welcome_popup')
+    
     return templates.TemplateResponse(
         request,
         'main.html',
         {
         'res_info': res_info,
         'menu_info': menu_info,
-        'rating_info': rating_info
+        'rating_info': rating_info,
+        'should_show_welcome_popup':should_show_welcome_popup
         }
     )
 
@@ -202,6 +205,8 @@ def _login(
     request.session['member_id']=member['member_id']
     request.session['name']=member['name']
     request.session['member_code']=member['member_code']
+    # 로그인 한 사람에게만 보일 팝업
+    request.session['login_welcome_popup']=True
     
    
     
@@ -314,6 +319,8 @@ def review(
         print('리뷰 조회 에러:', e)
         
     # request.session['res_code'] = res_info['res_code']
+    # 로그인 여부에 따른 팝업 상태값
+    
 
     return templates.TemplateResponse(
         request,
@@ -323,6 +330,7 @@ def review(
             'review_list': review_list,
             'review_count': review_count,
             'rating_info': rating_info
+            
         }
     )
 
