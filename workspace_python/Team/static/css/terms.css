@@ -1,0 +1,86 @@
+.terms-container {
+width: 1000px;
+margin: 0 auto;
+padding: 70px 0 120px;
+}
+
+/* 상단 제목 */
+
+.terms-header {
+padding: 30px 0 45px;
+border-bottom: 2px solid #333;
+}
+
+.terms-header p {
+margin: 0 0 12px;
+color: #ff5b3f;
+font-size: 13px;
+font-weight: bold;
+letter-spacing: 2px;
+}
+
+.terms-header h1 {
+margin: 0 0 12px;
+font-size: 36px;
+}
+
+.terms-header span {
+color: #777;
+font-size: 15px;
+}
+
+/* 약관 내용 */
+
+.terms-content {
+padding-top: 10px;
+}
+
+.terms-section {
+padding: 35px 10px;
+border-bottom: 1px solid #eee;
+}
+
+.terms-section h2 {
+margin: 0 0 18px;
+font-size: 19px;
+color: #222;
+}
+
+.terms-section p {
+margin: 8px 0;
+color: #666;
+font-size: 15px;
+line-height: 1.8;
+}
+
+.terms-section ul {
+margin: 15px 0 0;
+padding-left: 22px;
+}
+
+.terms-section li {
+margin: 8px 0;
+color: #666;
+font-size: 15px;
+line-height: 1.7;
+}
+
+/* 하단 시행일 */
+
+.terms-footer {
+margin-top: 40px;
+padding: 25px 30px;
+background-color: #fafafa;
+border-radius: 6px;
+}
+
+.terms-footer p {
+margin: 7px 0;
+color: #666;
+font-size: 14px;
+line-height: 1.7;
+}
+
+.terms-footer strong {
+color: #333;
+}

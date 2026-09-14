@@ -14,6 +14,7 @@ from sqlalchemy import text
 from passlib.context import CryptContext
 from DTO.ReviewDTO import Review
 from DTO.MemberDTO import Member
+from DTO.BoardDTO import Board
 
 from starlette.middleware.sessions import SessionMiddleware
 # =========================================================
@@ -246,13 +247,13 @@ def restaurantUpdate(request: Request):
 # 리뷰 전체 조회
 # =========================================================
 
-@app.get('/review/{res_code}')
+@app.get('/review/res_code={res_code}')
 def review(
     request: Request,
     res_code:int,
     session: Session = Depends(get_session)
 ):
-    print('/review/{res_code} 실행 성공')
+    print('/review/res_code={res_code} 실행 성공')
     print('res_code:', res_code)
     res_info = []
     review_list = []
@@ -267,9 +268,10 @@ def review(
         
         sql_review = text('''
             select
-                mem.member_id,
+                mem.member_id as member_id,
+                review_code,
                 review_content,
-                rev.rating,
+                rev.rating as rating,
                 DATE_FORMAT(review_time, "%Y.%m.%d") AS review_time
             FROM restaurant as r join review AS rev using(res_code)
             JOIN member AS mem on rev.member_code = mem.member_code
@@ -303,7 +305,7 @@ def review(
         rating_info = result_rating.mappings().fetchone()
 
         # print('리뷰 조회 결과:', review_list)
-    
+        
     except Exception as e:
         # print(res_info)
         # print(review_list)
@@ -328,12 +330,12 @@ def review(
 # 리뷰 작성 페이지
 # =========================================================
 
-@app.get('/review/{res_code}/{member_id}')
+@app.get('/review/res_code={res_code}/member_id={member_id}')
 def review_add(request: Request,
                res_code: int,
                member_id: str,
                session: Session = Depends(get_session)):
-    print('/review/{res_code}/{member_id} 실행 성공')
+    print('/review/res_code={res_code}/member_id={member_id} 실행 성공')
     member_info = []
     try:
         sql = text('''
@@ -356,8 +358,14 @@ def review_add(request: Request,
         
     except Exception as e:
         print('리뷰 작성 페이지 이동 오류:', e)
+        
+    if member_id == 'None':
+              return RedirectResponse(
+                    url='/login',
+                    status_code=303
+                )
     
-    print(member_info)
+    # print(member_info)
     return templates.TemplateResponse(
         request,
         'review_add.html',
@@ -366,9 +374,8 @@ def review_add(request: Request,
             'member_info': member_info
         }
     )
-
-
-@app.post('/review/{res_code}/{member_code}/add')
+    
+@app.post('/review/res_code={res_code}/member_id={member_code}/add')
 def review_add2(
     res_code: int,
     member_code: int,
@@ -415,8 +422,77 @@ def review_add2(
     # print(res_code)
     
     return RedirectResponse(
-        url=f'/review/{res_code}',
+        url=f'/review/res_code={res_code}',
         status_code=303
+    )
+
+# =========================================================
+# 리뷰 수정 페이지
+# =========================================================
+
+@app.get('/review/review_code={review_code}')
+def review_update(request: Request,
+               review_code: int,
+               session: Session = Depends(get_session)):
+    print('/review/review_code={review_code} 실행 성공')
+    print('여긴 리뷰 수정 페이지')
+    member_id = request.session.get('member_id')
+    review_info = []
+    try:
+        sql = text('''
+                   select review_code, res_code, member_code, review_content, rating
+                   from review
+                   where review_code = :review_code
+                   ''')
+        
+        sql2 = text('''
+                    select res_name
+                    from restaurant
+                    where res_code = :res_code
+                    ''')
+        
+        sql3 = text('''
+                    select member_id
+                    from member
+                    where member_code = :member_code
+                    ''')
+        
+        result = session.exec(sql, params = {'review_code': review_code})
+        review_info = result.mappings().fetchone()
+        
+        result2 = session.exec(sql2, params = {'res_code': review_info.res_code})
+        res = result2.mappings().fetchone()
+        
+        result3 = session.exec(sql3, params = {'member_code': review_info.member_code})
+        chk = result3.mappings().fetchone()
+        
+    except Exception as e:
+        print('리뷰 수정 페이지 이동 오류:', e)
+        
+    if member_id is None:
+              return RedirectResponse(
+                    url='/login',
+                    status_code=303
+                )
+    elif member_id != chk.member_id:
+        # print(member_id, type(member_id))
+        # print(chk, type(chk))
+        print('해당 리뷰 작성자가 아닙니다.')
+        return RedirectResponse(
+                    url='/dsinside',
+                    status_code=303
+                ) 
+    
+    # print(member_info)
+    
+    return templates.TemplateResponse(
+        request,
+        'review_update.html',
+        {
+            'review_info': review_info,
+            'res': res,
+            'chk': chk
+        }
     )
 
 
@@ -668,7 +744,7 @@ def _update(
                 'member_id': login_id
             }
         )
- 
+
         session.commit()
         
         
@@ -764,27 +840,152 @@ def detail(
 # 게시판라우팅
 # =========================================================
 
-@app.get('/board')
-def board(request:Request):
-     return templates.TemplateResponse(
+@app.get('/board/')
+def board(request:Request,
+          session: Session = Depends(get_session)):
+    
+    board_list = []
+    
+    try:
+        sql = text('''
+                   select b.board_code as board_code, b.board_title as board_title,
+                   m.member_id as member_id, date_format(board_time, "%Y.%m.%d") as board_time, b.view_count as view_count
+                   from board as b join member as m using(member_code)
+                   ''')
+        
+        result = session.exec(sql)
+        board_list = result.mappings().fetchall()
+    
+    except Exception as e:
+        print('게시판 이동 오류:', e)
+        
+        
+    return templates.TemplateResponse(
             request,
-            'board.html'
+            'board.html',
+            {
+                'board_list': board_list
+            }
         )
      
 
 #글쓰기 버튼을 눌렀을때 이동하는 곳
      
-@app.get('/board/write')
-def board_write(request:Request):
+@app.get('/board/{member_id}')
+def board_write(request:Request,
+                member_id : str,
+                session: Session = Depends(get_session)):
+    print('/board/{member_id} 실행 성공')
     
-  return templates.TemplateResponse(
-             request,
-             'board_write.html'
-         )
-  
-  
+    member_info = []
+    try:    
+        sql = text('''
+                            select member_code, name
+                            from member
+                            where member_id = :member_id
+                            ''')
+        
+        result = session.exec(sql, params = {'member_id': member_id})
+        member_info = result.mappings().fetchone()
+        
+            
+    except Exception as e:
+        print('게시판 등록 페이지 이동 오류:', e)
+    
+    print(member_id)
+    return templates.TemplateResponse(
+                request,
+                'board_write.html',
+                {
+                    'member_info': member_info
+                }
+            )
 
+@app.post('/board/{member_id}/add')
+def board_write_insert(member_id: str,
+                       board: Board = Form(),
+                       session: Session = Depends(get_session)):
+    print('/board/{member_id}/add 실행 성공')
+    print('board', board)
+    
+    try:
+        sql = text('''
+                   insert into Board(
+                       member_code,
+                       board_cate,
+                       board_title,
+                       board_content,
+                       view_count,
+                       board_time
+                   )
+                   values (
+                       :member_code,
+                       :board_cate,
+                       :board_title,
+                       :board_content,
+                       :view_count,
+                       :board_time
+                   )
+                   ''')
+        
+        sql_writer = text('''
+                          select member_code, name
+                          from member
+                          where member_id = :member_id
+                          ''')
+        
+        result_writer = session.exec(sql_writer, params = {'member_id': member_id})
+        writer_info = result_writer.mappings().fetchone()
+        
+        session.exec(sql, params = {'member_code': writer_info.member_code,
+                                    'board_cate': board.board_cate,
+                                    'board_title': board.board_title,
+                                    'board_content': board.board_content,
+                                    'view_count': 0,
+                                    'board_time': datetime.now()} )
+        
+    except Exception as e:
+        print('게시판 등록 처리 오류', e)
+        
+    return RedirectResponse(
+            url='/board',
+            status_code=303
+        )
+  
+# =========================================================
+#  공지 사항 라우팅
+# =========================================================
 
+@app.get('/soge')
+def notice(request:Request):
+    
+    return templates.TemplateResponse(
+                    request,
+                    'soge.html',
+                
+                )
+# =========================================================
+#  이용 약관 라우팅
+# =========================================================    
+
+@app.get('/terms')
+def terms(request:Request):
+     return templates.TemplateResponse(
+                        request,
+                        'terms.html',
+                    
+                    )
+# =========================================================
+#  개인정보처리방침
+# =========================================================      
+
+@app.get('/privacy_policy')
+def privacy_policy(request:Request):
+     return templates.TemplateResponse(
+                        request,
+                        '/privacy_policy.html',
+                    
+                    )
 
 # =========================================================
 # 서버 실행
