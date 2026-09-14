@@ -18,14 +18,22 @@
 
     <!-- 푸터 -->
     <link rel="stylesheet" href="/static/css/footer/footer.css" />
+
+    <!-- 로그인 웰컴 팝업 css -->
+
+
+
+
   </head>
 
   <body>
    <!-- 헤더는 진자로 불러옴 -->
 
     {% include 'header.html' %}
+     
 
-    {% include 'popup/wecome_popup.html' %}
+      <!-- 이거는 로그인 한 사람이 볼 수 있는 팝업  -->
+    {% include 'popup/login_welcome_popup.html' %}
 
 
     <div class="content-layout">

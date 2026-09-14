@@ -152,6 +152,7 @@ def search(request: Request):
 # =========================================================
 # 로그인 처리
 # 로그인 구현 성공, 로그인할때 세션에 이름도 전달해야함
+# 
 # =========================================================
 
 def verify(orig, hashed):
@@ -197,9 +198,10 @@ def _login(
                         url='/login',
                         status_code=303
                     )
-    
+    # 로그인 할 떄 저장하는 값들
     request.session['member_id']=member['member_id']
     request.session['name']=member['name']
+    request.session['member_code']=member['member_code']
     
    
     
