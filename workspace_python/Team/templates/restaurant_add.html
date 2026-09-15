@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>맛집 등록 | Dish Inside</title>
+  <link rel="stylesheet" href="/static/css/restaurant_add.css" />
+  <link rel="stylesheet" href="/static/css/header.css" />
+  <!-- <script src="/static/js/restaurant_add.js"></script> -->
+</head>
+
+<body>
+
+  {% include 'header.html' %}
+
+  <main class="restaurant-add-page">
+    <!-- ========================================
+     페이지 제목
+======================================== -->
+
+    <section class="page-heading">
+
+      <div>
+        <span class="page-label">RESTAURANT</span>
+
+        <h1>맛집 등록</h1>
+
+        <p>
+          알고 있는 맛집 정보를 다른 회원들과 공유해 보세요.
+        </p>
+      </div>
+
+      <a href="/dsinside" class="back-link">
+        ← 메인으로 돌아가기
+      </a>
+
+    </section>
+
+
+    <!-- ========================================
+     등록 폼
+======================================== -->
+
+    <form action="/dsinside/add/api" method="post" class="restaurant-form">
+
+
+      <!-- ========================================
+       기본 정보
+  ======================================== -->
+
+      <section class="form-card">
+
+        <div class="section-heading">
+
+          <div>
+            <span class="section-label">
+              BASIC INFORMATION
+            </span>
+
+            <h2>기본 정보</h2>
+
+            <p>
+              등록할 식당의 기본적인 정보를 입력해 주세요.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+          <!-- 식당명 -->
+
+          <div class="form-field">
+
+            <label for="res-name">
+              식당명
+              <span class="required">*</span>
+            </label>
+
+            <input type="text" id="res-name" name="res_name" placeholder="식당 이름을 입력해 주세요." maxlength="20" required />
+            <!-- 등록자 -->
+            <input type="number" name="member_code" value="{{member_info.member_code}}" hidden required>
+
+          </div>
+
+
+          <!-- 카테고리 -->
+
+          <div class="form-field">
+
+            <label for="category">
+              음식 종류
+              <span class="required">*</span>
+            </label>
+
+            <select id="category" name="category" required>
+              <option value="">음식 종류를 선택해 주세요.</option>
+              <option value="1">한식</option>
+              <option value="2">중식</option>
+              <option value="3">일식</option>
+              <option value="4">양식</option>
+              <option value="5">기타</option>
+            </select>
+
+          </div>
+
+
+          <!-- 주소 -->
+
+          <div class="form-field full-width">
+
+            <label for="address">
+              주소
+              <span class="required">*</span>
+            </label>
+
+            <input type="text" id="address" name="address" placeholder="식당 주소를 입력해 주세요." maxlength="50" required />
+
+          </div>
+
+
+          <!-- 전화번호 -->
+
+          <div class="form-field">
+
+            <label for="res-pnum">
+              전화번호
+            </label>
+
+            <input type="tel" id="res-pnum" name="res_pnum" placeholder="02-1234-5678" maxlength="30" />
+
+          </div>
+
+
+          <!-- 영업시간 -->
+
+          <div class="form-field">
+
+            <label>
+              영업시간
+              <span class="required">*</span>
+            </label>
+
+            <div class="time-inputs">
+
+              <input type="time" name="open_time" required />
+
+              <span>~</span>
+
+              <input type="time" name="close_time" required />
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================
+       휴무일
+  ======================================== -->
+
+      <section class="form-card">
+
+        <div class="section-heading">
+
+          <div>
+            <span class="section-label">
+              CLOSED DAYS
+            </span>
+
+            <h2>휴무일</h2>
+
+            <p>
+              해당 식당의 정기 휴무일을 선택해 주세요.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="day-selection">
+
+          <label class="day-option">
+            <input type="checkbox" name="c_code" value="1" />
+            <span>월</span>
+          </label>
+
+          <label class="day-option">
+            <input type="checkbox" name="c_code" value="2" />
+            <span>화</span>
+          </label>
+
+          <label class="day-option">
+            <input type="checkbox" name="c_code" value="3" />
+            <span>수</span>
+          </label>
+
+          <label class="day-option">
+            <input type="checkbox" name="c_code" value="4" />
+            <span>목</span>
+          </label>
+
+          <label class="day-option">
+            <input type="checkbox" name="c_code" value="5" />
+            <span>금</span>
+          </label>
+
+          <label class="day-option">
+            <input type="checkbox" name="c_code" value="6" />
+            <span>토</span>
+          </label>
+
+          <label class="day-option">
+            <input type="checkbox" name="c_code" value="7" />
+            <span>일</span>
+          </label>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================
+       메뉴
+  ======================================== -->
+
+      <section class="form-card">
+
+        <div class="section-heading menu-heading">
+
+          <div>
+            <span class="section-label">
+              MENU
+            </span>
+
+            <h2>메뉴</h2>
+
+            <p>
+              메뉴와 가격을 등록해 주세요.
+            </p>
+          </div>
+
+          <!-- <button type="button" class="add-menu-button">
+            ＋ 메뉴 추가
+          </button> -->
+
+        </div>
+
+
+        <div class="menu-input-list">
+
+
+          <!-- 메뉴 1 -->
+
+          <div class="menu-input-row">
+
+            <div class="menu-number">
+              01
+            </div>
+
+            <div class="menu-input">
+
+              <label for="menu-name-1">
+                메뉴명
+              </label>
+
+              <input type="text" id="menu-name-1" name="menu_name" placeholder="예: 김치찌개" maxlength="20" required/>
+
+            </div>
+
+            <div class="menu-input price-input">
+
+              <label for="menu-price-1">
+                가격
+              </label>
+
+              <div class="price-wrap">
+
+                <input type="number" id="menu-price-1" name="price" placeholder="9000" min="0" required />
+
+                <span>원</span>
+
+              </div>
+
+            </div>
+
+            <!-- <button type="button" class="delete-menu-button">
+              삭제
+            </button> -->
+
+
+          </div>
+
+
+          <!-- 메뉴 2 -->
+
+          <div class="menu-input-row">
+
+            <div class="menu-number">
+              02
+            </div>
+
+            <div class="menu-input">
+
+              <label for="menu-name-2">
+                메뉴명
+              </label>
+
+              <input type="text" id="menu-name-2" name="menu_name" placeholder="예: 제육볶음" maxlength="20" />
+
+            </div>
+
+            <div class="menu-input price-input">
+
+              <label for="menu-price-2">
+                가격
+              </label>
+
+              <div class="price-wrap">
+
+                <input type="number" id="menu-price-2" name="price" placeholder="10000" min="0" />
+
+                <span>원</span>
+
+              </div>
+
+            </div>
+
+            <!-- <button type="button" class="delete-menu-button">
+              삭제
+            </button> -->
+
+
+          </div>
+
+
+          <!-- 메뉴 3 -->
+
+          <div class="menu-input-row">
+
+            <div class="menu-number">
+              03
+            </div>
+
+            <div class="menu-input">
+
+              <label for="menu-name-3">
+                메뉴명
+              </label>
+
+              <input type="text" id="menu-name-3" name="menu_name" placeholder="예: 된장찌개" maxlength="20" />
+
+            </div>
+
+            <div class="menu-input price-input">
+
+              <label for="menu-price-3">
+                가격
+              </label>
+
+              <div class="price-wrap">
+
+                <input type="number" id="menu-price-3" name="price" placeholder="8000" min="0" />
+
+                <span>원</span>
+
+              </div>
+
+            </div>
+
+            <!-- <button type="button" class="delete-menu-button">
+              삭제
+            </button> -->
+
+
+          </div>
+
+
+        </div>
+
+
+        <p class="menu-notice">
+          ※ 메뉴는 한 가지 이상 입력해주세요.
+        </p>
+
+      </section>
+
+
+      <!-- ========================================
+       안내
+  ======================================== -->
+
+      <section class="notice-card">
+
+        <div class="notice-icon">
+          !
+        </div>
+
+        <div>
+          <strong>맛집 등록 안내</strong>
+
+          <p>
+            다른 이용자에게 도움이 될 수 있도록 정확한 정보를 입력해 주세요.
+            등록된 정보는 다른 회원들에게 공개됩니다.
+          </p>
+        </div>
+
+      </section>
+
+
+      <!-- ========================================
+       버튼
+  ======================================== -->
+      <div class="form-actions">
+        <a href="/dsinside" class="cancel-button">취소</a>
+        <button type="submit" class="submit-button">맛집 등록</button>
+      </div>

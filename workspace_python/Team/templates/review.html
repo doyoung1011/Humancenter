@@ -23,7 +23,8 @@
             <p>방문한 사람들이 남긴 솔직한 리뷰를 확인해 보세요.</p>
           </div>
 
-          <a href="/review/res_code={{res_info.res_code}}/member_id={{request.session.get('member_id')}}" class="write-review-button">리뷰 작성</a>
+          <a href="/review/res_code={{res_info.res_code}}/member_id={{request.session.get('member_id')}}"
+            class="write-review-button">리뷰 작성</a>
         </div>
       </div>
 
@@ -57,42 +58,45 @@
       <div class="review-list">
 
         {% if review_list %}
-            {% for review in review_list %}
-              <article class="review-card">
-                <div class="reviewer-area">
-                  <div class="reviewer-avatar" aria-hidden="true">B</div>
+        {% for review in review_list %}
+        <article class="review-card">
+          <div class="reviewer-area">
+            <div class="reviewer-avatar" aria-hidden="true">B</div>
 
-                  <div class="reviewer-info">
-                    <strong>{{review.member_id}}</strong>
-                    <span>{{review.review_time}}</span>
-                  </div>
+            <div class="reviewer-info">
+              <strong>{{review.member_id}}</strong>
+              <span>{{review.review_time}}</span>
+            </div>
 
-                  <div class="review-score" aria-label="평점 5점">
-                    <span>★</span>
-                    <strong>{{review.rating}}</strong>
-                  </div>
-                </div>
+            <div class="review-score" aria-label="평점 5점">
+              <span>★</span>
+              <strong>{{review.rating}}</strong>
+            </div>
+          </div>
 
-                <div class="review-content">
-                  <div class="review-tags">
-                    <span>내 컴퓨터 누가 해킹했어</span>
-                    <span>로그인도 안 되지롱</span>
-                  </div>
+          <div class="review-content">
+            <div class="review-tags">
+              <span>내 컴퓨터 누가 해킹했어</span>
+              <span>로그인도 안 되지롱</span>
+            </div>
 
-                  <p>
-                    {{review.review_content}}
-                  </p>
-                </div>
+            <p>
+              {{review.review_content}}
+            </p>
+          </div>
 
-                <div class="review-actions">
-                  <button type="button" class="helpful-button">도움돼요 74</button>
-                  <!-- <a href="/review/review_code={{review.review_code}}">수정</a> -->
-                  <a {% if review.member_id != request.session.get('member_id') %} hidden {% endif %}
-                  href="/review/review_code={{review.review_code}}">수정</a>
-                  <button type="button" class="delete-button" {% if review.member_id != request.session.get('member_id') %} hidden {% endif %}>삭제</button>
-                </div>
-              </article>
-            {% endfor %}
+          <div class="review-actions">
+            <button type="button" class="helpful-button">도움돼요 74</button>
+            <a {% if review.member_id !=request.session.get('member_id') %} hidden {% endif %}
+              href="/review/review_code={{review.review_code}}">수정</a>
+            <form method="post" action="/review/res_code={{review.res_code}}/review_code={{review.review_code}}/delete">
+              <input type="number" name="review_code" value="{{review.review_code}}" hidden>
+              <button type="submit" class="delete-button" {% if review.member_id !=request.session.get('member_id') %}
+                hidden {% endif %}>삭제</button>
+            </form>
+          </div>
+        </article>
+        {% endfor %}
         {% endif %}
       </div>
     </section>

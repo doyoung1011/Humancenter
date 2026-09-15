@@ -1,130 +1,102 @@
-/* =========================
-   HEADER 전체
-========================= */
-
 .site-header {
-    width: min(1200px, calc(100% - 40px));
-    min-height: 92px;
+  display: grid;
+  grid-template-columns: 145px 1fr max-content;
+  align-items: center;
 
-    margin: 0 auto;
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
 
-    display: grid;
+  min-height: 110px;
+  padding: 0 20px;
 
-    /* 로고 / 검색창 / 회원영역 */
-    grid-template-columns:
-        145px
-        minmax(300px, 1fr)
-        minmax(180px, 230px);
-
-    align-items: center;
-    gap: 24px;
-
-    box-sizing: border-box;
+  background: #ffffff;
 }
-
 
 /* =========================
    로고
 ========================= */
 
 .site-logo {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 
-    width: 110px;
-
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .site-logo img {
-    display: block;
-
-    width: 100%;
-    height: auto;
-
-    object-fit: contain;
+  width: 90px;
+  height: auto;
+  display: block;
 }
 
 
 /* =========================
-   검색창
+   가운데 브랜드 문구
 ========================= */
 
-.search-form {
-    width: 100%;
+.brand-slogan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    display: flex;
-    align-items: center;
+  gap: 18px;
 
-    gap: 8px;
+  white-space: nowrap;
+  user-select: none;
 
-    border: 1px solid #dddddd;
-    border-radius: 15px;
-
-    padding: 4px;
-
-    background-color: #fafafa;
-
-    box-sizing: border-box;
-
-    /*
-        grid 안에서 input 때문에
-        영역이 강제로 늘어나는 것 방지
-    */
-    min-width: 0;
+  transform: translateY(-1px);
 }
 
 
-/* 검색 input */
-.search-form input {
-    flex: 1;
+/* DISH INSIDE */
+.brand-name {
+  position: relative;
 
-    min-width: 0;
+  font-family: "Times New Roman", Georgia, serif;
 
-    height: 38px;
+  font-size: 26px;
+  font-weight: 400;
 
-    padding: 0 16px;
+  letter-spacing: 9px;
 
-    border: none;
-    outline: none;
+  color: #222;
 
-    background: transparent;
-
-    font-size: 14px;
-
-    box-sizing: border-box;
+  line-height: 1;
 }
 
 
-/* 검색 placeholder */
-.search-form input::placeholder {
-    color: #999999;
+/* 살짝 고급스러운 밑줄 효과 */
+.brand-name::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -10px;
+
+  width: 45%;
+  height: 1px;
+
+  background: #ff5b3f;
+
+  transform: translateX(-50%);
+
+  opacity: 0.75;
 }
 
 
-/* 검색 버튼 */
-.search-form button {
-    flex-shrink: 0;
+/* SINCE 2026 */
+.brand-since {
+  font-size: 11px;
 
-    height: 38px;
+  font-weight: 600;
 
-    padding: 0 20px;
+  letter-spacing: 2px;
 
-    border: none;
-    border-radius: 11px;
+  color: #999;
 
-    background-color: #ff5b3f;
-    color: white;
-
-    font-size: 14px;
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-
-.search-form button:hover {
-    background-color: #ee4f35;
+  margin-top: 4px;
 }
 
 
@@ -133,128 +105,85 @@
 ========================= */
 
 .member-area {
-    /*
-        중요
-        ID가 아무리 길어도
-        이 영역 이상으로 커지지 않게 함
-    */
-    width: 100%;
-    max-width: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: flex-end;
-
-    gap: 6px;
-
-    box-sizing: border-box;
+  gap: 8px;
 }
 
 
-/* =========================
-   프로필 / 로그아웃 버튼
-========================= */
-
+/* 로그인 / 프로필 버튼 묶음 */
 .member-buttons {
-    width: 100%;
+  display: flex;
+  align-items: center;
 
-    display: flex;
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    white-space: nowrap;
+  gap: 10px;
 }
 
 
+/* 기본 버튼 */
 .member-buttons a {
-    display: inline-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    align-items: center;
-    justify-content: center;
+  min-width: 76px;
+  height: 40px;
 
-    min-width: 78px;
-    height: 40px;
+  padding: 0 18px;
 
-    padding: 0 15px;
+  border: 1px solid #ff5b3f;
+  border-radius: 10px;
 
-    border: 1px solid #ffb5a8;
-    border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
 
-    color: #ff5b3f;
-    background-color: #fff7f5;
+  color: #ff5b3f;
 
-    text-decoration: none;
+  background: #fff;
 
-    font-size: 13px;
-    font-weight: bold;
+  text-decoration: none;
 
-    box-sizing: border-box;
-
-    transition: 0.2s;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 
+/* 마지막 버튼 = 로그아웃 */
+.member-buttons a:last-child {
+  background: #ff5b3f;
+  color: #fff;
+}
+
+
+/* hover */
 .member-buttons a:hover {
-    background-color: #ff5b3f;
-    color: white;
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 16px rgba(255, 91, 63, 0.15);
+}
+
+.member-buttons a:last-child:hover {
+  background: #e94d35;
 }
 
 
-/* 로그아웃 버튼 */
-.member-buttons a[href="/logout"] {
-    background-color: #ff5b3f;
-    border-color: #ff5b3f;
-
-    color: white;
-}
-
-
-.member-buttons a[href="/logout"]:hover {
-    background-color: #ee4f35;
-}
-
-
-/* =========================
-   로그인된 사용자 정보
-========================= */
-
+/* 로그인 정보 */
 .member-info {
-    /*
-        부모 너비보다 길어지는 것 방지
-    */
-    width: 100%;
-    min-width: 0;
+  max-width: 210px;
 
-    text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
-    font-size: 12px;
+  font-size: 12px;
+  font-weight: 500;
 
-    color: #777777;
-
-    /*
-        한 줄 유지
-    */
-    white-space: nowrap;
-
-    /*
-        영역 침범 방지
-    */
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-}
-
-
-/* ID 부분 */
-.member-id {
-    display: inline;
-
-    color: #ff5b3f;
-    font-weight: bold;
+  color: #777;
 }
 
 
@@ -264,63 +193,31 @@
 
 @media (max-width: 900px) {
 
-    .site-header {
-        width: calc(100% - 24px);
+  .site-header {
+    grid-template-columns: 110px 1fr max-content;
+  }
 
-        grid-template-columns:
-            100px
-            minmax(220px, 1fr)
-            minmax(160px, 190px);
+  .brand-name {
+    font-size: 20px;
+    letter-spacing: 6px;
+  }
 
-        gap: 14px;
-    }
+  .brand-since {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
 
-    .site-logo {
-        width: 90px;
-    }
-
-    .member-area {
-        max-width: 190px;
-    }
-
-    .member-buttons a {
-        min-width: 68px;
-
-        padding: 0 10px;
-
-        font-size: 12px;
-    }
 }
 
 
-/* 모바일 */
 @media (max-width: 700px) {
 
-    .site-header {
-        grid-template-columns: 90px 1fr;
+  .brand-slogan {
+    display: none;
+  }
 
-        gap: 12px;
+  .site-header {
+    grid-template-columns: 1fr max-content;
+  }
 
-        padding: 12px 0;
-    }
-
-
-    /* 검색창을 다음 줄로 */
-    .search-form {
-        grid-column: 1 / -1;
-        grid-row: 2;
-    }
-
-
-    .member-area {
-        justify-self: end;
-
-        width: 100%;
-        max-width: 210px;
-    }
-
-
-    .member-buttons {
-        justify-content: flex-end;
-    }
 }

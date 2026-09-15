@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>맛집 찾기 | Dish Inside</title>
+        <link rel="stylesheet" href="/static/css/restaurant_list.css" />
+        <link rel="stylesheet" href="/static/css/header.css" />
+        <link rel="stylesheet" href="/static/css/sidebar/left_sidebar.css" /> 
+        <link rel="stylesheet" href="/static/css/footer/footer.css" />
+    </head>
+
+<body>
+
+{% include 'header.html' %}
+
+<main class="main-page">
+
+    <div class="content-layout">
+
+    {% include 'left_sidebar.html' %}
+
+    <div class="restaurant-page">
+<!-- ========================================
+     메인 검색 영역
+======================================== -->
+
+<section class="search-section">
+
+  <div class="search-heading">
+    <span class="main-label">DISH INSIDE</span>
+    <h1>오늘은 어디에서<br><strong>맛있는 한 끼</strong>를 먹을까요?</h1>
+
+    <p>
+      회원들이 직접 등록한 맛집을 찾아보세요.
+    </p>
+  </div>
+
+  <form class="search-box">
+
+    <div class="search-input-wrap">
+      <span class="search-icon">⌕</span>
+
+      <input
+        type="text"
+        name="keyword"
+        placeholder="식당명, 주소, 메뉴를 검색해 보세요."
+      />
+    </div>
+
+    <button type="submit">검색</button>
+
+  </form>
+
+  <!-- 카테고리 -->
+
+  <div class="category-list">
+
+    <button type="button" class="category-button active">
+      전체
+    </button>
+
+    <button type="button" class="category-button">
+      한식
+    </button>
+
+    <button type="button" class="category-button">
+      중식
+    </button>
+
+    <button type="button" class="category-button">
+      일식
+    </button>
+
+    <button type="button" class="category-button">
+      양식
+    </button>
+
+    <button type="button" class="category-button">
+      기타
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================
+     본문
+======================================== -->
+
+<div class="main-layout">
+
+  <!-- ========================================
+       맛집 리스트
+  ======================================== -->
+
+  <section class="restaurant-list-section">
+
+    <div class="list-heading">
+
+      <div>
+        <span class="section-label">RESTAURANTS</span>
+
+        <h2>등록된 맛집</h2>
+
+        <p>
+          회원들이 직접 등록한 맛집을 확인해 보세요.
+        </p>
+      </div>
+
+      <select class="sort-select">
+        <option>최신 등록순</option>
+        <option>평점 높은순</option>
+        <option>리뷰 많은순</option>
+      </select>
+
+    </div>
+
+
+    <!-- 맛집 카드 리스트 -->
+
+    <div class="restaurant-list">
+    {% for res in res_list %}
+    <article class="restaurant-card">
+
+        <div class="restaurant-image">
+          <img
+            src="/static/images/restaurant.jpg"
+            alt="{{res.res_name}}"
+          />
+        </div>
+
+        <div class="restaurant-card-content">
+
+          <div class="restaurant-card-top">
+
+            <div>
+
+              <span class="category-badge
+              {% if res.category == 1 %}
+                    korean
+                {% elif res.category == 2 %}
+                    chinese
+                {% elif res.category == 3 %}
+                    japanese
+                {% elif res.category == 4 %}
+                    western
+                {% elif res.category == 5 %}
+                    etc
+                {% endif %}">
+                {% if res.category == 1 %}
+                    한식
+                {% elif res.category == 2 %}
+                    중식
+                {% elif res.category == 3 %}
+                    일식
+                {% elif res.category == 4 %}
+                    양식
+                {% elif res.category == 5 %}
+                    기타
+                {% endif %}
+              </span>
+
+              <h3>{{res.res_name}}</h3>
+
+            </div>
+
+            <div class="card-rating">
+              <span>★</span>
+              <strong>{{res.rating}}</strong>
+            </div>
+
+          </div>
+
+          <p class="restaurant-address">
+            {{res.res_address}}
+          </p>
+
+          <div class="restaurant-meta">
+
+            <span>
+              대표 메뉴
+            </span>
+
+            <strong>
+              {{res.menu_name}} · {{res.price}}
+            </strong>
+
+          </div>
+
+          <div class="restaurant-bottom">
+
+            <span class="review-count">
+              리뷰 {{res.review_count}}개
+            </span>
+
+            <a href="/dsinside/res_code={{res.res_code}}" class="detail-link">
+              상세보기 →
+            </a>
+
+          </div>
+
+        </div>
+
+      </article>
+    {% endfor %}
+
+    <!-- ========================================
+         페이지네이션
+    ======================================== -->
+
+    <nav class="pagination">
+
+      <button type="button" class="page-arrow">
+        ‹
+      </button>
+
+      <button type="button" class="page-number active">
+        1
+      </button>
+
+      <button type="button" class="page-number">
+        2
+      </button>
+
+      <button type="button" class="page-number">
+        3
+      </button>
+
+      <button type="button" class="page-number">
+        4
+      </button>
+
+      <button type="button" class="page-number">
+        5
+      </button>
+
+      <button type="button" class="page-arrow">
+        ›
+      </button>
+
+    </nav>
+
+  </section>
+
+
+  <!-- ========================================
+       오른쪽 사이드
+  ======================================== -->
+
+  <aside class="main-side">
+
+    <!-- 맛집 등록 -->
+
+    <section class="register-card">
+
+      <span class="side-label">
+        SHARE YOUR PLACE
+      </span>
+
+      <h2>
+        알고 있는 맛집을<br />
+        직접 등록해 보세요.
+      </h2>
+
+      <p>
+        다른 회원들과 나만 알고 있던<br />
+        맛집 정보를 공유할 수 있습니다.
+      </p>
+
+      <a href="/dsinside/add" class="register-button">
+        맛집 등록하기
+      </a>
+
+    </section>
+
+
+    <!-- 인기 맛집 -->
+
+    <section class="popular-card">
+
+      <div class="side-heading">
+        <div>
+          <span class="side-label">
+            POPULAR
+          </span>
+
+          <h2>인기 맛집</h2>
+        </div>
+      </div>
+
+
+      <ol class="popular-list">
+
+        {% for popular in popular_list %}
+        <li>
+            <!-- loop.index = for 반복문 loop 횟수 -->
+          <span class="rank">{{loop.index}}</span>
+
+          <div>
+            <strong>{{popular.res_name}}</strong>
+            <span>★ {{popular.rating}} · 리뷰 {{popular.review_count}}개</span>
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+
+    </section>
+
+
+    <!-- 광고 -->
+
+    <section class="advertisement-card">
+
+      <a href="#">
+        <img
+          src="/static/images/ChatGPT Image 2026년 9월 4일 오후 12_28_03.png"
+          alt="광고 이미지"
+        />
+      </a>
+
+    </section>
+
+  </aside>
+
+</div>
+</div>
+</div>
+
+</main>
+
+{% include 'footer.html' %}
+
+</body> </html>

@@ -15,6 +15,7 @@ from passlib.context import CryptContext
 from DTO.ReviewDTO import Review
 from DTO.MemberDTO import Member
 from DTO.BoardDTO import Board
+from DTO.RestaurantDTO import Restaurant
 
 from starlette.middleware.sessions import SessionMiddleware
 # =========================================================
@@ -35,8 +36,8 @@ templates = Jinja2Templates(directory='templates/')
 DATABASE_URL = 'mysql+pymysql://root:human123$@127.0.0.1:3306/human'
 
 engine = create_engine(
-    DATABASE_URL,
-    echo=True
+    DATABASE_URL
+    # echo=True
 )
 
 
@@ -56,14 +57,379 @@ app.mount(
     name="static"
 )
 
-
 # =========================================================
-# 메인 페이지
+# 메인 페이지(가게 리스트 조회)
 # =========================================================
 
 @app.get('/dsinside')
+def main_res_page(
+    request: Request,
+    session: Session = Depends(get_session)):
+    print('/dsinside 실행 성공')
+    
+    res_list = []
+    popular_list = []
+    
+    try:
+        sql_res = text('''
+                   select 
+                   res_code, res_name, category,
+                   (
+                       select
+                            menu_name
+                        from Menu m
+                        where m.res_code = r.res_code
+                        limit 1
+                   ) as menu_name,
+                   (
+                       select
+                            price
+                        from Menu m
+                        where m.res_code = r.res_code
+                        limit 1
+                   ) as price,
+                   address,
+                   (
+                       select
+                            count(*)
+                        from review rev
+                        where rev.res_code = r.res_code
+                   ) as review_count,
+                   (
+                       select
+                            round(avg(rating), 2)
+                        from review rev
+                        where rev.res_code = r.res_code
+                   ) as rating
+                   from restaurant r
+                   ''')
+        
+        sql_popular = text('''
+                           select res_name,
+                           (
+                               select
+                                    round(avg(rating), 2)
+                                    from review rev
+                                    where rev.res_code = r.res_code
+                           ) as rating,
+                           (
+                                select
+                                     count(*)
+                                     from review rev
+                                     where rev.res_code = r.res_code
+                                 ) as review_count
+                           from restaurant r
+                           order by rating desc
+                           limit 4
+                           ''')
+        
+        # 가게 정보 가져오기.
+        result = session.exec(sql_res)
+        res_list = result.mappings().fetchall()
+        
+        # 인기 가게 가져오기.
+        result_popular = session.exec(sql_popular)
+        popular_list = result_popular.mappings().fetchall()
+              
+    except Exception as e:
+        # 출력 확인용
+        # print('res_code:', res_code)
+        # print('res_info:', res_info)
+        # print('res_list:', res_list)
+        print('메인 페이지 에러:', e)
+    
+    should_show_welcome_popup = request.session.get('login_welcome_popup')
+
+    return templates.TemplateResponse(
+        request,
+        'restaurant_list.html',
+        {
+        'res_list': res_list,
+        'popular_list': popular_list,
+        'should_show_welcome_popup': should_show_welcome_popup
+        }
+    )
+    
+# =========================================================
+# 가게 등록 페이지
+# =========================================================
+
+@app.get('/dsinside/add')
+def res_add(
+    request: Request,
+    session: Session = Depends(get_session)
+):
+    member_id = request.session.get('member_id')
+
+    if member_id is None:
+        return RedirectResponse(
+            url='/login',
+            status_code=303
+        )
+
+    member_info = None
+
+    try:
+        sql_member = text('''
+            SELECT member_code, name
+            FROM member
+            WHERE member_id = :member_id
+        ''')
+
+        member = session.exec(
+            sql_member,
+            params={
+                'member_id': member_id
+            }
+        )
+
+        member_info = member.mappings().fetchone()
+
+    except Exception as e:
+        print('member_id:', member_id)
+        print('맛집 등록 페이지 이동 오류:', e)
+
+    return templates.TemplateResponse(
+        request,
+        'restaurant_add.html',
+        {
+            'member_info': member_info
+        }
+    )
+
+
+@app.post('/dsinside/add/api')
+def res_list_add(
+    request: Request,
+
+    # Restaurant
+    res_name: str = Form(),
+    category: int = Form(),
+    address: str = Form(),
+    res_pnum: str = Form(),
+    open_time: str = Form(),
+    close_time: str = Form(),
+
+    # Menu
+    menu_name: list[str] = Form(default=[]),
+    price: list[str] = Form(default=[]),
+
+    # Closed Days
+    c_code: list[int] = Form(default=[]),
+
+    session: Session = Depends(get_session)
+):
+    print('dsinside/add/api 실행 성공')
+
+    try:
+
+        # =====================================================
+        # 1. 로그인 회원 확인
+        # =====================================================
+
+        member_id = request.session.get('member_id')
+
+        if member_id is None:
+            print('로그인 정보가 없습니다.')
+
+            return RedirectResponse(
+                url='/login',
+                status_code=303
+            )
+
+        # member_id를 이용해서 member_code 가져오기
+        sql_member = text('''
+            SELECT member_code
+            FROM member
+            WHERE member_id = :member_id
+        ''')
+
+        result_member = session.exec(
+            sql_member,
+            params={
+                'member_id': member_id
+            }
+        )
+
+        member = result_member.mappings().fetchone()
+
+        if member is None:
+            print('회원 정보를 찾을 수 없습니다.')
+
+            return RedirectResponse(
+                url='/login',
+                status_code=303
+            )
+
+        member_code = member['member_code']
+
+        print('member_code:', member_code)
+
+
+        # =====================================================
+        # 2. Restaurant 등록
+        # =====================================================
+
+        sql_res = text('''
+            INSERT INTO restaurant
+            (
+                member_code,
+                category,
+                res_name,
+                address,
+                res_pnum,
+                open_time,
+                close_time
+            )
+            VALUES
+            (
+                :member_code,
+                :category,
+                :res_name,
+                :address,
+                :res_pnum,
+                :open_time,
+                :close_time
+            )
+        ''')
+
+        restaurant_data = {
+            'member_code': member_code,
+            'category': category,
+            'res_name': res_name,
+            'address': address,
+            'res_pnum': res_pnum,
+            'open_time': open_time,
+            'close_time': close_time
+        }
+
+        result = session.exec(
+            sql_res,
+            params=restaurant_data
+        )
+
+        res_code = result.lastrowid
+
+        print('등록된 res_code:', res_code)
+
+
+        # =====================================================
+        # 3. Menu 등록
+        # =====================================================
+
+        sql_menu = text('''
+            INSERT INTO menu
+            (
+                res_code,
+                menu_name,
+                price
+            )
+            VALUES
+            (
+                :res_code,
+                :menu_name,
+                :price
+            )
+        ''')
+
+        menu_count = 0
+
+        for i in range(len(menu_name)):
+
+            name = menu_name[i].strip()
+
+            # 메뉴명이 비어 있으면 건너뜀
+            if not name:
+                continue
+
+            # 가격이 비어 있으면 오류
+            if i >= len(price) or not price[i].strip():
+                raise ValueError(
+                    f'{i + 1}번째 메뉴의 가격을 입력해주세요.'
+                )
+
+            menu_price = int(price[i])
+
+            session.exec(
+                sql_menu,
+                params={
+                    'res_code': res_code,
+                    'menu_name': name,
+                    'price': menu_price
+                }
+            )
+
+            menu_count += 1
+
+
+        # 메뉴가 하나도 없으면 등록 취소
+        if menu_count == 0:
+            raise ValueError(
+                '메뉴를 한 가지 이상 입력해주세요.'
+            )
+
+
+        # =====================================================
+        # 4. 휴무일 등록
+        # =====================================================
+
+        sql_closed_day = text('''
+            INSERT INTO res_c_day_bridge
+            (
+                res_code,
+                c_code
+            )
+            VALUES
+            (
+                :res_code,
+                :c_code
+            )
+        ''')
+
+        for code in c_code:
+
+            session.exec(
+                sql_closed_day,
+                params={
+                    'res_code': res_code,
+                    'c_code': code
+                }
+            )
+
+
+        # =====================================================
+        # 5. 전체 등록 완료
+        # =====================================================
+
+        session.commit()
+
+        print('맛집 등록 완료')
+
+        return RedirectResponse(
+            url='/dsinside',
+            status_code=303
+        )
+
+
+    except Exception as e:
+
+        print('맛집 등록 처리 오류:', e)
+
+        session.rollback()
+
+        return RedirectResponse(
+            url='/dsinside/add',
+            status_code=303
+        )
+
+# =========================================================
+# 메인 페이지(였던 것)
+# =========================================================
+
+@app.get('/dsinside/res_code={res_code}')
 def main(
     request: Request,
+    res_code: int,
     session: Session = Depends(get_session)):
     
     res_info = []
@@ -79,27 +445,27 @@ def main(
                    from restaurant r join menu m on r.res_code = m.res_code
                    join res_c_day_bridge rc on r.res_code = rc.res_code
                    join closed_days c on rc.c_code = c.c_code
-                   where r.res_code = 1
+                   where r.res_code = :res_code
                    ''')
         
         sql_menu = text('''
                         select 
                             menu_name, price
                             from restaurant r join menu m using(res_code)
-                            where r.res_code = 1
+                            where r.res_code = :res_code
                         ''')
         
         sql_rating = text('''
                             select round(avg(re.rating), 2) as rating
                             from restaurant r join review re using(res_code)
-                            where res_code = 1
+                            where res_code = :res_code
                         ''')
         
-        result = session.exec(sql_res)
+        result = session.exec(sql_res, params={'res_code': res_code})
         
-        result2 = session.exec(sql_menu)
+        result2 = session.exec(sql_menu, params={'res_code': res_code})
         
-        result3 = session.exec(sql_rating)
+        result3 = session.exec(sql_rating, params={'res_code': res_code})
         
         res_info = result.mappings().fetchone()
         
@@ -114,16 +480,13 @@ def main(
         print('메인 페이지 에러:', e)
     
     
-    should_show_welcome_popup =request.session.get('login_welcome_popup')
-    
     return templates.TemplateResponse(
         request,
         'main.html',
         {
         'res_info': res_info,
         'menu_info': menu_info,
-        'rating_info': rating_info,
-        'should_show_welcome_popup':should_show_welcome_popup
+        'rating_info': rating_info
         }
     )
 
@@ -141,7 +504,7 @@ def login(request: Request):
 
 
 # =========================================================
-# 검색 페이지(검색 아직 미구현)
+# 검색 페이지
 # =========================================================
 
 @app.get('/search')
@@ -155,7 +518,6 @@ def search(request: Request):
 # =========================================================
 # 로그인 처리
 # 로그인 구현 성공, 로그인할때 세션에 이름도 전달해야함
-# 
 # =========================================================
 
 def verify(orig, hashed):
@@ -201,12 +563,11 @@ def _login(
                         url='/login',
                         status_code=303
                     )
-    # 로그인 할 떄 저장하는 값들
+    
     request.session['member_id']=member['member_id']
     request.session['name']=member['name']
-    request.session['member_code']=member['member_code']
-    # 로그인 한 사람에게만 보일 팝업
-    request.session['login_welcome_popup']=True
+    request.session['member_code'] = member['member_code']
+    request.session['login_welcome_popup'] = True
     
    
     
@@ -276,6 +637,7 @@ def review(
         sql_review = text('''
             select
                 mem.member_id as member_id,
+                res_code,
                 review_code,
                 review_content,
                 rev.rating as rating,
@@ -319,8 +681,6 @@ def review(
         print('리뷰 조회 에러:', e)
         
     # request.session['res_code'] = res_info['res_code']
-    # 로그인 여부에 따른 팝업 상태값
-    
 
     return templates.TemplateResponse(
         request,
@@ -330,7 +690,6 @@ def review(
             'review_list': review_list,
             'review_count': review_count,
             'rating_info': rating_info
-            
         }
     )
 
@@ -385,7 +744,7 @@ def review_add(request: Request,
         }
     )
     
-@app.post('/review/res_code={res_code}/member_id={member_code}/add')
+@app.post('/review/res_code={res_code}/{member_code}/add')
 def review_add2(
     res_code: int,
     member_code: int,
@@ -504,8 +863,67 @@ def review_update(request: Request,
             'chk': chk
         }
     )
+    
+@app.post('/review/review_code={review_code}/update')
+def review_update_exec(review_code : int,
+                       review: Review = Form(),
+                       session: Session = Depends(get_session)):
+    print('/review/review_code={review_code}/update 실행 성공')
+    try:
+        sql = text('''
+                   update review
+                   set review_content = :review_content,
+                       rating = :rating
+                   where review_code = :review_code
+                   ''')
+        
+        session.exec(sql, params = { 'review_code': review_code,
+                           'review_content': review.review_content,
+                           'rating': review.rating})
+        
+        session.commit()
+    
+    except Exception as e:
+        print('에러가 발생했습니다',e)
+        session.rollback()
+    
+    return RedirectResponse(               
+                        url=f'/review/res_code={review.res_code}',
+                        status_code=303 # 303: 무조건 GET으로 다시 들어오게 한다
+                       )        
+    
+# =========================================================
+# 리뷰 삭제
+# =========================================================
 
-
+@app.post('/review/res_code={res_code}/review_code={review_code}/delete')
+def review_list_delete_review(
+    res_code: int,
+    review_code : int,
+    session:Session=Depends(get_session)):
+    print('/review/res_code={res_code}/review_code={review_code}/delete 실행 성공')
+  
+    try:
+      sql=text('''
+                delete from review
+                where review_code=:review_code    
+                ''')
+      
+      session.exec(
+            sql,
+            params={'review_code': review_code}
+        )
+      
+      session.commit()
+      
+    except Exception as e:
+        print('에러가 발생했습니다',e)
+        session.rollback()
+          
+    return RedirectResponse(               
+                    url=f'/review/res_code={res_code}',
+                    status_code=303 # 303: 무조건 GET으로 다시 들어오게 한다
+                   )
 
 # =========================================================
 # 회원가입 페이지
@@ -765,70 +1183,6 @@ def _update(
         url='/mypage/update',
         status_code=303
     ) 
-    
-# =========================================================
-# 비밀 번호 재설정
-# 
-# ========================================================= 
-
-@app.get('/find_pw')
-def find_fw(request:Request):
-    
-      return templates.TemplateResponse(
-          request,'find_pw.html'
-          
-      )
-      
-# 비밀번호를 재설정하는 함수
-
-new_pw = CryptContext(
-    schemes=['argon2'],
-    deprecated='auto'
-)
-
-def crypt(txt):
-    return new_pw.hash(txt)
-   
-@app.post('/api/find_pw')
-def resetPassword(
-    request:Request,
-    member: Member = Form(),
-    session: Session = Depends(get_session)
-):
-    
-     print('/api/pw 실행 성공')
-     print('member:', member)
-    
-     hashed = crypt(member.member_pw)
-     
-     try:
-             session.exec(
-                 text('''
-                     UPDATE member
-                     SET member_pw = :new_pw
-                     WHERE member_id=:member_id
-                 '''),
-                 params={
-                     'new_pw': hashed,
-                     'member_id':  member.member_id
-                 }
-             )
-             
-             session.commit()
-             
-             print('성공?')
-             
-     except Exception as e:
-             print(f"비밀번호 재설정 중 에러가 발생함: {e}")
-             
-     return RedirectResponse(
-                url='/login',
-                status_code=303
-            )     
-              
-     
-      
-   
   
         
 
@@ -942,14 +1296,15 @@ def board(request:Request,
             }
         )
      
+# =========================================================
+# 글쓰기 버튼을 눌렀을때 이동하는 곳
+# =========================================================
 
-#글쓰기 버튼을 눌렀을때 이동하는 곳
-     
-@app.get('/board/{member_id}')
+@app.get('/board/member_id={member_id}')
 def board_write(request:Request,
                 member_id : str,
                 session: Session = Depends(get_session)):
-    print('/board/{member_id} 실행 성공')
+    print('/board/member_id={member_id} 실행 성공')
     
     member_info = []
     try:    
@@ -975,11 +1330,11 @@ def board_write(request:Request,
                 }
             )
 
-@app.post('/board/{member_id}/add')
+@app.post('/board/member_id={member_id}/add')
 def board_write_insert(member_id: str,
                        board: Board = Form(),
                        session: Session = Depends(get_session)):
-    print('/board/{member_id}/add 실행 성공')
+    print('/board/member_id={member_id}/add 실행 성공')
     print('board', board)
     
     try:
@@ -1025,45 +1380,178 @@ def board_write_insert(member_id: str,
             url='/board',
             status_code=303
         )
-  
+
 # =========================================================
-#  공지 사항 라우팅
+# 게시판 상세 페이지
 # =========================================================
 
-@app.get('/soge')
-def notice(request:Request):
+
+@app.get('/board/board_code={board_code}')
+def board_detail(request: Request,
+    board_code : int,
+    session: Session = Depends(get_session)):
+    print('/board/board_code={board_code} 실행 성공')
+    board_info = []
+    comment_list = []
+    comment_cnt = 0
+    try:
+        sql = text('''
+                   select board_code, member_code, member_id, name, board_cate,
+                   board_title, board_content, view_count,
+                   date_format(board_time, '%Y.%m.%d %H:%i') as board_time
+                   from board b join member m using(member_code)
+                   where board_code = :board_code
+                   ''')
+        
+        sql_comment = text('''
+                            with recursive comment_recu as (
+                            select
+                                comment_code,
+                                member_code,
+                                member_id,
+                                comment_content,
+                                date_format(comment_time, '%Y.%m.%d %H:%i') as comment_time,
+                                lpad(member_id, length(member_id), ' '),
+                                1 as level,
+                                cast(member_id as char(200)) as sort_key
+                            from
+                                comment c join member m using(member_code)
+                            where
+                                parent_comment_code is null
+                                and board_code = :board_code
+                            union all
+                            select
+                                c.comment_code as comment_code,
+                                m.member_id as member_id,
+                                c.comment_content as comment_content,
+                                c.parent_comment_code as parent_comment_code,
+                                date_format(c.comment_time, '%Y.%m.%d %H:%i') as comment_time,
+                                lpad(m.member_id, (cr.level * 4)+ length(m.member_id), ' '),
+                                cr.level + 1 as level,
+                                concat(cr.sort_key, '-', cast(m.member_id as char(200))) as sort_key
+                            from
+                                comment c join member m using(member_code)
+                            join comment_recu cr on
+                                c.parent_comment_code = cr.comment_code
+                            )
+                            select
+                                *
+                            from
+                                comment_recu
+                            order by
+                                sort_key;
+                           ''')
+        
+        sql_comment_cnt = text('''
+                               select count(*) as count
+                               from comment
+                               where board_code = :board_code
+                               ''')
+        
+        result = session.exec(sql, params = {'board_code': board_code})
+        board_info = result.mappings().fetchone()
+        
+        result_comment = session.exec(sql_comment, params = {'board_code': board_code})
+        comment_list = result_comment.mappings().fetchall()
+        
+        result_comment_cnt = session.exec(sql_comment_cnt, params={'board_code': board_code})
+        comment_cnt = result_comment_cnt.mappings().fetchone()
+                
+    except Exception as e:
+        print('상세 페이지 이동 오류:', e)    
     
     return templates.TemplateResponse(
-                    request,
-                    'soge.html',
-                
-                )
-# =========================================================
-#  이용 약관 라우팅
-# =========================================================    
-
-@app.get('/terms')
-def terms(request:Request):
-     return templates.TemplateResponse(
-                        request,
-                        'terms.html',
-                    
-                    )
-# =========================================================
-#  개인정보처리방침
-# =========================================================      
-
-@app.get('/privacy_policy')
-def privacy_policy(request:Request):
-     return templates.TemplateResponse(
-                        request,
-                        '/privacy_policy.html',
-                    
-                    )
+            request,
+            'board_detail.html',
+            {
+                'board_info': board_info,
+                'comment_list': comment_list,
+                'comment_cnt': comment_cnt
+            }            
+        )
+     
 
 # =========================================================
 # 서버 실행
 # =========================================================
+
+# =========================================================
+# 비밀번호 재설정
+# =========================================================
+
+@app.get('/find_pw')
+def find_fw(request: Request):
+    return templates.TemplateResponse(
+        request,
+        'find_pw.html'
+    )
+
+
+new_pw = CryptContext(
+    schemes=['argon2'],
+    deprecated='auto'
+)
+
+
+@app.post('/api/find_pw')
+def resetPassword(
+    request: Request,
+    member: Member = Form(),
+    session: Session = Depends(get_session)
+):
+    print('/api/pw 실행 성공')
+    print('member:', member)
+
+    hashed = new_pw.hash(member.member_pw)
+
+    try:
+        session.exec(
+            text('''
+                UPDATE member
+                SET member_pw = :new_pw
+                WHERE member_id = :member_id
+            '''),
+            params={
+                'new_pw': hashed,
+                'member_id': member.member_id
+            }
+        )
+        session.commit()
+        print('성공?')
+
+    except Exception as e:
+        print(f"비밀번호 재설정 중 에러가 발생함: {e}")
+
+    return RedirectResponse(url='/login', status_code=303)
+
+
+# =========================================================
+# 사이트 안내 / 약관 / 개인정보처리방침
+# =========================================================
+
+@app.get('/soge')
+def notice(request: Request):
+    return templates.TemplateResponse(
+        request,
+        'soge.html'
+    )
+
+
+@app.get('/terms')
+def terms(request: Request):
+    return templates.TemplateResponse(
+        request,
+        'terms.html'
+    )
+
+
+@app.get('/privacy_policy')
+def privacy_policy(request: Request):
+    return templates.TemplateResponse(
+        request,
+        '/privacy_policy.html'
+    )
+
 
 if __name__ == '__main__':
     import uvicorn
@@ -1072,5 +1560,5 @@ if __name__ == '__main__':
         'api:app',
         port=8000,
         reload=True,
-        host='0.0.0.0'
+        host='192.168.0.25'
     )

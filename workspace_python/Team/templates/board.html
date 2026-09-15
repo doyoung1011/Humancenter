@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +12,7 @@
 </head>
 
 <body>
-    <!--  위에 검색창은 진자로 불러옴 -->
-     {% include 'header.html' %}
+{% include 'header.html' %}
 <div class="board-container">
 
     <!-- 게시판 상단 -->
@@ -24,7 +23,7 @@
             <p>DISH INSIDE 회원들과 자유롭게 이야기를 나눠보세요.</p>
         </div>
 
-        <a href="/board/write" class="write-btn">
+        <a href="/board/member_id={{request.session.get('member_id')}}" class="write-btn">
             글쓰기
         </a>
 
@@ -33,7 +32,7 @@
 
     <!-- 게시판 목록 -->
     <div class="board-table">
- 
+
         <table>
 
             <thead>
@@ -49,32 +48,33 @@
 
             <tbody>
 
-                {% for post in posts %}
+                {% for board in board_list %}
 
                 <tr>
 
                     <td>
-                        {{ post.board_code }}
+                        {{ board.board_code }}
                     </td>
 
                     <td class="post-title">
 
-                        <a href="/board/detail/{{ post.board_code }}">
-                            {{ post.title }}
+                        <!-- <a href="/board/detail/{{ board.board_code }}"> -->
+                        <a href="/board/board_code={{board.board_code}}">
+                            {{ board.board_title }}
                         </a>
 
                     </td>
 
                     <td>
-                        {{ post.member_id }}
+                        {{ board.member_id }}
                     </td>
 
                     <td>
-                        {{ post.created_at }}
+                        {{ board.board_time }}
                     </td>
 
                     <td>
-                        {{ post.views }}
+                        {{ board.view_count }}
                     </td>
 
                 </tr>
@@ -84,7 +84,7 @@
 
                 <!-- 게시글 없을 때 -->
 
-                {% if not posts %}
+                {% if not board_list %}
 
                 <tr>
 

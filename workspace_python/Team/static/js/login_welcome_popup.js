@@ -1,5 +1,5 @@
 // 로그인 팝업 로직임
-window.onload = () => {
+window.addEventListener('load', () => {
     // document.querySelector('.popup .close').addEventListener(
     //     'click', function (event) {
 
@@ -78,7 +78,7 @@ window.onload = () => {
     //     }
     // }
    
-} 
+})
 
 function getCookieValue(key){
     cookies=document.cookie.split('; ')

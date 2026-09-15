@@ -2,7 +2,7 @@
 // 팝업창을 작동로직
 // 웹 페이지가 로딩되면 팝업창의 내부 버튼을 찾아서 이벤트를 발생시킴
 // 무조건 닫히는 경우, 7일간 안보기 클릭시 쿠키가 적용되는 구조
-window.onload = () => {
+window.addEventListener('load', () => {
     document.querySelector('.popup .close').addEventListener(
         'click', function (event) {
 
@@ -21,7 +21,7 @@ window.onload = () => {
         document.querySelector('.popup').classList.add('hide')
     }
 
-}
+})
 
 function getCookieValue(key) {
     cookies = document.cookie.split('; ')
