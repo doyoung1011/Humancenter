@@ -497,13 +497,18 @@ def main(
 
 # =========================================================
 # 로그인 페이지
+# 아이디 혹은 비밀번호가 틀렸을 때 로직임
 # =========================================================
 
 @app.get('/login')
 def login(request: Request):
+    # 세션에 login_error이 있으면 가져오고, 그 이후에 지워짐
+    login_error=request.session.pop('login_error',None)
     return templates.TemplateResponse(
         request,
-        'login.html'
+        'login.html',{
+            'login_error':login_error
+        }
     )
 
 
@@ -561,8 +566,11 @@ def _login(
                 status_code=303
             )
     # 비밀번호 검증
-    
+    # 아이디 혹은 비밀번호가 틀렸을 때 
     if not verify(member_pw,member['member_pw']):
+            request.session['login_error']='아이디 또는 비밀번호가 올바르지 않습니다.'
+        
+    
             return RedirectResponse(
                         url='/login',
                         status_code=303
@@ -1004,7 +1012,8 @@ def _signup(
 
 @app.get('/mypage')
 def mypage(request: Request):
-    
+
+    # 로그인 여부 체크(세션에서)
     login_chk=request.session.get('member_id')
     
     if not login_chk:

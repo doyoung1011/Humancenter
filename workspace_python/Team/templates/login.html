@@ -1,31 +1,47 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/static/css/header.css">
-    <link rel="stylesheet" href="/static/css/login.css">
-  
-  </head>
-  <body>
- 
-    
-    
-    
-  
-    <main class="login-page">
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>로그인 | Dish Inside</title>
+
+  <link rel="stylesheet" href="/static/css/header.css">
+  <link rel="stylesheet" href="/static/css/login.css">
+</head>
+
+<body>
+
+<main class="login-page">
+
   <section class="loginbox">
-    <a href="/dsinside" class="back-link">← 메인으로 돌아가기</a>
+
+    <a href="/dsinside" class="back-link">
+      ← 메인으로 돌아가기
+    </a>
+
     <div class="login-title">
       <span class="login-badge">DI</span>
+
       <h1>로그인</h1>
-      <p>Dish Inside에서 나만의 맛집을 찾아보세요.</p>
+
+      <p>
+        Dish Inside에서 나만의 맛집을 찾아보세요.
+      </p>
     </div>
 
-    <form method="post" action="/api/login" class="login-form">
+
+    <form
+      method="post"
+      action="/api/login"
+      class="login-form"
+    >
+
       <div class="input-group">
-        <label for="login-id">아이디</label>
+
+        <label for="login-id">
+          아이디
+        </label>
 
         <input
           type="text"
@@ -35,10 +51,15 @@
           autocomplete="username"
           required
         >
+
       </div>
- 
+
+
       <div class="input-group">
-        <label for="login-password">비밀번호</label>
+
+        <label for="login-password">
+          비밀번호
+        </label>
 
         <input
           type="password"
@@ -48,27 +69,61 @@
           autocomplete="current-password"
           required
         >
+
       </div>
 
-      {% if error %}
-        <p class="login-error">{{ error }}</p>
+
+      {% if login_error %}
+
+      <div class="login-error">
+        <span class="login-error-icon">!</span>
+
+        <span>
+          {{ login_error }}
+        </span>
+      </div>
+
       {% endif %}
 
-      <button type="submit" class="login-button">
+
+      <button
+        type="submit"
+        class="login-button"
+      >
         로그인
       </button>
+
     </form>
 
+
     <div class="signup-area">
-      <span>아직 회원이 아니신가요?</span>
-      <a href="/signup">회원가입</a>
+
+      <span>
+        아직 회원이 아니신가요?
+      </span>
+
+      <a href="/signup">
+        회원가입
+      </a>
+
     </div>
 
+
     <div class="find_pw">
-      <span>비밀 번호를 까먹었나요?</span>
-      <a href="/find_pw">비밀번호 재설정</a>
+
+      <span>
+        비밀번호를 잊으셨나요?
+      </span>
+
+      <a href="/find_pw">
+        비밀번호 재설정
+      </a>
+
     </div>
+
   </section>
+
 </main>
-  </body>
+
+</body>
 </html>
