@@ -28,9 +28,10 @@
     <!-- 헤더는 진자로 불러옴 -->
     {% include 'header.html' %}
 
-    <!-- 로그인 한 사람이 볼 수 있는 팝업 -->
-    {% if should_show_welcome_popup == true %} {% include
-    'popup/login_welcome_popup.html' %} {% endif %}
+    <!-- 최초 로그인을 한 사람이 보는 팔업 -->
+    {% if should_show_welcome_popup  %} 
+       {% include 'popup/login_welcome_popup.html' %} 
+    {% endif %}
 
     <div class="content-layout">
       <!-- ========================================

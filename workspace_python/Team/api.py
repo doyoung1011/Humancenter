@@ -138,7 +138,11 @@ def main_res_page(
         # print('res_list:', res_list)
         print('메인 페이지 에러:', e)
     
-    should_show_welcome_popup = request.session.get('login_welcome_popup')
+    # 웰컴 팝업을 스위치 처럼 사용하기 위해
+    # 최초의 값은 False로 설정한다
+    should_show_welcome_popup = request.session.get(
+        'login_welcome_popup',
+         False)
 
     return templates.TemplateResponse(
         request,
