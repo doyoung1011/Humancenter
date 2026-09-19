@@ -649,7 +649,10 @@ def review(
         sql_review = text('''
             select
                 mem.member_id as member_id,
+<<<<<<< Updated upstream
                 res_code,
+=======
+>>>>>>> Stashed changes
                 review_code,
                 review_content,
                 rev.rating as rating,
@@ -1573,5 +1576,5 @@ if __name__ == '__main__':
         'api:app',
         port=8000,
         reload=True,
-        host='192.168.0.25'
+        host='0.0.0.0'
     )
