@@ -575,7 +575,7 @@ def _login(
                         url='/login',
                         status_code=303
                     )
-    
+    # 로그인 할떄 세션에 저장하는 값들
     request.session['member_id']=member['member_id']
     request.session['name']=member['name']
     request.session['member_code'] = member['member_code']
@@ -594,7 +594,7 @@ def _login(
     
     
 # =========================================================
-#  로그아웃 처리- 아직 구현중입니다
+#  로그아웃 처리- 세션을 만료 시킴
 # 
 # =========================================================
 
@@ -612,7 +612,7 @@ def logout(request:Request):
        
 
 # =========================================================
-# 식당 정보 수정
+# 식당 정보 수정 라우팅
 # =========================================================
 
 @app.get('/restaurant/update')
@@ -624,7 +624,7 @@ def restaurantUpdate(request: Request):
 
 
 # =========================================================
-# 리뷰 전체 조회
+# 리뷰 전체 조회 라우팅
 # =========================================================
 
 @app.get('/review/res_code={res_code}')
@@ -1042,11 +1042,11 @@ def reviews(request: Request, session: Session = Depends(get_session)):
     print("리뷰 조회 사이트 들어와졌니?")
     
     # 세션에서 로그인 여부 체크하고 
-    logChk = request.session.get('member_id')
-    print("logChk:", logChk)
+    loginChk = request.session.get('member_id')
+    print("loginChk:", loginChk)
     print("세션 전체:", request.session)
     
-    if logChk:       
+    if loginChk:       
        
         sql = text('''
          SELECT *
@@ -1059,7 +1059,7 @@ def reviews(request: Request, session: Session = Depends(get_session)):
       
         result=session.exec(
             sql,
-            params={'member_id': logChk}
+            params={'member_id': loginChk}
         )
          
    
@@ -1484,9 +1484,7 @@ def board_detail(request: Request,
         )
      
 
-# =========================================================
-# 서버 실행
-# =========================================================
+
 
 # =========================================================
 # 비밀번호 재설정
@@ -1508,7 +1506,7 @@ new_pw = CryptContext(
 
 @app.post('/api/find_pw')
 def resetPassword(
-    request: Request,
+  
     member: Member = Form(),
     session: Session = Depends(get_session)
 ):
@@ -1565,6 +1563,11 @@ def privacy_policy(request: Request):
         '/privacy_policy.html'
     )
 
+
+
+# =========================================================
+# 서버실행
+# =========================================================
 
 if __name__ == '__main__':
     import uvicorn
