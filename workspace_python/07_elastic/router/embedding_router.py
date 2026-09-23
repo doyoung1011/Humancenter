@@ -141,6 +141,7 @@ def create_embed_index():
 def ingest_embed_documents():
     # json 가져오기
     documents = load_documents()
+    documents = documents[:3]  
 
 
     # for index, data in enumerate(range(100)) :
@@ -225,7 +226,7 @@ def get_embedding_with_llm(title, content) :
 
         # 옵션
         config=types.EmbedContentConfig(
-            output_dimensionality=384
+            output_dimensionality=768
         )
     )
 
@@ -396,3 +397,54 @@ def hybrid(keyword) :
     )
 
     return formatter(response)
+
+@router.get('/embed/ask')
+def ask_rag(question):
+    # 하이브리드 검색
+    results=hybrid(question)['results']
+    # 검색 결과를 gemini 용으로 가공(후처리)
+    contexts=[]
+    for  idx,result in enumerate(results):
+        contexts.append(f'''
+        [검색 결과:{idx}]
+        문서ID: {result['document']['id']}               
+        제목: {result['document']['title']}
+        카테고리:{result['document']['category']}
+        내용:{result['document']['content']}     
+        ''')
+     # 리스트를 string으로 변환 
+    context="\n--------\n".join(contexts)
+    
+    prompt=f'''
+    너는 문서 기반 지식 검색 도우미야
+    
+    아래의 **context**에 포함된 내용으로 질문에 답변해야만해.
+    **규칙**
+    1. 절대 추론이나 다른 내용을 담으면 안돼.
+    2. 내용에 없는 질문이라면 "문서에서 확인할 수 없는 질문입니다"라고 답변해줘.
+    3. 한국어로 답변해줘
+    4. 불필요하게 긴 설명을 하지 말아줘.
+    5. 답변에 대한 근거를 자연스럽게 설명해줘
+    
+    ** 질문: {question}
+    
+    
+    ** context:{context}
+    
+    '''.strip() #혹시 모를 공백 제거
+    print('prompt:' , prompt)
+  
+
+    def ask_gemini(prompt):
+        response=gemini.models.generate_content(
+            model='gemini-3.8-flash',
+            contexts=prompt
+        )
+        print('ask_gemini',response)
+        return response.text
+    
+    
+    answer=ask_gemini(prompt)
+    print('answer:',answer)
+        
+    return answer
