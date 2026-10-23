@@ -649,10 +649,7 @@ def review(
         sql_review = text('''
             select
                 mem.member_id as member_id,
-<<<<<<< Updated upstream
                 res_code,
-=======
->>>>>>> Stashed changes
                 review_code,
                 review_content,
                 rev.rating as rating,

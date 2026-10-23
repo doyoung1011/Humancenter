@@ -13,7 +13,7 @@ load_dotenv()
 
 # .env에 저장된 값 가져오기
 ELASTIC_ENDPOINT = os.getenv("ELASTIC_ENDPOINT")
-ELASTIC_API_KEY = os.getenv("ELASTIC_API_KEY")
+# ELASTIC_API_KEY = os.getenv("ELASTIC_API_KEY")
 
 # Elasticsearch 연결
 es = Elasticsearch(
