@@ -1,3 +1,5 @@
+
+
 from pathlib import Path
 from fastapi import APIRouter,Query
 import pandas as pd
@@ -12,6 +14,9 @@ import pandas as pd
 from typing import Any, Literal
 import os 
 from elasticsearch import helpers
+
+from collections import Counter
+import math
 
 router = APIRouter(tags=["엘라스틱서치"])
 
@@ -395,11 +400,198 @@ def terms(ids:list=Query(...)):
             'msg':utill.formatter(response)
         }
         
+#####################
+## 추천 시스템
+#####################       
+
+
+@router.get('/recommend/test/counter')
+def test_counter():
+    str='hello world'
+    print(Counter(str))
+    
+    list_counter=['hi','hey','hi','hello','hi','nihao','hey']
+    print(Counter(list_counter))
+   
+    food_counter=Counter()
+    list_food=['김밥','달빵','마라탕','라면','김밥','초밥','달빵']
+    for food in list_food:
+        food_counter.update(food)
+    print(food_counter)
+    #Counter({'밥': 3, '김': 2, '달': 2, '빵': 2, '라': 2, '마': 1, '탕': 1, '면': 1, '초': 1})
+    
+    food_counter2=Counter()
+    for food in [list_food]:
+        food_counter2.update(food)
+    print(2,food_counter2)
+    '''
+    
+    Counter({'밥': 3, '김': 2, '달': 2, '빵': 2, '라': 2, '마': 1, '탕': 1, '면': 1, '초': 1})
+    2 Counter({'김밥': 2, '달빵': 2, '마라탕': 1, '라면': 1, '초밥': 1})
+    '''
+    
+    favorite_foods=[
+        ['밥','치킨'],
+        ['산낙지','육회','광어회'],
+        ['밥','라면','짜장면'],
+        ['햄버거','라면','밥']
+    ]
+    food_counter3=Counter()
+    for foods in favorite_foods:
+        food_counter3.update(foods)
+        print(food_counter3)
+    
+    # CBF 콘텐츠 기반 필터링 content-Based Filtering
+    # "내가 뭘 좋아했지?" 기반으로 추천
+    
+def content_based_filtering(list_movieid:list):
+    selected=term_movieId(list_movieid)   
+    # return selected
+    
+    genre_counter=Counter()
+    tag_counter=Counter()
+    for hit in selected['hits']['hits']:
+        source=hit['_source']
+        print(source)
+        genre_counter.update(source.get('genres',[]))
+        tag_counter.update(source.get('genres',[]))
+    
+    print('genre_counter',genre_counter)    
+    print('tag_counter',tag_counter)
+    
+    '''
+    장르와 태그를 각각 집계한뒤: Counter
+    most_common: 기본값 None   
+
+    '''
+    
+    
+    max=5
+    terms_genre=[term for term, count in genre_counter.most_common(max)]
+    
+    terms_tag=[term for term, count in tag_counter.most_common(max)]
+    terms=terms_genre+terms_tag
+    
+    terms=[]
+    terms.extend(terms_genre)
+    terms.extend(terms_tag)
+    
+    # return terms
+    #  " ".join(terms) 이거의 단점은 중복 데이터가 있을 수 있음...
+    #그래서 set에 넣어보자
+    # 그런데 순서를 보장하지 않는다.
+    # 나는 순서를 유지하면서 중복을 제거하고 싶다
+    # dict.fromkeys()를 사용하면 된다
+    # 이걸 join하면 key만 뺴올 수 있다.
+    query=" ".join(dict.fromkeys(terms)) #띄어쓰기로 구분한다
+    response=search_movies(query) 
+    
+    return response['hits']['hits']       
         
+
+@router.get('/recommend/cbf')
+def cbf(list_movieid:list[int]=Query(...)):
+    response=content_based_filtering(list_movieid)      
     
+    return response    
+
+
+def split_train_test(test_size: float = 0.2):
+
+    '''
+    과거 평점을 학습시키고 미래 평점으로 평가하자
+    test_size: 미래 평점의 비율(정답 데이터의 비율)
+
+    사용자 별로 최신 평점은 평가용
+    최신 평점은 평가용
+    과거 평점은 학습용(공부할때는 과거의 것으로 공부하고)
+
+    시험은 최신 껄로 보겠다.
+
+    평점이 한 건뿐인 사용자는 학습 데이터에만 둔다.
+
+    만약에 timestamp가 같으면 원본 행 순서로 정렬한다.
+    '''
+
+    # 평점 파일 읽기
+    frame_ratings = utill.load_csv('ratings.csv')
+
+    # 원본 유지를 위해
+    data = frame_ratings.copy()
+
+    # 원본의 순서대로 줄 번호 먹이기
+    data['original_order'] = range(len(data))
+
+    # timestamp를 숫자 타입으로 변경
+    # errors='coerce': 변경이 안되는건 NaN으로 강제 변경
+    # errore='ignore': 변경 실패 시 원본 유지
+    # errors='raise': ValueError 발생하고 즉시 중단
+    valid_data = pd.to_numeric(data['timestamp'], errors='coerce')  # vaild 유효한
+
+    # N/A가 아닌 것만 뽑아준다
+    # data[True/False] >>>> 참인 행(row 또는 document)만 반환
+    valid_data = data[data['timestamp'].notna()].copy()
+
+    # 시간이 N/A 즉 비어있는 것만 뽑아준다
+    no_time = data[data['timestamp'].isna()].copy()
     
+    test_indices=[]
     
+    # userid가 같은 데이터끼리 group by
+    # sort 기본값은 True >> userId로 정렬하지 않고 원래 등장 순서를 유지
+    # 원래 id,value 반환인데 id는 안 쓸거라서
+    for _, group in valid_data.groupby('userId', sort=False):
+
+        # 평점을 하나만 준 사용자는 건너뛰기
+        # 지금은 학습과 정답 데이터를 나누는 거라서
+        if len(group) <= 1:
+            continue
+
+        # 과거와 미래를 나누기 위해서
+        # timestamp 기준으로 정렬한다
+        # 같은게 있다면 original_order 기준으로 정렬하라.
+        # kind stable: 그래도 같은게 있다면 정렬 전 순서 유지.
+        # kind에 사용할 수있는것
+        # quicksort,mergesort,heapsort,
+        
+        ordered = group.sort_values(
+            ['timestamp', 'original_order'],
+            kind='stable'
+        )
+
+        # 전체 데이티ㅓ 중 test_size 비율로 뽑았다
+        # 0.4 등의 결과를 1로만든다
+        test_counter = math.ceil(len(ordered) * test_size)
+
+        if test_counter < 1:
+            test_counter = 1
+
+        if test_counter > len(ordered) - 1:
+            temtest_counterp1 = len(ordered) - 1
+
+        # max: 둘 중에 큰 값ㅇ르 돌려준다
+        # 최소값을 지정할 떄 사용
+        max(1, test_counter)
+        
+        # min: 둘 중에 작은 값을 돌려준다
+        # 최대값을 지정할 때 사용
+        min(test_counter,3)
+        
+        test_counter=min(len(ordered)-(1,math.ceil(len(ordered)*test_size)))
+        
+        # tail: 끝에서 몇개 
+        # 미리 시간 오름차순으로 정렬해 둬서 최신 데이터는 끝에 있다.
+        # index만 모은다- 나중에 학습 데이터를 분리 할때 사용하려고
+        
+        test_indices.extend(ordered.tail(test_counter).index.tolist())
+        
+    '''
+    데이터 할 데이터의 index는 모아둔 상태
+    실제 테스트 데이터 추출 예정
+    학습 데이터 추출 예정
+    2개를 리턴 할 예정
     
-    
-     
-    
+    '''
+        
+        
+        
