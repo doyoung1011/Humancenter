@@ -17,7 +17,7 @@ from elasticsearch import helpers
 
 from collections import Counter
 import math
-
+from surprise import Dataset, Reader, KNNWithMeans
 router = APIRouter(tags=["엘라스틱서치"])
 
 
@@ -139,7 +139,7 @@ def makeContent():
     '''
     to_dict() 까지 한 결과
     {
-        movidId1 : [tag1, tag2],
+        movieId1 : [tag1, tag2],
         movieId2 : [tag11, tag12]
     }
     '''
@@ -239,7 +239,7 @@ def chunk():
 
 
 @router.get('/make/embedding/gemini')
-def embedding():
+def embedding_gemini():
     target = makeChunk()[0:10]
     actions = utill.embedding_with_gemini(target)
 
@@ -247,7 +247,7 @@ def embedding():
 
 
 @router.get('/make/embedding/openai')
-def embedding():
+def embedding_openai():
     target = makeChunk()[0:10]
     # target = makeChunk()
     actions = utill.embedding_with_openai(target)
@@ -282,9 +282,6 @@ def bulk():
     '''
   
     
-    if not utill.es.indices.exists(index=os.getenv('ES_INDEX')): #인덱스가 없다면
-        utill.es.indices.delete(index=os.getenv('ES_INDEX'))
-        
     if not utill.es.indices.exists(index=os.getenv('ES_INDEX')):
         
         
@@ -307,7 +304,7 @@ def bulk():
         mappings={
             'properties':{
                 'index':{'type':'integer'},
-                'moveid':{'type':'integer'},
+                'movieId':{'type':'integer'},
                 'title':{'type':'text'}, #keyword: 완벽히 같은 단어 검색 용
                 'genres':{'type':'keyword'},
                 'tags':{'type':'text'},
@@ -354,7 +351,7 @@ def search_movies(keyword:str,size:int=10):
         query={
             'multi_match':{
                 'query':keyword,
-                'fields':['title^300','genres^2','tags','content'],
+                'fields':['title^4','genres','tags^2','content^3'],
              
             },
             
@@ -365,7 +362,7 @@ def search_movies(keyword:str,size:int=10):
     return response
 
 @router.get('/es/select/multi_match')
-def multi_match(keyword,size=10):
+def multi_match(keyword: str, size: int = 10):
     response=search_movies(keyword,size)
     
     return{
@@ -383,7 +380,7 @@ def term_movieId(ids:list):
         index=os.getenv('ES_INDEX'),
         query={
             'terms':{
-                'movieId':ids
+                'movieId':[int(i) for i in ids]
             }
             
         }
@@ -393,7 +390,7 @@ def term_movieId(ids:list):
     return response    
 
 @router.get('/es/select/terms')
-def terms(ids:list=Query(...)):
+def terms(ids: list[int] = Query(...)):
     response=term_movieId(ids)
     
     return{
@@ -450,11 +447,11 @@ def content_based_filtering(list_movieid:list):
     
     genre_counter=Counter()
     tag_counter=Counter()
-    for hit in selected['hits']['hits']:
+    for hit in selected['hits']['hits']: #이거를 하는 이유는 ['hits']['hits']가 원본에 있기 떄문임
         source=hit['_source']
         print(source)
         genre_counter.update(source.get('genres',[]))
-        tag_counter.update(source.get('genres',[]))
+        tag_counter.update(source.get('tags',[]))
     
     print('genre_counter',genre_counter)    
     print('tag_counter',tag_counter)
@@ -466,10 +463,10 @@ def content_based_filtering(list_movieid:list):
     '''
     
     
-    max=5
-    terms_genre=[term for term, count in genre_counter.most_common(max)]
+    top_n=5
+    terms_genre=[term for term, count in genre_counter.most_common(top_n)]
     
-    terms_tag=[term for term, count in tag_counter.most_common(max)]
+    terms_tag=[term for term, count in tag_counter.most_common(top_n)]
     terms=terms_genre+terms_tag
     
     terms=[]
@@ -497,6 +494,8 @@ def cbf(list_movieid:list[int]=Query(...)):
 
 
 def split_train_test(test_size: float = 0.2):
+    if not 0 < test_size < 1:
+        raise ValueError('test_size는 0과 1 사이여야 합니다.')
 
     '''
     과거 평점을 학습시키고 미래 평점으로 평가하자
@@ -524,9 +523,9 @@ def split_train_test(test_size: float = 0.2):
 
     # timestamp를 숫자 타입으로 변경
     # errors='coerce': 변경이 안되는건 NaN으로 강제 변경
-    # errore='ignore': 변경 실패 시 원본 유지
+    # errors='ignore': 변경 실패 시 원본 유지
     # errors='raise': ValueError 발생하고 즉시 중단
-    valid_data = pd.to_numeric(data['timestamp'], errors='coerce')  # vaild 유효한
+    data['timestamp'] = pd.to_numeric(data['timestamp'], errors='coerce')
 
     # N/A가 아닌 것만 뽑아준다
     # data[True/False] >>>> 참인 행(row 또는 document)만 반환
@@ -548,7 +547,7 @@ def split_train_test(test_size: float = 0.2):
             continue
 
         # 과거와 미래를 나누기 위해서
-        # timestamp 기준으로 정렬한다
+        # timestamp 기준으로 정렬한다(시간값기준으로)
         # 같은게 있다면 original_order 기준으로 정렬하라.
         # kind stable: 그래도 같은게 있다면 정렬 전 순서 유지.
         # kind에 사용할 수있는것
@@ -559,26 +558,13 @@ def split_train_test(test_size: float = 0.2):
             kind='stable'
         )
 
-        # 전체 데이티ㅓ 중 test_size 비율로 뽑았다
-        # 0.4 등의 결과를 1로만든다
-        test_counter = math.ceil(len(ordered) * test_size)
+        # 최신 평점을 테스트 데이터로 사용할 개수 계산
+        # 평가 데이터 최소 1개, 학습 데이터 최소 1개 유지
+        test_counter = min(
+            len(ordered) - 1,
+            max(1, math.ceil(len(ordered) * test_size))
+        )
 
-        if test_counter < 1:
-            test_counter = 1
-
-        if test_counter > len(ordered) - 1:
-            temtest_counterp1 = len(ordered) - 1
-
-        # max: 둘 중에 큰 값ㅇ르 돌려준다
-        # 최소값을 지정할 떄 사용
-        max(1, test_counter)
-        
-        # min: 둘 중에 작은 값을 돌려준다
-        # 최대값을 지정할 때 사용
-        min(test_counter,3)
-        
-        test_counter=min(len(ordered)-(1,math.ceil(len(ordered)*test_size)))
-        
         # tail: 끝에서 몇개 
         # 미리 시간 오름차순으로 정렬해 둬서 최신 데이터는 끝에 있다.
         # index만 모은다- 나중에 학습 데이터를 분리 할때 사용하려고
@@ -592,6 +578,147 @@ def split_train_test(test_size: float = 0.2):
     2개를 리턴 할 예정
     
     '''
+    test=valid_data.loc[test_indices].copy() # 사람마다 20프로씩 뽑은 테스트 데이터를 가지고 있게 된다. 
+    
+    # 학습 데이터 추출
+    
+    train=valid_data.drop(index=test_indices)
+    # timestamp가 없는 평점은 학습 데이터에만 포함
+    train=pd.concat([train, no_time])
+    
+    # 원래 순서로 복구해두고
+    # 내가 활용하기 위해 추가한 컬럼인 original_order를 지운다
+    # 그러면 거의 원본에서 필요한 데이터만 추출한 결과를 만들 수 있다.
+    
+    test=test.sort_values('original_order',kind='stable').drop(columns='original_order')
+    train=train.sort_values('original_order',kind='stable').drop(columns='original_order')
+    
+    return test.reset_index(drop=True),train.reset_index(drop=True)
+
+# CF: 협업 필터링 Collaborative_filtering
+# "다른 사람들은 뭘 좋아했지?" 
+def collaborative_filtering(userId,top_k=10): # 몇 개 추천받을지
+    test,train=split_train_test()
+    
+    data=train[['userId','movieId','rating']].copy()
+    
+    if userId not in data['userId']:
+        raise ValueError(f'{userId}을/를 찾을 수 없습니다. Chagun Siseon을 들으시오')
+    
+    # Reader는 필수
+    # 평점 데이터를 해석할 수 있도록 해주는 것
+    # 기왕 범위도 알려줬다.
+    reader=Reader(rating_scale=(0.5,5.0))
+    ### 데이터 프레임에서 로딩해서 서프라이즈 것으로 바꿔라
+    '''
+    pandas의 DataFrame을 Surprise의 데이터셋으로 변경
+    
+    '''
+
+    data_set=Dataset.load_from_df(
+        data[['userId','movieId','rating']],
+        reader)
+    '''
+    모델 학습에 사용할 자료구조로 변환
+    '''
+    train_set=data_set.build_full_trainset() 
+    
+    '''
+    유클리드 거리: 피타고라스 정리 같은거
+    코사인 거리: 방향(각도)만 비교
+    100편의 액션 영화를 좋아한 사람과 1편의 액션을 좋아한 사람은 같은 취향(방향)이다.
+    문서 길이나, 단어의 빈도 수는 달라도 주제가 비슷한 지 판단
+    
+    ## name에 들어 갈 수 있는 것들
+    msd: 기본값 Mean Squared Difference, 빠름, 대용량 데이터에 좋음
+    cosine: 코사인 유사도, 취향 패턴 분석에 좋음
+    pearson: 피어슨 상관계수,편향 왕화가 필요할 때 
+    pearson_baseline: 피어슨 베이스 라인, 조금 느림,데이터가 부족한데 정밀한 예측이 필요할 떄 
+    '''
+    '''
+    user_based
+    True: 내 취향과 평점 패턴이 비슷한 다른 사용자(이웃)이 이 아이템에 몇점을 줬는가?
+    False: 이 아이템을 좋아하는 사람들이 좋아하는 다른 유사한 아이템은?
+    '''
+    
+    n_neighbors=30        
+    model=KNNWithMeans(
+        k=n_neighbors,
+        sim_options={
+            'name':'cosine',
+            'user_based':True,
+        },
+        verbose=False
+    )  
+    # 학습
+    model.fit(train_set)
+    # 내가 평가한 목록을 구한다.
+    
+    '''
+    to_inner_uid: 사용자 id로 Surprise 내부 인덱스로 변환한다.
+    '''
+    
+    inner_user_id=train_set.to_inner_uid(userId)
+    
+    # ur: user rating
+    # ir: item rating
+    '''
+    ur에 대한 설명:
+     user1이 영화 1에는 3점 영화 2에는 3.5점을 줬다.(사용자 중심의 정보가 담겨있음)
+    ir에 대한 설명:
+     영화 1은 user1에게 3점, user2에게 1.5점을 받았다.
+     
+    '''
+    
+    rated_movie=set()
+    for inner_movie_id, rating in train_set.ur[inner_user_id]:
+        # to_raw_iid: to raw item id
+        # 내부 영화 인덱스를 원래 movieId(압축했다가 압축풀었다고 생각하면 편함)
         
+        rated_movie.add(train_set.to_raw_iid(inner_movie_id))
         
+    
+    # 학습 데이터 중 없는 목록을 구한다
+    candidate_movies=[
+        train_set.to_raw_iid(inner_movie_id)
+        for  inner_movie_id in range(train_set.n_items)
+         if train_set.to_raw_iid(inner_movie_id) not in rated_movie
+    ]
+    
+    # for inner_movie_id in range(train_set.n_items):
+    #     if train_set.to_raw_iid(inner_movie_id) not in rated_movie:
+    #         candidate_movies.append(train_set.to_raw_iid(inner_movie_id))
+    
+
+    # 그 목록의 예상 평점을 계산한다
+    '''
+    말로 표현하면
+     "너라면 이 영화에 평점을 얼마 줄 것같다"
+    
+    '''
+    
+    recommend=[
         
+    ]
+    for movieId in candidate_movies:
+        #  예상 평점
+        # est는 예측한 평점. estimated의 약자임
+        score=model.predict(userId,movieId).est 
+        recommend.append(
+            {
+                'movieId':movieId,
+                'score':score,
+            }
+            
+        )
+    # 평점이 높은거 top_k만큼 뽑아서 돌려준다.
+    # json을 정렬하는 방법
+    # 평점이 높은 순으로 정렬
+    recommend.sort(key=lambda x:x['score'],reverse=True)
+    
+    return recommend[:top_k] # top_k만큼 보여주겠다.
+
+@router.get('/es/recommend/cf')
+def cf(userId:int,top_k:int=10):
+    return collaborative_filtering(userId,top_k)
+    
