@@ -45,12 +45,13 @@ def load_csv(fileName):
 def embedding_with_gemini(chunks):
     '''
     임베딩 모델 가져오기
+    
     '''
     
     api_key=os.getenv('GEMINI_API_KEY')
     client=genai.Client(api_key=api_key)
     
-    actions=[]
+    actions=[] # 빈 리스트를 생성함
     
     for chunk in chunks:
         '''
@@ -75,10 +76,13 @@ def embedding_with_gemini(chunks):
             )
         )
         '''
-        결과 저장하기
+        결과 저장
         '''
         
         chunk['embedding']=result.embeddings[0].values
+        
+        # actions라는 빈 리스트에 새로운 딕셔너리를 넣겠다
+        # chunk라는 딕셔 
         
         actions.append({
             '_index':os.getenv('ES_INDEX'),

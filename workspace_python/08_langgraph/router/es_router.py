@@ -181,7 +181,7 @@ def makeContent():
 
     # reset_index : pandas 내부 index를 재정리
     # drop=True를 안 해주면, 132 라고하면 123이 아니라 1323이 되는것을 막기 위함 (새로 추가됨)
-    # → 엉망인 것은 버려라
+    # 엉망인 것은 버려라
     return result.reset_index(drop=True)
 
 
@@ -360,6 +360,46 @@ def search_movies(keyword:str,size:int=10):
     )
     
     return response
+
+
+#######################
+## 10월 29일자 튜닝된 보전             
+#######################
+
+'''
+사용자가 자연어로 질문하면,
+제미나이가 검색어의 의미를 숫자 벡터로 변환해줌
+그리고 Elasticsearch KNN 검색을 진행함
+'''
+def search_vector(keyword:str,size:int=10):
+    
+    # 검색어를 벡터로 바꾼다
+    # 그런데 기존의 embedding_with_gemini는 수정 없이 활용하고 싶다.
+    querys=[{
+        'content':keyword,
+        'movieId':0,
+        'chunk_index':0
+    }]
+    
+
+    vectors=utill.embedding_with_gemini(querys)
+    
+    
+    vector=vectors[0]['_source']['embedding']
+    
+    response=utill.es.search(
+        index=os.getenv('ES_INDEX'),
+        knn={
+            'field':'embedding',
+            'query_vector':vector,
+            'num_candidates':max(size*10,50),
+            'k':size
+        },
+        size=size
+        
+    )
+    
+    # return response
 
 @router.get('/es/select/multi_match')
 def multi_match(keyword: str, size: int = 10):
@@ -597,12 +637,20 @@ def split_train_test(test_size: float = 0.2):
 
 # CF: 협업 필터링 Collaborative_filtering
 # "다른 사람들은 뭘 좋아했지?" 
+'''
+
+
+'''
+
 def collaborative_filtering(userId,top_k=10): # 몇 개 추천받을지
     test,train=split_train_test()
     
     data=train[['userId','movieId','rating']].copy()
     
-    if userId not in data['userId']:
+    
+    
+    if userId not in data['userId'].values:
+    # if userId not in data['userId'].to_numpy(): # 이렇게 사용해도 됨.
         raise ValueError(f'{userId}을/를 찾을 수 없습니다. Chagun Siseon을 들으시오')
     
     # Reader는 필수
@@ -642,10 +690,12 @@ def collaborative_filtering(userId,top_k=10): # 몇 개 추천받을지
     '''
     
     n_neighbors=30        
+    # n_neighbors=50        
     model=KNNWithMeans(
         k=n_neighbors,
         sim_options={
-            'name':'cosine',
+            # 'name':'cosine',
+            'name':'pearson',
             'user_based':True,
         },
         verbose=False
@@ -697,9 +747,7 @@ def collaborative_filtering(userId,top_k=10): # 몇 개 추천받을지
     
     '''
     
-    recommend=[
-        
-    ]
+    recommend=[]
     for movieId in candidate_movies:
         #  예상 평점
         # est는 예측한 평점. estimated의 약자임
@@ -721,4 +769,77 @@ def collaborative_filtering(userId,top_k=10): # 몇 개 추천받을지
 @router.get('/es/recommend/cf')
 def cf(userId:int,top_k:int=10):
     return collaborative_filtering(userId,top_k)
+
+# Recall@K 
+# 전체  정답 개수 중에 맞힌 개수 
+# 순위는 안본다.
+# 내 정답 개수 /전체 추천 개수
+def recall_at_k(
+    userId:int,
+    test:pd.DataFrame, # 정답 데이터
+    recommend:list[dict], # 추천 목록
+    threshold:float=4.0,  # threshold: 기준선
+    k:int=10
+):
+    # 내가 평점을 threshold 이상을 준 정답만 뽑자.
+    #loc는 where 조건입니당.
+    # 첫 번쨰 전달인자: 조건
+    # 두 번쨰 전달인자: 특정 컬럼만 가져오기
+    # relevant(관련된)
+    # 나와 관련된 영화 목록
+    # pandas.Series 객체는 set으로 자동 형변환이 안된다.
+    # 그래서 set()으로 명시적 형변환
+    relevant_movies=set(test.loc[
+        # 첫 번쨰
+        (test['userId']==userId)
+        & (test['rating'] >=threshold),
+        # 두 번째
+        'movieId'
+    ])
+    # 정답 데이터에 조건이 맞는 영화가 없어서 Recall 계산할 수 없다.
+    if len(relevant_movies)==0:  
+        return -1.0
+    
+    # id가 중복된건 없애버리겠다. {} set으로 바꾼거임
+    
+    # 암시적, 묵시적 형변환
+    recommend_movies={
+        item['movieId'] for item in recommend[:k]
+    }
+    
+    # 추천 목록 중에서 내가 좋아하는 영화의 개수
+    # 추천 중 정답 개수
+    # &: 교집합
+    
+    hit_count=len(relevant_movies & recommend_movies) # 정답을 맞출 확률(교집합)
+    
+    # Recall@k= 맞힌 개수 / 전체 정답
+    result=hit_count/len(relevant_movies)
+    
+    return result
+ 
+'''
+
+def recall_at_k(
+    test:pd.DataFrame, # 정답 데이터
+    recommend:list[dict], # 추천 목록
+    userId:int,
+    threshold:float=4.0,  # threshold: 기준선
+    k:int=10
+):
+줘야 하는 목록들
+
+'''
+ 
+    
+@router.get('/recommend/recall')    
+def recall(userId:int):    
+    test,_=split_train_test()
+    recommend=collaborative_filtering(userId,50)
+    threshold=2.0
+    k=50
+    
+    return recall_at_k(userId,test,recommend,threshold,k)
+    
+    
     
