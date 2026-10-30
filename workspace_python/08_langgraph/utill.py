@@ -32,13 +32,14 @@ def load_csv(fileName):
         print('read_csv 파일 로딩 오류',e)
         
     return frame
-'''
-임베딩은 
-벡터화를 
-하기위해서 
-하는것
 
-'''
+    '''
+    임베딩은 
+    벡터화를 
+    하기위해서 
+    하는것
+
+    '''
 
 
 
@@ -52,6 +53,13 @@ def embedding_with_gemini(chunks):
     client=genai.Client(api_key=api_key)
     
     actions=[] # 빈 리스트를 생성함
+    
+    '''
+    딕셔너리를 리스트로 감쌌기 떄문에,
+    딕셔너리가 나옴
+    
+    '''
+    
     
     for chunk in chunks:
         '''

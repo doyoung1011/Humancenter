@@ -5,6 +5,7 @@ from fastapi import APIRouter,Query
 import pandas as pd
 import traceback
 
+
 from typing import Literal
 from typing import Any
 from fastapi import APIRouter
@@ -18,6 +19,8 @@ from elasticsearch import helpers
 from collections import Counter
 import math
 from surprise import Dataset, Reader, KNNWithMeans
+
+from utill import es
 router = APIRouter(tags=["엘라스틱서치"])
 
 
@@ -363,7 +366,7 @@ def search_movies(keyword:str,size:int=10):
 
 
 #######################
-## 10월 29일자 튜닝된 보전             
+## 10월 29일자 튜닝된 버전            
 #######################
 
 '''
@@ -376,10 +379,23 @@ def search_vector(keyword:str,size:int=10):
     # 검색어를 벡터로 바꾼다
     # 그런데 기존의 embedding_with_gemini는 수정 없이 활용하고 싶다.
     querys=[{
-        'content':keyword,
+        'content':keyword, 
         'movieId':0,
         'chunk_index':0
     }]
+    
+    '''
+     어떤 형태로 되어있는지 살펴보자.
+     
+     actions.append({
+                '_index':os.getenv('ES_INDEX'),
+                '_id':f'{chunk["movieId"]}-{chunk["chunk_index"]}',
+                '_source':chunk
+            })
+    
+    
+    '''
+    
     
 
     vectors=utill.embedding_with_gemini(querys)
@@ -399,7 +415,7 @@ def search_vector(keyword:str,size:int=10):
         
     )
     
-    # return response
+    return response
 
 @router.get('/es/select/multi_match')
 def multi_match(keyword: str, size: int = 10):
@@ -481,7 +497,9 @@ def test_counter():
     # CBF 콘텐츠 기반 필터링 content-Based Filtering
     # "내가 뭘 좋아했지?" 기반으로 추천
     
-def content_based_filtering(list_movieid:list):
+def content_based_filtering(list_movieid:list,
+         candidate_size:int=10 # 기본값을 지정해서 다른 곳에서 범용적 사용가능하게 변경
+        ):
     selected=term_movieId(list_movieid)   
     # return selected
     
@@ -521,9 +539,10 @@ def content_based_filtering(list_movieid:list):
     # dict.fromkeys()를 사용하면 된다
     # 이걸 join하면 key만 뺴올 수 있다.
     query=" ".join(dict.fromkeys(terms)) #띄어쓰기로 구분한다
-    response=search_movies(query) 
+    response=search_movies(query,candidate_size) 
     
-    return response['hits']['hits']       
+    return response['hits']['hits']     
+    # ['hits']['hits']       
         
 
 @router.get('/recommend/cbf')
@@ -637,6 +656,8 @@ def split_train_test(test_size: float = 0.2):
 
 # CF: 협업 필터링 Collaborative_filtering
 # "다른 사람들은 뭘 좋아했지?" 
+# 넷플릭스에서, 내가 좋아한 컨텐츠(CBF)가 있을때, 그 밑에 다른 사람들이 좋아한 컨텐츠를 추천해주는 것.(예시)
+
 '''
 
 
@@ -645,7 +666,7 @@ def split_train_test(test_size: float = 0.2):
 def collaborative_filtering(userId,top_k=10): # 몇 개 추천받을지
     test,train=split_train_test()
     
-    data=train[['userId','movieId','rating']].copy()
+    data=train[['userId','movieId','rating']].copy() # 깊은 복사해서 사용하겠다.
     
     
     
@@ -841,5 +862,180 @@ def recall(userId:int):
     
     return recall_at_k(userId,test,recommend,threshold,k)
     
+#하이브리드 추천 : CBF + CF
+
+def hybrid_filtering(
+    list_movieId:list[int], # CBF에서 사용 할 영화 목록
+    userId:int, # CF에서 사용 할 사용자 ID
+    top_k:int=10, # 결과 개수
+    candidate_size:int=50 # 각각의 추천의 후보 수     
+): 
+    response_cbf=content_based_filtering(list_movieId,candidate_size)
+    # CBF 추천
+    
+    '''
+    candidate_size를 전달받아라, 
+    content_based_filtering() 그러려먼 이 친구의 전달인자를 하나 추가하기
+    
+    '''
+    
+    # return response_cbf
+
+    result_cbf=set()
+    for hit in response_cbf:
+        
+        movieId=int(hit['_source']['movieId'])
+        # 내가 안 본 영화 id만 중복 없이 담는다
+        if movieId not in list_movieId:
+            result_cbf.add(movieId)     
+         
+    # CF 추천하는 곳        
+    response_cf=collaborative_filtering(userId,candidate_size)
+    
+    # return response_cbf    
+    
+    #반복문을 돌거고 movieId를 뽑을 꺼임
+    result_cf=set()
+    for hit in response_cf:
+        movieId=hit.get('movieId')
+        if movieId not in list_movieId:
+            result_cf.add(movieId)
     
     
+    # 결과물에는 movieId랑, score만 줘서 return주기
+    # 각각 점수 계산하기, rrf 구현하기
+    
+    
+    '''
+    
+    rrf_score = {}
+    rank_constant = 60
+
+    for rank, hit in enumerate(text_response["hits"]["hits"], start=1):
+        # id를 추출하고
+        cbf_score = hit['_id']
+        if cbf_score not in rrf_score:
+            rrf_score[cbf_score] = {
+                "score": 0,
+                "source": hit["_source"]
+            }
+        rrf_score[cbf_score]['score'] += (1 / (rank_constant + rank))
+    # vector 검색 결과 하나마다
+    for rank, hit in enumerate(vector_response["hits"]["hits"], start=1):
+        cbf_score = hit['_id']
+        if cbf_score not in rrf_score:
+            rrf_score[cbf_score] = {
+                "score": 0,
+                "source": hit["_source"]
+            }
+        rrf_score[cbf_score]['score'] += (1 / (rank_constant + rank))
+
+    print('rrf_score:', rrf_score)
+    results = sorted(
+        rrf_score.items(), # (key, value) 튜플로
+        key=lambda x: x[1]['score'], # items의 두번째 값 즉 value
+        reverse=True #내림차순으로 정렬
+    )
+
+    # 돌려주고 싶은 개수(즉 조회 결과 수)
+    size = 10
+    # 기존 formatter가 사용할 수 있도록 Elasticsearch 응답 형태로 변환
+    hits = []
+    for cbf_score, data in results[:size]:
+        hits.append({
+            "_id": cbf_score,
+            "_score": data["score"],
+            "_source": data["source"]
+        })
+
+    resp = {
+        "hits": {
+            "hits": hits,
+            "total": {
+                "value": len(rrf_score)
+            }
+        }
+    }
+    return formatter(resp)
+
+    '''
+    # RRF
+    # 각각 점수 계산하기
+    rrf_score = {}
+    rank_constant = 60
+
+    # cbf rff 점수 반영
+    
+    # start는 index의 시작값
+    for rank, movieId in enumerate(result_cbf, start=1):
+            # movieId 추출
+            # movieId = int(hit['_source']['movieId']) # 내가 쓴 코드
+            # 위에 껀 뽑을수가 없오
+            if rrf_score.get('movieId'):
+                rrf_score[movieId] += (1 / (rank_constant + rank))
+            else:
+                rrf_score[movieId]=1/(rank_constant+rank)    
+                
+    # 이번엔 cf
+    
+    for rank, movieId in enumerate(result_cf, start=1):
+            
+            if rrf_score.get('movieId'):
+                rrf_score[movieId] += (1 / (rank_constant + rank))
+            else:
+                rrf_score[movieId]=1/(rank_constant+rank) 
+                 
+    print(len(rrf_score))       
+    result=sorted(
+        rrf_score.items(), # (key, value) 튜플로
+        key=lambda x: x[1], # items의 두번째 값 즉 value
+        reverse=True #내림차순으로 정렬
+    )
+    
+    # top_k 돌려주기
+    return result[:top_k]
+                            
+            
+    
+    # cbf rrf 점수 계산 성공성공
+    
+    
+    
+    
+    # 합치기
+    # RRF 점수 계산
+    # 점수가 높은 순으로 정렬
+    # 상위 목록 top_k 만큼 돌려주기
+
+
+
+@router.get('/recommend/hybrid')
+def hybrid(
+        userId:int, # CF에서 사용 할 사용자 ID
+        top_k:int=10, # 결과 개수
+        candidate_size:int=50,# 각각의 추천의 후보 수     
+        list_movieId:list[int]=Query(...), # CBF에서 사용 할 영화 목록
+):
+    
+ result_hybrid= hybrid_filtering(list_movieId,userId,top_k,candidate_size)
+ df_movies=utill.load_csv('movies.csv')
+ 
+ result={}
+ 
+ for i in result_hybrid: 
+         moviedId=i[0]
+         score=i[1],  
+         title=df_movies.loc[
+            df_movies['movieId']==moviedId,
+            # 출력할 컬럼명  
+            'title'
+        ].iloc[0] # 행의 순서
+                   
+         result[moviedId]={
+             'title':title,
+             'score':score 
+         }
+         
+         
+ return result     
+  
