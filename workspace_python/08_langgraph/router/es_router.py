@@ -897,7 +897,7 @@ def hybrid_filtering(
     #반복문을 돌거고 movieId를 뽑을 꺼임
     result_cf=set()
     for hit in response_cf:
-        movieId=hit.get('movieId')
+        movieId=hit.get(movieId)
         if movieId not in list_movieId:
             result_cf.add(movieId)
     
