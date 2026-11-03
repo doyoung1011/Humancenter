@@ -338,13 +338,16 @@ def chain_pydantic(dish:str):
 ##############################
 ## CF 추천 끼워넣기
 ############################# 
+from typing import Literal
+
 from router import es_router
 @router.get('/langchain/recommend/hybrid')
 def gpt_rangchain(userId:int, # CF에서 사용 할 사용자 ID
-        provider:Literal['gemini','gpt']='gpt',
+        provider:Literal['gemini','gpt']='gemini',
         top_k:int=10, # 결과 개수
         candidate_size:int=50,# 각각의 추천의 후보 수     
         list_movieId:list[int]=Query(...),
+        
     ):
     '''
     이전에 만들어 놓았던 hybrid 추천 결과를 그대로 가져와서 
@@ -352,32 +355,57 @@ def gpt_rangchain(userId:int, # CF에서 사용 할 사용자 ID
     단,사용자가 gpt랑 제미나이를 고르게 만든다.
     '''
     
-    hybrid=es_router.hybrid(userId,top_k,candidate_size,list_movieId)
+    hybrid=es_router.hybrid(userId,top_k,candidate_size,list_movieId) #추천함수
     
-    prompt=ChatPromptTemplate.from_messages([
-            ('system',
-            '너는 영화 추천전문가야. 나는 영화를 잘몰라.'
-            '장르랑 영화를 쉽게 추천해주라'
-            ),
-            ('human','{provider}')
-        ])
+    prompt = ChatPromptTemplate.from_messages([
+        ('system',
+         '너는 세계 최고의 친절한 영화 추천 전문가야. '
+         '전달받은 영화 목록과 점수(Score)를 바탕으로 사용자가 이해하기 쉽게 영화를 추천해줘. '
+         '특히 각 영화의 장르적 특징과 추천 이유를 친근하고 명확한 문장으로 설명해야 해.\n\n'
+         ' [주의사항]\n'
+         '1. 다른 인사말이나 잡담, 불필요한 서론/결론은 절대 출력하지 마.\n'
+         '2. 반드시 아래 제공되는 출력 형식 지침(Format Instructions)을 완벽하게 준수해서 결과 데이터만 반환해'
+          '3. 결과는 반드시 유효한 JSON 형식이어야 해.' 
+                   
+         
+        ),
+        ('human', 
+         '추천 데이터: {recommend}'
+        #  '출력 형식 지침:\n{format_instructions}'
+        )
+    ])
+    
+
+    # 간단한 조건문
     if provider=='gpt':
-         model=ChatOpenAI(
-                model='gpt-5.5',
-                temperature=0,
-                api_key=os.getenv('OPENAI_API_KEY')
-                )
+        model=ChatOpenAI(
+                    model='gpt-5.5',
+                     temperature=0,
+                    api_key=os.getenv('OPENAI_API_KEY')
+                        ).bind(
+                        #리턴 형식을 json으로 지정해준건데, 된다는 보장은 없다.     
+                        response_format={
+                            'type':'json_object'
+                        }
+                    )
     elif provider=='gemini':
         model=ChatGoogleGenerativeAI(
                 model='gemini-3.8-flash', 
                 temperature=0.0,
                 api_key=os.getenv('GEMINI_API_KEY')  
-            )
+            ).bind(
+                        #리턴 형식을 json으로 지정해준건데, 된다는 보장은 없다.     
+                        response_format={
+                            'type':'json_object'
+                        }
+                    )
     
     
-    chain=prompt | model
+    chain=prompt | model | StrOutputParser()
     
     return chain.invoke({
-        "provider":provider
+        "recommend":hybrid,
+        # "format_instructions": hybrid.get_format_instructions()
     })
+     
    

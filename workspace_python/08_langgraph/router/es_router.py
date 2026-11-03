@@ -1022,20 +1022,21 @@ def hybrid(
  
  result={}
  
- for i in result_hybrid: 
-         moviedId=i[0]
-         score=i[1],  
-         title=df_movies.loc[
-            df_movies['movieId']==moviedId,
-            # 출력할 컬럼명  
+ for i in result_hybrid:
+        movieId = i[0]
+        score = i[1]
+        title = df_movies.loc[
+            df_movies['movieId'] == movieId,
             'title'
-        ].iloc[0] # 행의 순서
-                   
-         result[moviedId]={
-             'title':title,
-             'score':score 
-         }
-         
-         
- return result     
-  
+        ].iloc[0]
+        '''
+        iloc : 결과 중 몇 번째 줄
+            224    Star Wars: Episode IV - A New Hope (1977)
+            Name: title, dtype: object
+        '''
+        result[movieId] = {
+            'title': title,
+            'score': score
+        }
+
+        return result
