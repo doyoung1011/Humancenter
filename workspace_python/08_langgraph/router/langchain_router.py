@@ -280,7 +280,7 @@ def str_ouput_parser(name:str,dish:str):
      return result 
  
 @router.get('/langchain/chain/pydantic')
-def chain_pydantic(name:str,dish:str):
+def chain_pydantic(dish:str):
     
     ouput_parser=PydanticOutputParser(pydantic_object=Recipe)
     
@@ -359,18 +359,24 @@ def gpt_rangchain(userId:int, # CF에서 사용 할 사용자 ID
     
     prompt = ChatPromptTemplate.from_messages([
         ('system',
-         '너는 세계 최고의 친절한 영화 추천 전문가야. '
-         '전달받은 영화 목록과 점수(Score)를 바탕으로 사용자가 이해하기 쉽게 영화를 추천해줘. '
+         '너는 영화 추천 서비스 설명 도우미야. '
+         '필요하면 인터넷 검색을 해서 알아봐.'
+         '입력 받은 추천 결과만 사용해서 설명한다 '
+         '제목을 한국 제목으로 번역해서도 알려줘. 단, 제목을 추측하지 마!'
+         '영화 줄거리도 알려줘. 단, 추측 하지마!'
+         '결과는 구조적인 json으로 알려줘.'
+         '순위를 보고 5개 정도만 정리해주면 됨.'
          '특히 각 영화의 장르적 특징과 추천 이유를 친근하고 명확한 문장으로 설명해야 해.\n\n'
-         ' [주의사항]\n'
-         '1. 다른 인사말이나 잡담, 불필요한 서론/결론은 절대 출력하지 마.\n'
-         '2. 반드시 아래 제공되는 출력 형식 지침(Format Instructions)을 완벽하게 준수해서 결과 데이터만 반환해'
-          '3. 결과는 반드시 유효한 JSON 형식이어야 해.' 
-                   
+        
          
         ),
         ('human', 
-         '추천 데이터: {recommend}'
+         'cbf, cf의 하이브리드 추천물: {recommend}'
+          '제목을 한국 제목으로 번역해서도 알려줘. 단, 제목을 추측하지 마!'   
+          '영화 줄거리도 알려줘. 단, 추측 하지마!'
+           '결과는 구조적인 json으로 알려줘.'
+            '순위를 보고 5개 정도만 정리해주면 됨.'
+    
         #  '출력 형식 지침:\n{format_instructions}'
         )
     ])
@@ -382,30 +388,21 @@ def gpt_rangchain(userId:int, # CF에서 사용 할 사용자 ID
                     model='gpt-5.5',
                      temperature=0,
                     api_key=os.getenv('OPENAI_API_KEY')
-                        ).bind(
-                        #리턴 형식을 json으로 지정해준건데, 된다는 보장은 없다.     
-                        response_format={
-                            'type':'json_object'
-                        }
-                    )
+                        )
     elif provider=='gemini':
         model=ChatGoogleGenerativeAI(
                 model='gemini-3.8-flash', 
                 temperature=0.0,
                 api_key=os.getenv('GEMINI_API_KEY')  
-            ).bind(
-                        #리턴 형식을 json으로 지정해준건데, 된다는 보장은 없다.     
-                        response_format={
-                            'type':'json_object'
-                        }
-                    )
+            )
     
     
     chain=prompt | model | StrOutputParser()
     
     return chain.invoke({
         "recommend":hybrid,
-        # "format_instructions": hybrid.get_format_instructions()
+  
     })
      
-   
+
+
